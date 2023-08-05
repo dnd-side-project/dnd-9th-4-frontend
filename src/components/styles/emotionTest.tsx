@@ -1,5 +1,5 @@
-import { css } from '@emotion/react'
+import { css } from '@emotion/react';
 
-export const EmotionTest = css({ 
-    backgroundColor: 'yellow'
-})
+export const EmotionTest = css({
+  backgroundColor: 'yellow',
+});
