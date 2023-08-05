@@ -1,14 +1,16 @@
+/** @jsxImportSource @emotion/react */
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import MainPage from 'pages/mainPage/mainPage';
+import HomePage from 'pages/HomePage/homePage';
 import LoginPage from 'pages/loginPage/loginPage';
+import { Layout } from 'components/styles/layout';
 
 function App() {
   return (
-    <div>
+    <div css={Layout}>
       <Router>
         <Routes>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />
         </Routes>
       </Router>
