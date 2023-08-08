@@ -1,10 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { loginPageStyles } from 'components/styles/loginPageStyles';
+import config from 'config';
 
 function LoginPage() {
+  const restApiKey = config.restApiKey;
+  const redirectUri = config.redirectUri;
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUri}&response_type=code`;
   const onClickLoginButton = () => {
     console.log('카카오톡으로 로그인 클릭');
+    window.location.href = kakaoURL;
   };
   const onClickLookAroundText = () => {
     console.log('둘러보기 클릭');
