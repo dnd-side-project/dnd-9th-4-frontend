@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import HomeIcon from 'assets/Home.png';
 import MatchingIcon from 'assets/Matching.svg';
 import MyIcon from 'assets/My.svg';
@@ -16,15 +17,19 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
     추후 버튼 누를 때, 해당 페이지로 가도록 할 예정
 */
 export function ButtonNavigation() {
-  const [value, setValue] = useState('home');
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [value, setValue] = useState(location.pathname);
 
   const handleTabChange = (event: unknown, newValue: string) => {
     setValue(newValue);
   };
 
-  const onClickBottonNavigation = () => {
-    console.log('추후에 해당 페이지로 이동');
+  const onClickHomeNavigation = (path: string) => {
+    navigate(path);
   };
+
   return (
     <Box
       css={css({
@@ -44,28 +49,26 @@ export function ButtonNavigation() {
       >
         <BottomNavigationAction
           label="홈"
-          icon={
-            <img src={value === 'home' ? BlueHomeIcon : HomeIcon} alt="홈" />
-          }
-          value="home"
-          onClick={onClickBottonNavigation}
+          icon={<img src={value === '/' ? BlueHomeIcon : HomeIcon} alt="홈" />}
+          value="/"
+          onClick={() => onClickHomeNavigation('/')}
         />
         <BottomNavigationAction
           label="매칭"
           icon={
             <img
-              src={value === 'matching' ? BlueMatchingIcon : MatchingIcon}
+              src={value === '/matching' ? BlueMatchingIcon : MatchingIcon}
               alt="매칭"
             />
           }
-          value="matching"
-          onClick={onClickBottonNavigation}
+          value="/matching"
+          onClick={() => onClickHomeNavigation('/matching')}
         />
         <BottomNavigationAction
           label="My"
           icon={
             <img
-              src={value === 'my' ? BlueMyIcon : MyIcon}
+              src={value === '/my' ? BlueMyIcon : MyIcon}
               alt="My"
               css={css({
                 width: '25px',
@@ -74,8 +77,8 @@ export function ButtonNavigation() {
               })}
             />
           }
-          value="my"
-          onClick={onClickBottonNavigation}
+          value="/my"
+          onClick={() => onClickHomeNavigation('/my')}
         />
       </BottomNavigation>
     </Box>
