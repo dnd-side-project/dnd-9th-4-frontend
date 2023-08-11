@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import LocationPinIcon from 'assets/locationPin.svg';
-import Logo from 'assets/Logo.svg';
-import LogoName from 'assets/LogoName.svg';
-import schedule from 'assets/Schedule.svg';
+import LocationPinIcon from 'assets/postListIcon/Location.svg';
+import HomePageLogo from 'assets/newPleLogo/HomePageLogo.svg';
+import schedule from 'assets/postListIcon/Schedule.svg';
+import Exercise from 'assets/postListIcon/Exercise.svg';
+import { useNavigate } from 'react-router-dom';
 
 interface HomeTopScreenData {
   nickname: string;
@@ -46,42 +47,31 @@ export function HomeTopScreen(props: HomeTopScreenData) {
     <div
       css={css({
         //width: '390px',
-        height: '208.934px',
+        height: '292px',
         flexShrink: 0,
-        background: 'white',
+        backgroundColor: '#25252D',
       })}
     >
       <div
         css={css({
-          color: '#3A3A3A',
-          fontFamily: 'Pretendard',
           fontSize: '20px',
-          fontStyle: 'normal',
-          fontWeight: 700,
           lineHeight: '150%',
-          letterSpacing: '-0.38px',
           paddingLeft: '21.42px',
-          paddingTop: '35.46px',
+          paddingTop: '40px',
         })}
       >
-        <img src={Logo} />
-        <img
-          src={LogoName}
-          css={css({
-            marginLeft: '6.31px',
-            marginBottom: '1.5px',
-          })}
-        />
+        <img src={HomePageLogo} />
       </div>
       <div
         css={css({
           display: 'flex',
+          marginTop: '50px',
         })}
       >
         <div css={css({ flex: 4 })}>
           <p
             css={css({
-              color: '#050505',
+              color: '#FFF',
               fontFamily: 'Pretendard',
               fontSize: '1.375rem',
               fontStyle: 'normal',
@@ -95,7 +85,8 @@ export function HomeTopScreen(props: HomeTopScreenData) {
           >
             {props.nickname}님,
             <br />
-            더운 여름 운동으로 이겨내요!
+            더운 여름 운동으로
+            <br /> 이겨내요!
           </p>
         </div>
         <div css={css({ flex: 1 })}>
@@ -106,7 +97,7 @@ export function HomeTopScreen(props: HomeTopScreenData) {
               heigh: '71.002px',
               flexShrink: 0,
               borderRadius: '71.002px',
-              marginTop: '28px',
+              marginTop: '39.01px',
               marginRight: '18px',
             })}
           />
@@ -120,15 +111,18 @@ export function HomeTopScreen(props: HomeTopScreenData) {
     [매칭 게시물 목록]
 */
 export function MatchingPostList(props: MatchingPostListData) {
+  const navigate = useNavigate();
   const onClickMatchingPost = (id: number) => {
     console.log('추후에 클릭한 매칭 게시물로 이동', id);
+    navigate(`/post/${id}`);
+    window.scrollTo(0, 0);
   };
   return (
     <div
       css={css({
         paddingTop: '16.09px',
-        paddingLeft: '19.5px',
-        paddingRight: '19.5px',
+        paddingLeft: '15px',
+        paddingRight: '15px',
       })}
     >
       {props.postList.map((post) => (
@@ -138,7 +132,7 @@ export function MatchingPostList(props: MatchingPostListData) {
             height: '101.851px',
             borderRadius: '17px',
             background: '#FFF',
-            marginBottom: '16px',
+            //marginBottom: '16px',
           })}
         >
           <div
@@ -147,8 +141,8 @@ export function MatchingPostList(props: MatchingPostListData) {
           >
             <div
               css={css({
-                width: '69.833px',
-                height: '86.39px',
+                width: '60px',
+                height: '60px',
                 flexShrink: '0px',
                 paddingTop: '10.6px',
                 paddingBotton: '10.1px',
@@ -157,11 +151,11 @@ export function MatchingPostList(props: MatchingPostListData) {
             >
               <img
                 src={post.image}
-                style={{ width: '100%', height: '100%', borderRadius: '8px' }}
+                style={{ width: '100%', height: '100%', borderRadius: '50%' }}
               />
             </div>
             <div css={css({ marginLeft: '12.15px', paddingTop: '14px' })}>
-              <div
+              {/* <div
                 css={css({
                   background: '#ECF6FE',
                   color: '#06F',
@@ -181,7 +175,7 @@ export function MatchingPostList(props: MatchingPostListData) {
                 })}
               >
                 {post.sport}
-              </div>
+              </div> */}
               <div>
                 <p
                   css={css({
@@ -192,7 +186,7 @@ export function MatchingPostList(props: MatchingPostListData) {
                     fontWeight: 600,
                     lineHeight: '120%',
                     letterSpacing: '-1px',
-                    marginTop: '5.41px',
+                    marginTop: '2px',
                     marginBottom: '0px',
                   })}
                 >
@@ -204,22 +198,18 @@ export function MatchingPostList(props: MatchingPostListData) {
                   display: 'flex',
                   flexDirection: 'row',
                   marginTop: '16px',
-                })}
-              >
-                <div css={css({ display: 'flex' })}>
-                  <img
-                    src={LocationPinIcon} // Assuming you have imported LocationPinIcon from some source.
-                    css={css({
+                  '& > div': {
+                    display: 'flex',
+                    ' > img': {
                       marginTop: '1.5px',
                       width: '14px',
                       height: '14px',
-                    })}
-                  />
-                  <p
-                    css={css({
+                    },
+                    ' > p': {
                       marginTop: '0px',
                       marginBottom: '0px',
-                      marginLeft: '3.26px',
+                      marginLeft: '1px',
+                      marginRight: '7px',
                       color: '#676F83',
                       fontFamily: 'Pretendard',
                       fontSize: '12px',
@@ -227,41 +217,33 @@ export function MatchingPostList(props: MatchingPostListData) {
                       fontWeight: 500,
                       lineHeight: '150%' /* 21px */,
                       letterSpacing: '-1px',
-                    })}
-                  >
-                    {post.region}
-                  </p>
+                    },
+                  },
+                })}
+              >
+                <div>
+                  <img src={LocationPinIcon} />
+                  <p>{post.region}</p>
                 </div>
-                <div css={css({ display: 'flex' })}>
-                  <img
-                    src={schedule} // Assuming you have imported schedule icon from some source.
-                    css={css({
-                      marginTop: '1.5px',
-                      width: '14px',
-                      height: '14px',
-                      marginLeft: '13.64px',
-                    })}
-                  />
-                  <p
-                    css={css({
-                      marginTop: '0px',
-                      marginBottom: '0px',
-                      marginLeft: '3.26px',
-                      color: '#676F83',
-                      fontFamily: 'Pretendard',
-                      fontSize: '12px',
-                      fontStyle: 'normal',
-                      fontWeight: 500,
-                      lineHeight: '150%' /* 21px */,
-                      letterSpacing: '-0.228px',
-                    })}
-                  >
-                    {post.endDate}
-                  </p>
+                <div>
+                  <img src={schedule} />
+                  <p>{post.endDate}</p>
+                </div>
+                <div>
+                  <img src={Exercise} />
+                  <p>{post.sport}</p>
                 </div>
               </div>
             </div>
           </div>
+          <div
+            css={css({
+              height: '1px',
+              backgroundColor: '#E2E2E2',
+              marginBlock: '10px',
+              marginTop: '20px',
+            })}
+          />
         </div>
       ))}
     </div>
@@ -277,7 +259,7 @@ export function TitleHeader(props: TitleHeaderData) {
       css={css({
         color: '#3A3A3A',
         fontFamily: 'Pretendard',
-        fontSize: '1.125rem',
+        fontSize: '18px',
         fontStyle: 'normal',
         fontWeight: 700,
         lineHeight: '150%', // 혹은 1.5 (line-height의 값은 단위를 생략해도 됩니다)
@@ -321,15 +303,15 @@ export function NewPleMateList(props: NewPleMateListData) {
             src={profile.profileImg}
             alt={profile.nickname}
             css={css({
-              width: '72.298px',
-              height: '72.298px',
-              borderRadius: '72.298px',
+              width: '70px',
+              height: '70px',
+              borderRadius: '70px',
               flexShrink: 0,
             })}
           />
           <p
             css={css({
-              marginTop: '10px',
+              marginTop: '8px',
               color: '#3A3A3A',
               textAlign: 'center',
               fontFamily: 'Pretendard',

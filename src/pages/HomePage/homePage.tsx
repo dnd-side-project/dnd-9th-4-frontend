@@ -9,7 +9,8 @@ import {
   NewPleMateList,
 } from 'components/homePage/homePageComponents';
 import { ButtonNavigation } from 'components/common/commonComponents';
-import LogoBox from 'assets/LogoBox.png';
+import LogoBox from 'assets/newPleLogo/LogoBox.png';
+import { useNavigate } from 'react-router-dom';
 
 // 내 주변 뉴플메이트 테스트 데이터
 const profileTestData = {
@@ -42,7 +43,7 @@ const mathcingPostsTestData = {
       id: 1,
       title: '런닝 메이트 구해요',
       sport: '런닝',
-      region: '대전광역시 유성구 봉명동',
+      region: '대전광역시 유성구',
       time: '18:30:00 - 21:00:00',
       endDate: '08.15(화)',
       image:
@@ -52,7 +53,7 @@ const mathcingPostsTestData = {
       id: 2,
       title: '런닝 메이트 구해요',
       sport: '런닝',
-      region: '대전광역시 유성구 봉명동',
+      region: '대전광역시 유성구',
       time: '18:30:00 - 21:00:00',
       endDate: '08.15(화)',
       image:
@@ -62,7 +63,7 @@ const mathcingPostsTestData = {
       id: 3,
       title: '같이 헬스다닐 분 구해요!',
       sport: '헬스',
-      region: '인천광역시 남동구 구월동',
+      region: '인천광역시 남동구',
       time: '18:30:00 - 21:00:00',
       endDate: '08.15(화)',
       image:
@@ -72,14 +73,16 @@ const mathcingPostsTestData = {
 };
 
 function HomePage() {
+  const navigate = useNavigate();
   const onClickMatchingPostList = () => {
-    console.log('추후에 매칭 글 목록 페이지로 이동');
+    navigate('/matching');
+    window.scrollTo(0, 0);
   };
   return (
     <div>
       <HomeTopScreen
         nickname="뉴플"
-        profileImg="https://cdn.pixabay.com/photo/2014/11/30/14/11/cat-551554_1280.jpg"
+        profileImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2qL4TnNIt-zmP-lncsFEHdAbP3Hwn1z29vQ&usqp=CAU"
       />
       <div>
         <TitleHeader title="내 주변 뉴플메이트" />
@@ -91,7 +94,7 @@ function HomePage() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            paddingTop: '29.79px',
+            paddingTop: '20px',
           })}
         >
           <TitleHeader title="새로운 매칭 모집글" />

@@ -2,19 +2,18 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import HomeIcon from 'assets/Home.png';
-import MatchingIcon from 'assets/Matching.svg';
-import MyIcon from 'assets/My.svg';
-import BlueHomeIcon from 'assets/BlueHome.png';
-import BlueMatchingIcon from 'assets/BlueMatching.svg';
-import BlueMyIcon from 'assets/BlueMy.svg';
+import HomeIcon from 'assets/bottomNavigation/Home.png';
+import MatchingIcon from 'assets/bottomNavigation/Matching.svg';
+import MyIcon from 'assets/bottomNavigation/My.svg';
+import BlueHomeIcon from 'assets/bottomNavigation/BlueHome.png';
+import BlueMatchingIcon from 'assets/bottomNavigation/BlueMatching.svg';
+import BlueMyIcon from 'assets/bottomNavigation/BlueMy.svg';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 
 /*
-    [버튼 네비게이션]
-    추후 버튼 누를 때, 해당 페이지로 가도록 할 예정
+    [하단 버튼 네비게이션]
 */
 export function ButtonNavigation() {
   const location = useLocation();
@@ -28,6 +27,7 @@ export function ButtonNavigation() {
 
   const onClickHomeNavigation = (path: string) => {
     navigate(path);
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -63,6 +63,17 @@ export function ButtonNavigation() {
           }
           value="/matching"
           onClick={() => onClickHomeNavigation('/matching')}
+        />
+        <BottomNavigationAction
+          label="쪽지"
+          icon={
+            <img
+              src={value === '/mailBox' ? BlueMatchingIcon : MatchingIcon}
+              alt="쪽지"
+            />
+          }
+          value="/mailBox"
+          onClick={() => onClickHomeNavigation('/mailBox')}
         />
         <BottomNavigationAction
           label="My"

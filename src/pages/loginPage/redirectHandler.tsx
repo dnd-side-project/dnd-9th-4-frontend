@@ -6,7 +6,7 @@ function RedirectHandler() {
   const code = new URL(window.location.href).searchParams.get('code');
   console.log(code);
 
-  const backendUrl = `${config.backendUrl}/api/login`;
+  const backendUrl = `${config.backendUrl}/login`;
 
   const codeData = {
     code: code,

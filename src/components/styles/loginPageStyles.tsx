@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 
 export const loginPageStyles = {
   container: css({
+    background: '#25252D',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -11,50 +12,38 @@ export const loginPageStyles = {
     textAlign: 'center',
   }),
 
+  flex1Container: css({ flex: 1 }),
+
   flex2Container: css({ flex: 2 }),
 
-  title: css({
-    color: '#3A3A3A',
-    textAlign: 'center',
-    fontFamily: 'Pretendard',
-    fontSize: '36px',
-    fontStyle: 'normal',
-    fontWeight: 700,
-    lineHeight: '150%' /* 54px */,
-    letterSpacing: '-0.684px',
-    marginTop: 0,
-    marginBottom: 15,
-  }),
-
   subTitle: css({
-    color: '#3A3A3A',
+    color: '#FFFFFF',
     textAlign: 'center',
     fontFamily: 'Pretendard',
     fontSize: '20px',
     fontStyle: 'normal',
     fontWeight: 700,
     lineHeight: '150%' /* 30px */,
-    letterSpacing: '-0.38px',
+    letterSpacing: '-0.8px',
     margin: 0,
   }),
 
-  flex3Container: css({ flex: 3 }),
-
-  image: css({
-    width: '178px',
-    height: '178px',
-    borderRadius: '50%',
+  logoContainer: css({
+    flex: 3,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   }),
 
-  logonButtonContainer: css({
-    flex: 2,
+  loginButtonContainer: css({
+    flex: 1,
     width: '85%',
   }),
 
   loginButton: css({
     display: 'flex',
     width: '100%',
-    height: '58px',
+    height: '48px',
     justifyContent: 'center',
     alignItems: 'center',
     gap: '10px',
