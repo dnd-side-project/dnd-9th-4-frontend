@@ -145,7 +145,6 @@ export const globalStyle = css`
 
   body {
     max-width: 480px;
-    max-height: 1000px;
     min-width: 300px;
     min-height: 480px;
   }
