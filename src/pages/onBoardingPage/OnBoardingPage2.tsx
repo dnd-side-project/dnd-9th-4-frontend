@@ -2,7 +2,7 @@
 import Label from 'components/common/Label';
 import NextButton from 'components/common/NextButton';
 import PrevHeader from 'components/common/PrevHeader';
-import InterestedExercise from 'components/onBoardingPage/InterestedExercise';
+import InterestedExercise from 'components/onBoardingPage/InterestedExerciseArea';
 import ProgressBar from 'components/onBoardingPage/ProgressBar';
 import Question from 'components/onBoardingPage/Question';
 import { appContainer } from 'components/styles/common/common';
@@ -10,9 +10,18 @@ import {
   healthLabel,
   onBoardingBodyArea,
 } from 'components/styles/onBoardingPage';
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const OnBoardingPage2 = () => {
+  const navigate = useNavigate();
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  const onUpdateSelectedTags = (tags: string[]) => {
+    setSelectedTags(tags);
+    console.log('OnBoardingPage2 : ' + tags);
+  };
+
   return (
     <div css={appContainer}>
       <PrevHeader text="" />
@@ -26,9 +35,15 @@ const OnBoardingPage2 = () => {
         <div css={healthLabel}>
           <Label text="중복선택 가능" />
         </div>
-        <InterestedExercise />
+        <InterestedExercise onUpdateSelectedTags={onUpdateSelectedTags} />
       </div>
-      <NextButton isEnabled={false} onEnabledClick={() => {}} />
+      <NextButton
+        text={'다음'}
+        isEnabled={selectedTags.length > 0}
+        onEnabledClick={() => {
+          navigate('/onboarding/3');
+        }}
+      />
     </div>
   );
 };

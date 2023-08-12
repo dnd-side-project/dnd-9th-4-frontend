@@ -8,6 +8,7 @@ export const appContainer = css({
   position: 'relative',
   fontFamily: 'Pretendard',
   lineHeight: '150%',
+  color: '#3A3A3A',
   padding: '16px 16px 15px 16px',
   margin: '0 auto',
   height: '100%',
@@ -89,3 +90,21 @@ export const bottomSheetContentContainer = css({
   minWidth: '300px',
   fontFamily: 'Pretendard',
 });
+
+export const checkCircle = ({
+  isChecked,
+  size,
+}: {
+  isChecked: boolean;
+  size: number;
+}) =>
+  css({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: `${size}px`,
+    height: `${size}px`,
+    borderRadius: '50%',
+    backgroundColor: isChecked ? '#0066FF' : '#D9D9D9',
+    transition: 'background-color 0.2s',
+  });

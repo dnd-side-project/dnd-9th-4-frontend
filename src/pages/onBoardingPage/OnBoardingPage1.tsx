@@ -9,11 +9,15 @@ import {
   genderBoxArea,
   onBoardingBodyArea,
 } from 'components/styles/onBoardingPage';
-import { ReactComponent as Male } from 'assets/img_gender_male.svg';
-import { ReactComponent as Female } from 'assets/img_gender_female.svg';
-import React from 'react';
+import { ReactComponent as Male } from 'assets/onBoardingPageIcon/img_gender_male.svg';
+import { ReactComponent as Female } from 'assets/onBoardingPageIcon/img_gender_female.svg';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const OnBoardingPage1 = () => {
+  const navigate = useNavigate();
+  const [gender, setGender] = useState('');
+
   return (
     <div css={appContainer}>
       <PrevHeader text="" />
@@ -25,16 +29,30 @@ const OnBoardingPage1 = () => {
           isEssential={true}
         />
         <div css={genderBoxArea}>
-          <div css={genderArea}>
+          <div
+            css={genderArea}
+            onClick={() => setGender('Male')}
+            className={gender === 'Male' ? ' active' : ''}
+          >
             <Male />
           </div>
           <div style={{ width: '12.5px' }} />
-          <div css={genderArea}>
+          <div
+            css={genderArea}
+            onClick={() => setGender('Female')}
+            className={gender === 'Female' ? ' active' : ''}
+          >
             <Female />
           </div>
         </div>
       </div>
-      <NextButton isEnabled={false} onEnabledClick={() => {}} />
+      <NextButton
+        text={'다음'}
+        isEnabled={gender !== ''}
+        onEnabledClick={() => {
+          navigate('/onboarding/2');
+        }}
+      />
     </div>
   );
 };
