@@ -11,8 +11,10 @@ import {
   selectPeriodContainer,
 } from 'components/styles/onBoardingPage';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const OnBoardingPage4 = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -35,7 +37,13 @@ const OnBoardingPage4 = () => {
             <SelectRectangle text="강남구" onClick={() => setIsOpen(true)} />
           </div>
         </div>
-        <NextButton isEnabled={false} onEnabledClick={() => {}} />
+        <NextButton
+          text={'다음'}
+          isEnabled={true}
+          onEnabledClick={() => {
+            navigate('/onboarding/5');
+          }}
+        />
       </div>
       <BottomSheet isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div>주로 운동하는 지역을 입력해주세요</div>

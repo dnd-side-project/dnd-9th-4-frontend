@@ -6,8 +6,13 @@ import ProgressBar from 'components/onBoardingPage/ProgressBar';
 import Question from 'components/onBoardingPage/Question';
 import { appContainer } from 'components/styles/common/common';
 import { onBoardingBodyArea } from 'components/styles/onBoardingPage';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const OnBoardingPage5 = () => {
+  const navigate = useNavigate();
+  const [selectedTag, setSelectedTag] = useState('');
+
   return (
     <div css={appContainer}>
       <PrevHeader text="" />
@@ -18,9 +23,15 @@ const OnBoardingPage5 = () => {
           sentence="를 선택해주세요."
           isEssential={false}
         />
-        <MbtiArea />
+        <MbtiArea selectedTag={selectedTag} onSelectTag={setSelectedTag} />
       </div>
-      <NextButton isEnabled={true} onEnabledClick={() => {}} />
+      <NextButton
+        text={'다음'}
+        isEnabled={selectedTag !== ''}
+        onEnabledClick={() => {
+          navigate('/onboarding/6');
+        }}
+      />
     </div>
   );
 };

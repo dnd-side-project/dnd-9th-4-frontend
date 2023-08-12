@@ -18,6 +18,8 @@ import OnBoardingPage3 from 'pages/onBoardingPage/OnBoardingPage3';
 import OnBoardingPage4 from 'pages/onBoardingPage/OnBoardingPage4';
 import OnBoardingPage5 from 'pages/onBoardingPage/OnBoardingPage5';
 import OnBoardingPage6 from 'pages/onBoardingPage/OnBoardingPage6';
+import OnBoardingPage7 from 'pages/onBoardingPage/OnBoardingPage7';
+import OnBoardingFinishPage from 'pages/onBoardingPage/OnBoardingFinishPage';
 
 function App() {
   return (
@@ -41,6 +43,8 @@ function App() {
             <Route path="4" element={<OnBoardingPage4 />} />
             <Route path="5" element={<OnBoardingPage5 />} />
             <Route path="6" element={<OnBoardingPage6 />} />
+            <Route path="7" element={<OnBoardingPage7 />} />
+            <Route path="finish" element={<OnBoardingFinishPage />} />
           </Route>
         </Routes>
       </Router>
