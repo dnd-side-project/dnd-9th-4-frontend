@@ -6,18 +6,18 @@ import {
   LableTitle,
   BottomButton,
 } from 'components/matchingPage/matchingPostWritePageComponents';
-import AddPhoto from 'assets/AddPhoto.svg';
+//import AddPhoto from 'assets/AddPhoto.svg';
 
 function datailPostWrtiePage() {
-  // 이미지
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  // // 이미지
+  // const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0]; // 사용자가 파일 선택을 취소하면 files가 null이 될 수 있습니다.
-    if (selectedFile) {
-      setSelectedImage(URL.createObjectURL(selectedFile));
-    }
-  };
+  // const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const selectedFile = event.target.files?.[0]; // 사용자가 파일 선택을 취소하면 files가 null이 될 수 있습니다.
+  //   if (selectedFile) {
+  //     setSelectedImage(URL.createObjectURL(selectedFile));
+  //   }
+  // };
 
   // 제목
   const [title, setTitle] = useState('');
@@ -37,14 +37,6 @@ function datailPostWrtiePage() {
   }) => {
     if (body.length < MAX_CHARACTERS) setBody(event.target.value);
   };
-
-  //   // 성별
-  //   const [gender, setGender] = useState('');
-
-  //   const onClickGender = (value: string) => {
-  //     console.log(gender);
-  //     setGender(value);
-  //   };
 
   // 작성하기 버튼
   const onClickSubmitButton = () => {
@@ -66,12 +58,12 @@ function datailPostWrtiePage() {
         css={css({
           display: 'flex',
           flexDirection: 'column',
-          marginTop: '30px',
-          marginLeft: '21px',
-          marginRight: '28px',
+          //marginTop: '30px',
+          marginLeft: '22px',
+          marginRight: '22px',
         })}
       >
-        <div>
+        {/* <div>
           <label htmlFor="imageInput">
             <div
               css={css({
@@ -98,9 +90,9 @@ function datailPostWrtiePage() {
             style={{ display: 'none' }}
             onChange={handleImageChange}
           />
-        </div>
+        </div> */}
         <div>
-          <LableTitle title="제목" />
+          <LableTitle title="제목" marginTop="17px" />
           <input
             type="text"
             name="title"
@@ -110,7 +102,7 @@ function datailPostWrtiePage() {
             onChange={handleTitleChange}
             css={css({
               borderRadius: '4px',
-              width: '95%',
+              width: '100%',
               height: '47px',
               border: '0.75px solid #D1D3D7',
               marginTop: '13px',
@@ -123,7 +115,7 @@ function datailPostWrtiePage() {
               fontStyle: 'normal',
               fontWeight: 400,
               lineHeight: '150%', // "24px"
-              letterSpacing: '-0.8px',
+              letterSpacing: '-0.304px',
             })}
             onFocus={(e) => {
               e.target.style.borderColor = '#06F'; /* 파란색 테두리로 변경 */
@@ -135,7 +127,7 @@ function datailPostWrtiePage() {
           />
         </div>
         <div>
-          <LableTitle title="상세설명을 작성해주세요" />
+          <LableTitle title="상세설명을 작성해주세요" marginTop="26px" />
           <textarea
             name="body"
             placeholder="파트너 매칭에 올릴 게시글 내용을 작성해주세요."
@@ -144,8 +136,8 @@ function datailPostWrtiePage() {
             onChange={handleBodyChange}
             css={css({
               borderRadius: '4px',
-              width: '91%',
-              height: '157px',
+              width: '100%',
+              height: '150px',
               border: '0.75px solid #D1D3D7',
               marginTop: '13px',
               paddingLeft: '16px',
@@ -159,7 +151,7 @@ function datailPostWrtiePage() {
               fontStyle: 'normal',
               fontWeight: 400,
               lineHeight: '150%', // "24px"
-              letterSpacing: '-0.8px',
+              letterSpacing: '-0.304px',
             })}
             onFocus={(e) => {
               e.target.style.borderColor = '#06F'; /* 파란색 테두리로 변경 */
@@ -179,40 +171,159 @@ function datailPostWrtiePage() {
               lineHeight: '150%', // "24px"
               letterSpacing: '-0.8px',
               textAlign: 'right',
-              marginRight: '5px',
+              marginRight: '3px',
             })}
           >
             {body.length}/{MAX_CHARACTERS}
           </div>
         </div>
-        {/* <div>
-          <LableTitle title="성별" />
+        <div>
+          <LableTitle title="운동일시" marginTop="5px" />
           <div
             css={css({
               display: 'flex',
-              '& > div': {
-                display: 'inline-flex',
-                padding: '7px 17px',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: '10px',
-                borderRadius: '18px',
-                border: '1px solid #EAEBEE',
+              textAlign: 'end',
+              justifyContent: 'center',
+              alignItems: 'center',
+              '& > input': {
+                flex: 1,
+                borderRadius: '4px',
+                width: '145px',
+                height: '47px',
+                border: '0.75px solid #D1D3D7',
                 marginTop: '13px',
-                marginRight: '10px',
+                paddingLeft: '25px',
+                outline: 'none',
+                transition: 'border-color 0.3s ease-in-out',
+                color: '#C0C0C0',
+                fontFamily: 'Pretendard',
+                fontSize: '15px',
+                fontStyle: 'normal',
+                fontWeight: 400,
+                lineHeight: '150%', // "24px"
+                letterSpacing: '-0.8px',
+              },
+              '& > span': {
+                flex: 1,
+                marginTop: '13px',
+                color: '#000',
+                fontFamily: 'Pretendard',
+                fontSize: '16px',
+                fontStyle: 'normal',
+                fontWeight: '600',
+                lineHeight: '150%' /* 24px */,
+                letterSpacing: '-0.304px',
               },
             })}
           >
-            <div onClick={() => onClickGender('남성')}>남성</div>
-            <div onClick={() => onClickGender('여성')}>여성</div>
-            <div onClick={() => onClickGender('모든 성별')}>모든 성별</div>
+            <input
+              type="text"
+              name="date"
+              value="2023.08.05(sat)"
+              required
+              disabled
+              css={css({
+                marginRight: '15px',
+              })}
+            />
+            <input
+              type="text"
+              name="date"
+              value="2023.08.05(sat)"
+              required
+              disabled
+            />
+            <span>부터</span>
           </div>
-        </div> */}
-        <div>
-          <LableTitle title="운동일시" />
+          <div
+            css={css({
+              display: 'flex',
+              textAlign: 'end',
+              justifyContent: 'center',
+              alignItems: 'center',
+              '& > input': {
+                flex: 1,
+                borderRadius: '4px',
+                width: '145px',
+                height: '47px',
+                border: '0.75px solid #D1D3D7',
+                marginTop: '13px',
+                paddingLeft: '25px',
+                outline: 'none',
+                transition: 'border-color 0.3s ease-in-out',
+                color: '#C0C0C0',
+                fontFamily: 'Pretendard',
+                fontSize: '15px',
+                fontStyle: 'normal',
+                fontWeight: 400,
+                lineHeight: '150%', // "24px"
+                letterSpacing: '-0.8px',
+              },
+              '& > span': {
+                flex: 1,
+                marginTop: '13px',
+                color: '#000',
+                fontFamily: 'Pretendard',
+                fontSize: '16px',
+                fontStyle: 'normal',
+                fontWeight: '600',
+                lineHeight: '150%' /* 24px */,
+                letterSpacing: '-0.304px',
+              },
+            })}
+          >
+            <input
+              type="text"
+              name="date"
+              value="2023.08.05(sat)"
+              required
+              disabled
+              css={css({
+                marginRight: '15px',
+              })}
+            />
+            <input
+              type="text"
+              name="date"
+              value="2023.08.05(sat)"
+              required
+              disabled
+            />
+            <span>까지</span>
+          </div>
         </div>
         <div>
-          <LableTitle title="지역" />
+          <LableTitle title="지역" marginTop="26px" />
+          <input
+            type="text"
+            name="location"
+            placeholder="지역을 입력해주세요."
+            required
+            css={css({
+              borderRadius: '4px',
+              width: '100%',
+              height: '47px',
+              border: '0.75px solid #D1D3D7',
+              marginTop: '13px',
+              paddingLeft: '16px',
+              outline: 'none',
+              transition: 'border-color 0.3s ease-in-out',
+              color: '#C0C0C0',
+              fontFamily: 'Pretendard',
+              fontSize: '15px',
+              fontStyle: 'normal',
+              fontWeight: 400,
+              lineHeight: '150%', // "24px"
+              letterSpacing: '-0.304px',
+            })}
+            onFocus={(e) => {
+              e.target.style.borderColor = '#06F'; /* 파란색 테두리로 변경 */
+              e.target.style.color = 'black';
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = '#D1D3D7'; /* 기본 색상으로 복원 */
+            }}
+          />
         </div>
       </div>
       <BottomButton

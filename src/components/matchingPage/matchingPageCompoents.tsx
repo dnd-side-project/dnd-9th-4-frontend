@@ -582,7 +582,7 @@ export function MatchingPostDate(props: MatchingPostDateData) {
         marginLeft: '16px',
         marginRight: '16px',
         marginTop: '16px',
-        marginBottom: '6px',
+        marginBottom: '15px',
       })}
     >
       {props.weekdays.map((weekday, index) => (
@@ -592,23 +592,23 @@ export function MatchingPostDate(props: MatchingPostDateData) {
             flex: 1,
             textAlign: 'center',
             width: '38px',
-            height: '85px',
+            height: '70px',
             margin: '5px',
             backgroundColor:
               weekday.date === props.date ? '#ECF6FE' : 'transparent',
-            borderRadius: weekday.date === props.date ? '20.5px' : undefined,
+            borderRadius: weekday.date === props.date ? '8px' : undefined,
           })}
           onClick={() => props.onClickDate(weekday.date)}
         >
-          <div css={css({ paddingTop: '13px' })}>
+          <div css={css({ paddingTop: '10px' })}>
             <span
               css={css({
-                color: weekday.date === props.date ? '#4F4F4F' : '#676F83',
+                color: weekday.date === props.date ? '#306BF6' : '#939393',
                 textAlign: 'center',
                 fontFamily: 'Pretendard',
                 fontSize: weekday.date === props.date ? '15px' : '14px',
                 fontStyle: 'normal',
-                fontWeight: 500,
+                fontWeight: weekday.date === props.date ? 600 : 500,
                 lineHeight: '150%' /* 21px */,
                 letterSpacing: '-0.266px',
               })}
@@ -618,9 +618,9 @@ export function MatchingPostDate(props: MatchingPostDateData) {
           </div>
           <div
             css={css({
-              backgroundColor:
-                weekday.date === props.date ? '#0066FF' : 'transparent',
-              borderRadius: weekday.date === props.date ? '50%' : undefined,
+              // backgroundColor:
+              //   weekday.date === props.date ? '#0066FF' : 'transparent',
+              // borderRadius: weekday.date === props.date ? '50%' : undefined,
               height: '25px',
               paddingTop: '4px',
               paddingBottom: '3px',
@@ -629,13 +629,13 @@ export function MatchingPostDate(props: MatchingPostDateData) {
           >
             <span
               css={css({
-                color: weekday.date === props.date ? '#FFFFFF' : '#676F83',
+                color: weekday.date === props.date ? '#306BF6' : '#939393',
                 textAlign: 'center',
                 alignItems: 'center',
                 fontFamily: 'Pretendard',
                 fontSize: '14px',
                 fontStyle: 'normal',
-                fontWeight: 700,
+                fontWeight: weekday.date === props.date ? 600 : 500,
                 lineHeight: '150%' /* 21px */,
                 letterSpacing: '-0.266px',
               })}

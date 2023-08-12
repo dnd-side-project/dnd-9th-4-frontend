@@ -77,7 +77,7 @@ export function HomeTopScreen(props: HomeTopScreenData) {
               fontStyle: 'normal',
               fontWeight: '700',
               lineHeight: '130%',
-              letterSpacing: '-3.5px',
+              letterSpacing: '-0.418px',
               paddingLeft: '16.13px',
               paddingTop: '39.01px',
               margin: '0',
@@ -141,8 +141,8 @@ export function MatchingPostList(props: MatchingPostListData) {
           >
             <div
               css={css({
-                width: '60px',
-                height: '60px',
+                width: '70px',
+                height: '70px',
                 flexShrink: '0px',
                 paddingTop: '10.6px',
                 paddingBotton: '10.1px',
@@ -263,7 +263,7 @@ export function TitleHeader(props: TitleHeaderData) {
         fontStyle: 'normal',
         fontWeight: 700,
         lineHeight: '150%', // 혹은 1.5 (line-height의 값은 단위를 생략해도 됩니다)
-        letterSpacing: '-3px',
+        letterSpacing: '-0.342px',
         paddingLeft: '20px',
         paddingTop: '30.65px',
         margin: '0px',

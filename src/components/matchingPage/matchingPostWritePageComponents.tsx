@@ -21,8 +21,13 @@ interface SelectSportListData {
   onClickSport: (sport: string) => void;
 }
 
+interface StyleInterTitleData {
+  title: string;
+}
+
 interface LableTitleData {
   title: string;
+  marginTop: string;
 }
 
 interface BottomButtonData {
@@ -138,6 +143,48 @@ export function SelectSportList(props: SelectSportListData) {
 }
 
 /*
+    [관심사/스타일 타이틀]
+*/
+export function StyleInterTitle(props: StyleInterTitleData) {
+  return (
+    <div
+      css={css({
+        display: 'flex',
+        '& > p': {
+          fontFamily: 'Pretendard',
+          textAlign: 'center',
+          fontStyle: 'normal',
+          fontWeight: 600,
+          lineHeight: '120%',
+          letterSpacing: '-0.266px',
+          textAlignLast: 'left',
+        },
+      })}
+    >
+      <p
+        css={css({
+          color: '#3A3A3A',
+          marginTop: '20px',
+          fontSize: '18px',
+        })}
+      >
+        {props.title}
+      </p>
+      <p
+        css={css({
+          color: '#959DB1',
+          marginTop: '24px',
+          marginLeft: '17px',
+          fontSize: '13px',
+        })}
+      >
+        중복선택 가능
+      </p>
+    </div>
+  );
+}
+
+/*
    [입력 폼 레이블]
 */
 export function LableTitle(props: LableTitleData) {
@@ -151,7 +198,7 @@ export function LableTitle(props: LableTitleData) {
         fontWeight: 600,
         lineHeight: '150%',
         letterSpacing: '-0.304px',
-        marginTop: '26px',
+        marginTop: props.marginTop,
       })}
     >
       {props.title}

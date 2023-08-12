@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import config from 'config';
+import { useNavigate } from 'react-router-dom';
 
 function RedirectHandler() {
   const code = new URL(window.location.href).searchParams.get('code');
+  const navigate = useNavigate();
   console.log(code);
 
   const backendUrl = `${config.backendUrl}/login`;
@@ -20,6 +22,7 @@ function RedirectHandler() {
         console.log(response.data);
         // 토큰 받아서 로그인 세션 유지
         // 온보딩 페이지로 이동
+        navigate('/onboarding');
       })
       .catch((error) => {
         console.error('인가코드 전송 실패');

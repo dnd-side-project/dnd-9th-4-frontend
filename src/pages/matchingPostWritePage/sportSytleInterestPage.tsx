@@ -1,18 +1,43 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import {
   NaviBarTitle,
   BottomButton,
+  StyleInterTitle,
 } from 'components/matchingPage/matchingPostWritePageComponents';
 import { useNavigate } from 'react-router-dom';
+import { matchingPostWriteStyles } from 'components/styles/matchingPostWriteStyles';
 
 function sportSytleInterestPage() {
   const navigate = useNavigate();
 
+  const [sportStyle, setSportStyle] = useState<string[]>([]);
+  const [sportInter, setSportInter] = useState<string[]>([]);
+
+  // 운동 스타일 클릭
+  const onClickSportStyle = (style: string) => {
+    if (sportStyle.includes(style)) {
+      setSportStyle(sportStyle.filter((item) => item !== style));
+    } else {
+      setSportStyle([...sportStyle, style]);
+    }
+  };
+
+  // 운동 관심사 클릭
+  const onClickSportInterest = (interest: string) => {
+    if (sportInter.includes(interest)) {
+      setSportInter(sportInter.filter((item) => item !== interest));
+    } else {
+      setSportInter([...sportInter, interest]);
+    }
+  };
+
+  // 다음 버튼 클릭
   const onClickNextButton = () => {
     navigate('/post/detail');
   };
+
   return (
     <div>
       <NaviBarTitle title="운동스타일/관심사" />
@@ -23,177 +48,69 @@ function sportSytleInterestPage() {
           marginBlock: '10px',
         })}
       />
-      <div css={css({ paddingInline: '24px' })}>
-        <div
-          css={css({
-            display: 'flex',
-            flexDirection: 'column',
-          })}
-        >
-          <div
-            css={css({
-              display: 'flex',
-              '& > p': {
-                fontFamily: 'Pretendard',
-                textAlign: 'center',
-                fontStyle: 'normal',
-                fontWeight: 600,
-                lineHeight: '120%',
-                letterSpacing: '-0.266px',
-                textAlignLast: 'left',
-                //marginBottom: '21px',
-              },
-            })}
-          >
-            <p
-              css={css({
-                color: '#3A3A3A',
-                marginTop: '20px',
-                fontSize: '18px',
-              })}
-            >
-              운동스타일
-            </p>
-            <p
-              css={css({
-                color: '#959DB1',
-                marginTop: '24px',
-                marginLeft: '17px',
-                fontSize: '13px',
-              })}
-            >
-              중복선택 가능
-            </p>
-          </div>
-          <div
-            css={css({
-              '& > div': {
-                display: 'flex',
-                textAlign: 'center',
-                marginTop: '12px',
-                '& > div': {
-                  marginRight: '11px',
-                  fontFamily: 'Pretendard',
-                  fontSize: '16px',
-                  fontStyle: 'normal',
-                  lineHeight: '150%',
-                  borderRadius: '19.35px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: '7px 16px',
-                  flexShrink: 0,
-                  border: '1px solid #959DB1',
-                  color: '#959DB1',
-                  fontWeight: '500',
-                  letterSpacing: '-0.304px',
-                  '&.selected': {
-                    border: '1px solid #0074FF',
-                    background: '#ECF6FE',
-                    color: '#0074FF',
-                    fontWeight: '600',
-                  },
-                },
-              },
-            })}
-          >
+      <div css={matchingPostWriteStyles.styleInterestBody}>
+        <div>
+          <StyleInterTitle title="운동스타일" />
+          <div css={matchingPostWriteStyles.styleInterestButton}>
             <div>
-              <div>운동만 집중해서</div>
-              <div>서로 도우면서 보조</div>
+              {['운동만 집중해서', '서로 도우면서 보조'].map((style) => (
+                <div
+                  key={style}
+                  onClick={() => onClickSportStyle(style)}
+                  className={sportStyle.includes(style) ? 'selected' : ''}
+                >
+                  {style}
+                </div>
+              ))}
             </div>
             <div>
-              <div>편안하고 친근한 분위기</div>
-              <div>저중량 고반복</div>
+              {['편안하고 친근한 분위기', '저중량 고반복'].map((style) => (
+                <div
+                  key={style}
+                  onClick={() => onClickSportStyle(style)}
+                  className={sportStyle.includes(style) ? 'selected' : ''}
+                >
+                  {style}
+                </div>
+              ))}
             </div>
           </div>
         </div>
-        <div
-          css={css({
-            display: 'flex',
-            flexDirection: 'column',
-            marginTop: '40px',
-          })}
-        >
-          <div
-            css={css({
-              display: 'flex',
-              '& > p': {
-                fontFamily: 'Pretendard',
-                textAlign: 'center',
-                fontStyle: 'normal',
-                fontWeight: 600,
-                lineHeight: '120%',
-                letterSpacing: '-0.266px',
-                textAlignLast: 'left',
-                //marginBottom: '21px',
-              },
-            })}
-          >
-            <p
-              css={css({
-                color: '#3A3A3A',
-                marginTop: '20px',
-                fontSize: '18px',
-              })}
-            >
-              관심사
-            </p>
-            <p
-              css={css({
-                color: '#959DB1',
-                marginTop: '24px',
-                marginLeft: '17px',
-                fontSize: '13px',
-              })}
-            >
-              중복선택 가능
-            </p>
-          </div>
-          <div
-            css={css({
-              '& > div': {
-                display: 'flex',
-                textAlign: 'center',
-                marginTop: '12px',
-                '& > div': {
-                  marginRight: '11px',
-                  fontFamily: 'Pretendard',
-                  fontSize: '16px',
-                  fontStyle: 'normal',
-                  lineHeight: '150%',
-                  borderRadius: '19.35px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: '7px 16px',
-                  flexShrink: 0,
-                  border: '1px solid #959DB1',
-                  color: '#959DB1',
-                  fontWeight: '500',
-                  letterSpacing: '-0.304px',
-                  '&.selected': {
-                    border: '1px solid #0074FF',
-                    background: '#ECF6FE',
-                    color: '#0074FF',
-                    fontWeight: '600',
-                  },
-                },
-              },
-            })}
-          >
+        <div>
+          <StyleInterTitle title="관심사" />
+          <div css={matchingPostWriteStyles.styleInterestButton}>
             <div>
-              <div>체력 키우기</div>
-              <div>다이어트</div>
-              <div>유산소</div>
+              {['체력 키우기', '다이어트', '유산소'].map((interest) => (
+                <div
+                  key={interest}
+                  onClick={() => onClickSportInterest(interest)}
+                  className={sportInter.includes(interest) ? 'selected' : ''}
+                >
+                  {interest}
+                </div>
+              ))}
             </div>
             <div>
-              <div>무산소</div>
-              <div>바디프로필</div>
-              <div>식단조절</div>
+              {['무산소', '바디프로필', '식단조절'].map((interest) => (
+                <div
+                  key={interest}
+                  onClick={() => onClickSportInterest(interest)}
+                  className={sportInter.includes(interest) ? 'selected' : ''}
+                >
+                  {interest}
+                </div>
+              ))}
             </div>
             <div>
-              <div>근력 향상</div>
-              <div>건강</div>
+              {['근력 향상', '건강'].map((interest) => (
+                <div
+                  key={interest}
+                  onClick={() => onClickSportInterest(interest)}
+                  className={sportInter.includes(interest) ? 'selected' : ''}
+                >
+                  {interest}
+                </div>
+              ))}
             </div>
           </div>
         </div>
