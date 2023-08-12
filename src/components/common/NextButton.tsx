@@ -5,20 +5,22 @@ import DisabledButton from './DisabledButton';
 import EnabledButton from './EnabledButton';
 
 interface NextButtonProps {
+  text: string;
   isEnabled: boolean;
   onEnabledClick: () => void;
 }
 
 const NextButton: React.FC<NextButtonProps> = ({
+  text,
   isEnabled,
   onEnabledClick,
 }) => {
   return (
     <div css={nextButtonContainer}>
       {isEnabled ? (
-        <EnabledButton text="다음" onClick={onEnabledClick} />
+        <EnabledButton text={text} onClick={onEnabledClick} />
       ) : (
-        <DisabledButton text="다음" />
+        <DisabledButton text={text} />
       )}
     </div>
   );

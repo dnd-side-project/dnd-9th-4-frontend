@@ -2,6 +2,7 @@
 import BottomSheet from 'components/common/BottomSheet';
 import NextButton from 'components/common/NextButton';
 import PrevHeader from 'components/common/PrevHeader';
+import ExercisePeriodContent from 'components/onBoardingPage/ExercisePeriodContent';
 import ProgressBar from 'components/onBoardingPage/ProgressBar';
 import Question from 'components/onBoardingPage/Question';
 import SelectRectangle from 'components/onBoardingPage/SelectRectangle';
@@ -11,8 +12,10 @@ import {
   selectPeriodContainer,
 } from 'components/styles/onBoardingPage';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const OnBoardingPage3 = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -32,10 +35,16 @@ const OnBoardingPage3 = () => {
             <SelectRectangle text="개월" onClick={() => setIsOpen(true)} />
           </div>
         </div>
-        <NextButton isEnabled={false} onEnabledClick={() => {}} />
+        <NextButton
+          text={'다음'}
+          isEnabled={true}
+          onEnabledClick={() => {
+            navigate('/onboarding/4');
+          }}
+        />
       </div>
       <BottomSheet isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <div>운동 경력을 선택해주세요</div>
+        <ExercisePeriodContent />
       </BottomSheet>
     </>
   );

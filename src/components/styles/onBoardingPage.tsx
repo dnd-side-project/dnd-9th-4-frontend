@@ -8,6 +8,13 @@ export const onBoardingBodyArea = css({
   flexDirection: 'column',
   alignItems: 'center',
   whiteSpace: 'pre-wrap',
+  scrollbarGutter: 'unset',
+  '&::-webkit-scrollbar': {
+    width: '0.5em',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    background: 'transparent',
+  },
 });
 
 export const onBoardingProfileText = css({
@@ -52,15 +59,11 @@ export const selectProfileListArea = css({
 });
 
 export const selectProfileListStyle = css({
-  marginTop: '30px',
-  display: 'flex',
-  flexDirection: 'row',
-  overflow: 'hidden',
+  marginBottom: '30px',
   width: '330px',
 });
 
 export const selectProfileListSlider = css({
-  margin: '0 auto',
   display: 'grid',
   gridTemplateColumns: 'repeat(4,52px)',
   gridTemplateRows: 'repeat(2,52px)',
@@ -68,6 +71,14 @@ export const selectProfileListSlider = css({
   rowGap: '25px',
   width: '100%',
 });
+
+export const selectProfileNavigator = (isCurrent: boolean) =>
+  css({
+    width: '7px',
+    height: '7px',
+    borderRadius: '50%',
+    backgroundColor: isCurrent ? '#0074FF' : '#D9D9D9',
+  });
 
 export const progressBg = css({
   position: 'absolute',
@@ -77,6 +88,7 @@ export const progressBg = css({
   height: '4px',
   backgroundColor: '#DEDEDE',
   overflow: 'hidden',
+  zIndex: 1,
 });
 
 export const progressInner = (value: number) =>
@@ -122,6 +134,9 @@ export const genderArea = css({
   alignItems: 'center',
   borderRadius: '9px',
   backgroundColor: '#F9FAFC',
+  '&.active': {
+    border: '2px solid #0066FF',
+  },
 });
 
 export const healthLabel = css({
@@ -165,4 +180,134 @@ export const subQuestion = css({
   fontWeight: 600,
   lineHeight: '120%',
   marginRight: '14px',
+});
+
+export const locationAgree = css({
+  fontSize: '16px',
+  fontWeight: 500,
+  flex: 1,
+});
+
+export const infoContainer = css({
+  marginTop: '19px',
+});
+
+export const infoIconArea = css({
+  height: '100%',
+  marginTop: '2px',
+});
+
+export const infoTextArea = css({
+  color: '#959DB1',
+  fontSize: '14px',
+  fontWeight: 500,
+  flex: 1,
+  marginLeft: '7px',
+});
+
+export const finishContainer = css({
+  marginTop: '147.18px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
+export const finishTextArea = css({
+  marginBottom: '70.82px',
+  textAlign: 'center',
+  fontSize: '20px',
+  fontWeight: 700,
+  lineHeight: '160%',
+});
+
+export const sliderContainer = css({
+  overflow: 'hidden',
+});
+
+export const sliderArea = css({
+  display: 'flex',
+});
+
+export const slider = css({
+  margin: '0 50px 0 14px',
+  display: 'flex',
+  flex: '0 0 80%',
+  justifyContent: 'center',
+  alignItems: 'center',
+  '&:nth-child(2)': {
+    marginRight: 0,
+  },
+});
+
+export const slideDots = css({
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  margin: '22px 0 27px 0',
+});
+
+export const slideDotStyle = (isCurrentIndex: boolean) =>
+  css({
+    width: '7px',
+    height: '7px',
+    padding: 0,
+    margin: 0,
+    borderRadius: '50%',
+    borderWidth: 0,
+    backgroundColor: isCurrentIndex ? '#0074FF' : '#D9D9D9',
+    '&:first-child': {
+      marginRight: '12px',
+    },
+  });
+
+export const checkNicknameContainer = (isComplete: boolean) =>
+  css({
+    display: isComplete ? 'flex' : 'none',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '13px',
+    fontSize: '14px',
+    fontWeight: 400,
+    color: '#959DB1',
+  });
+
+export const checkNicknameIcon = css({
+  marginBottom: '15px',
+  width: '18px',
+  height: '18px',
+  borderRadius: '50%',
+  backgroundColor: '#0066FF',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+});
+
+export const exercisePeriodContentContainer = css({
+  fontSize: '16px',
+  color: '#000000',
+  fontWeight: 700,
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+});
+
+export const exercisePeriodPickerContainer = css`
+  position: relative;
+  width: 100%;
+  height: 126px;
+  border: 1px solid #a5a5a5;
+  margin-top: 47.5px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const exercisePeriodPickerArea = css({
+  display: 'flex',
 });
