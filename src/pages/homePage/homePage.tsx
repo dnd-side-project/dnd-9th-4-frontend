@@ -11,6 +11,8 @@ import {
 import { ButtonNavigation } from 'components/common/commonComponents';
 import LogoBox from 'assets/newPleLogo/LogoBox.png';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import config from 'config';
 
 // 내 주변 뉴플메이트 테스트 데이터
 const profileTestData = {
@@ -78,6 +80,25 @@ function HomePage() {
     navigate('/matching');
     window.scrollTo(0, 0);
   };
+
+  axios
+    .get(`${config.backendUrl}/health`)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  axios
+    .get('http://localhost:8080/getTest')
+    .then((res) => {
+      console.log('로컬에서 보낸 데이터', res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
   return (
     <div>
       <HomeTopScreen

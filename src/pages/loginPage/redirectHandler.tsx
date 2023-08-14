@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import React, { useEffect } from 'react';
 import axios from 'axios';
-//import config from 'config';
+import config from 'config';
 import { useNavigate } from 'react-router-dom';
 
 function RedirectHandler() {
@@ -13,8 +13,7 @@ function RedirectHandler() {
 
     console.log('인가코드', code);
 
-    //const backendUrl = `${config.backendUrl}/login`;
-    const backendUrl = 'http://3.37.141.165:8000/api/v1/kakao/signup';
+    const backendUrl = `${config.backendUrl}/api/kakao/login`;
 
     const codeData = {
       code: code,
