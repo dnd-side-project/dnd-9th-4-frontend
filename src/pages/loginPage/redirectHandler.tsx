@@ -20,16 +20,12 @@ function RedirectHandler() {
     };
 
     axios
-      .post(backendUrl, codeData)
+      .get(backendUrl, { params: codeData })
       .then((response) => {
-        console.log('인가코드 전송 성공');
-        console.log(response.data);
-        // 토큰 받아서 로그인 세션 유지
-        // 온보딩 페이지로 이동
+        console.log(response.data); // 서버에서 반환된 데이터
         navigate('/onboarding');
       })
       .catch((error) => {
-        console.error('인가코드 전송 실패');
         console.error(error);
       });
   }, []);
