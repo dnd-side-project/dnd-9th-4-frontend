@@ -10,6 +10,7 @@ import { css } from '@emotion/react';
 function LoginPage() {
   const restApiKey = config.restApiKey;
   const redirectUri = config.redirectUri;
+  //const redirectUri = 'http://3.37.141.165:8000/api/v1/kakao/signup';
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUri}&response_type=code`;
 
   const onClickLoginButton = () => {
