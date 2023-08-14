@@ -1,20 +1,25 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import config from 'config';
 import { useNavigate } from 'react-router-dom';
 
 function RedirectHandler() {
-  const code = new URL(window.location.href).searchParams.get('code');
   const navigate = useNavigate();
-  console.log(code);
-
-  const backendUrl = `${config.backendUrl}/login`;
-
-  const codeData = {
-    code: code,
-  };
 
   useEffect(() => {
+    const code = new URL(window.location.href).searchParams.get('code');
+
+    console.log('인가코드', code);
+
+    const backendUrl = `${config.backendUrl}/login`;
+    //const backendUrl = 'http://localhost:8080/login';
+
+    const codeData = {
+      code: code,
+    };
+
     axios
       .post(backendUrl, codeData)
       .then((response) => {
@@ -30,7 +35,18 @@ function RedirectHandler() {
       });
   }, []);
 
-  return <div>인가코드</div>;
+  return (
+    <div
+      css={css({
+        display: 'flex',
+        justifyContent: 'center', // 수평 가운데 정렬
+        alignItems: 'center', // 세로 가운데 정렬
+        height: '100vh',
+      })}
+    >
+      로그인 중 입니다~!
+    </div>
+  );
 }
 
 export default RedirectHandler;
