@@ -7,8 +7,17 @@ import {
   BottomButton,
 } from 'components/matchingPage/matchingPostWritePageComponents';
 //import AddPhoto from 'assets/AddPhoto.svg';
+import { useRecoilState } from 'recoil';
+import { postWriteState } from 'recoil/postWrite';
+import BottomSheet from 'components/common/BottomSheet';
+import Calendar from 'react-calendar';
+import 'pages/matchingPostWritePage/calendar.css';
+import moment from 'moment';
 
 function datailPostWrtiePage() {
+  // recoil
+  const [postWrite, setPostWrite] = useRecoilState(postWriteState);
+
   // // 이미지
   // const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -38,10 +47,19 @@ function datailPostWrtiePage() {
     if (body.length < MAX_CHARACTERS) setBody(event.target.value);
   };
 
+  // 운동일시
+  const [isOpenDay, setIsOpenDay] = useState(false);
+
   // 작성하기 버튼
   const onClickSubmitButton = () => {
     console.log('제출하기');
+    setPostWrite({ ...postWrite, title: title, content: body });
+    console.log(postWrite);
   };
+
+  // 달력
+  const currDate = new Date();
+  const currDateTime = moment(currDate).format('MM-DD');
 
   return (
     <div>
@@ -109,7 +127,6 @@ function datailPostWrtiePage() {
               paddingLeft: '16px',
               outline: 'none',
               transition: 'border-color 0.3s ease-in-out',
-              color: '#C0C0C0',
               fontFamily: 'Pretendard',
               fontSize: '15px',
               fontStyle: 'normal',
@@ -145,7 +162,6 @@ function datailPostWrtiePage() {
               paddingTop: '12px',
               outline: 'none',
               transition: 'border-color 0.3s ease-in-out',
-              color: '#C0C0C0',
               fontFamily: 'Pretendard',
               fontSize: '15px',
               fontStyle: 'normal',
@@ -155,7 +171,7 @@ function datailPostWrtiePage() {
             })}
             onFocus={(e) => {
               e.target.style.borderColor = '#06F'; /* 파란색 테두리로 변경 */
-              e.target.style.color = 'black';
+              //e.target.style.color = 'black';
             }}
             onBlur={(e) => {
               e.target.style.borderColor = '#D1D3D7'; /* 기본 색상으로 복원 */
@@ -188,14 +204,15 @@ function datailPostWrtiePage() {
               '& > input': {
                 flex: 1,
                 borderRadius: '4px',
-                width: '145px',
+                width: '60px',
                 height: '47px',
                 border: '0.75px solid #D1D3D7',
                 marginTop: '13px',
-                paddingLeft: '25px',
+                textAlign: 'center',
+                //paddingLeft: '25px',
                 outline: 'none',
-                transition: 'border-color 0.3s ease-in-out',
-                color: '#C0C0C0',
+                //transition: 'border-color 0.3s ease-in-out',
+                color: 'gray',
                 fontFamily: 'Pretendard',
                 fontSize: '15px',
                 fontStyle: 'normal',
@@ -203,93 +220,30 @@ function datailPostWrtiePage() {
                 lineHeight: '150%', // "24px"
                 letterSpacing: '-0.8px',
               },
-              '& > span': {
-                flex: 1,
-                marginTop: '13px',
-                color: '#000',
-                fontFamily: 'Pretendard',
-                fontSize: '16px',
-                fontStyle: 'normal',
-                fontWeight: '600',
-                lineHeight: '150%' /* 24px */,
-                letterSpacing: '-0.304px',
-              },
             })}
           >
             <input
               type="text"
               name="date"
               value="2023.08.05(sat)"
-              required
-              disabled
+              readOnly
               css={css({
                 marginRight: '15px',
               })}
+              onClick={() => setIsOpenDay(true)}
             />
             <input
               type="text"
               name="date"
-              value="2023.08.05(sat)"
-              required
-              disabled
+              value="00시 00분"
+              readOnly
+              onFocus={(e) => {
+                e.target.style.borderColor = '#06F'; /* 파란색 테두리로 변경 */
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#D1D3D7'; /* 기본 색상으로 복원 */
+              }}
             />
-            <span>부터</span>
-          </div>
-          <div
-            css={css({
-              display: 'flex',
-              textAlign: 'end',
-              justifyContent: 'center',
-              alignItems: 'center',
-              '& > input': {
-                flex: 1,
-                borderRadius: '4px',
-                width: '145px',
-                height: '47px',
-                border: '0.75px solid #D1D3D7',
-                marginTop: '13px',
-                paddingLeft: '25px',
-                outline: 'none',
-                transition: 'border-color 0.3s ease-in-out',
-                color: '#C0C0C0',
-                fontFamily: 'Pretendard',
-                fontSize: '15px',
-                fontStyle: 'normal',
-                fontWeight: 400,
-                lineHeight: '150%', // "24px"
-                letterSpacing: '-0.8px',
-              },
-              '& > span': {
-                flex: 1,
-                marginTop: '13px',
-                color: '#000',
-                fontFamily: 'Pretendard',
-                fontSize: '16px',
-                fontStyle: 'normal',
-                fontWeight: '600',
-                lineHeight: '150%' /* 24px */,
-                letterSpacing: '-0.304px',
-              },
-            })}
-          >
-            <input
-              type="text"
-              name="date"
-              value="2023.08.05(sat)"
-              required
-              disabled
-              css={css({
-                marginRight: '15px',
-              })}
-            />
-            <input
-              type="text"
-              name="date"
-              value="2023.08.05(sat)"
-              required
-              disabled
-            />
-            <span>까지</span>
           </div>
         </div>
         <div>
@@ -308,7 +262,7 @@ function datailPostWrtiePage() {
               paddingLeft: '16px',
               outline: 'none',
               transition: 'border-color 0.3s ease-in-out',
-              color: '#C0C0C0',
+              color: '#CACFD9',
               fontFamily: 'Pretendard',
               fontSize: '15px',
               fontStyle: 'normal',
@@ -330,6 +284,32 @@ function datailPostWrtiePage() {
         title="모집글 등록하기"
         onClickButton={onClickSubmitButton}
       />
+      <BottomSheet isOpen={isOpenDay} onClose={() => setIsOpenDay(false)}>
+        <>
+          <div
+            css={css({
+              color: '#000',
+              fontFamily: 'Pretendard',
+              fontSize: '16px',
+              fontStyle: 'normal',
+              fontWeight: 700,
+              lineHeight: '120%',
+              letterSpacing: '-0.304px',
+              marginBottom: '20px',
+            })}
+          >
+            일시
+          </div>
+          <Calendar
+            className="react-calendar"
+            formatDay={(locale, date) => moment(date).format('DD')}
+            tileDisabled={({ date }) =>
+              moment(date).format('MM-DD') < currDateTime
+            }
+            calendarType="US"
+          />
+        </>
+      </BottomSheet>
     </div>
   );
 }
