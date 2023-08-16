@@ -3,35 +3,19 @@ import { css } from '@emotion/react';
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import config from 'config';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 
 function RedirectHandler() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get('code');
 
     console.log('인가코드', code);
 
-    const backendUrl = `${config.backendUrl}/api/kakao/login`;
-
     const codeData = {
       code: code,
     };
-
-    axios({
-      method: 'get',
-      url: `${backendUrl}?code=${code}`,
-      data: codeData,
-      withCredentials: true, // CORS 관련 설정
-    })
-      .then((response) => {
-        console.log('/api/kakao/login=======>', response.data); // 서버에서 반환된 데이터
-        navigate('/onboarding');
-      })
-      .catch((error) => {
-        console.error('/api/kakao/login=======>', error);
-      });
 
     axios({
       method: 'post',
@@ -40,11 +24,21 @@ function RedirectHandler() {
       withCredentials: true, // CORS 관련 설정
     })
       .then((res) => {
-        console.log('/api/v1/kakao/signup======>', res.data);
+        console.log('axios 1======>', res.data);
         console.log('성공');
       })
       .then((err) => {
-        console.error('/api/v1/kakao/signup=======>', err);
+        console.error('axios 1=======>', err);
+        console.log('실패');
+      });
+
+    axios
+      .post(`${config.backendUrl}/api/v1/kakao/signup`, codeData)
+      .then((response) => {
+        console.log('axios 2=======>', response.data);
+      })
+      .catch((error) => {
+        console.error('axios 2=======>', error);
       });
   }, []);
 
