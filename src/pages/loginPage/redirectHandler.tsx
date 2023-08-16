@@ -22,11 +22,21 @@ function RedirectHandler() {
     axios
       .get(backendUrl, { params: codeData })
       .then((response) => {
-        console.log(response.data); // 서버에서 반환된 데이터
+        console.log('1=======>', response.data); // 서버에서 반환된 데이터
         navigate('/onboarding');
       })
       .catch((error) => {
-        console.error(error);
+        console.error('1=======>', error);
+      });
+
+    axios
+      .post(`${config.backendUrl}/api/v1/kakao/signup`, codeData)
+      .then((res) => {
+        console.log('2======>', res.data);
+        console.log('성공');
+      })
+      .then((err) => {
+        console.error('2=======>', err);
       });
   }, []);
 
