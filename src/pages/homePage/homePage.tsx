@@ -82,21 +82,21 @@ function HomePage() {
   };
 
   axios
-    .get(`${config.backendUrl}/health`)
+    .get('https://dnd-newple-server.store/response')
     .then((res) => {
-      console.log(res);
+      console.log('health 테스트', res);
     })
     .catch((err) => {
-      console.log(err);
+      console.log('health 테스트', err);
     });
 
   axios
-    .get('http://localhost:8080/getTest')
+    .get(`${config.backendUrl}/response`)
     .then((res) => {
-      console.log('로컬에서 보낸 데이터', res);
+      console.log('response 테스트', res);
     })
     .catch((err) => {
-      console.log(err);
+      console.log('response 테스트', err);
     });
 
   return (
