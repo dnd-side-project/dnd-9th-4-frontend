@@ -19,8 +19,12 @@ function RedirectHandler() {
       code: code,
     };
 
-    axios
-      .get(backendUrl, { params: codeData })
+    axios({
+      method: 'get',
+      url: `${backendUrl}?code=${code}`,
+      data: codeData,
+      withCredentials: true, // CORS 관련 설정
+    })
       .then((response) => {
         console.log('/api/kakao/login=======>', response.data); // 서버에서 반환된 데이터
         navigate('/onboarding');
@@ -29,8 +33,12 @@ function RedirectHandler() {
         console.error('/api/kakao/login=======>', error);
       });
 
-    axios
-      .post(`${config.backendUrl}/api/v1/kakao/signup`, codeData)
+    axios({
+      method: 'post',
+      url: `${config.backendUrl}/api/v1/kakao/signup`,
+      data: codeData,
+      withCredentials: true, // CORS 관련 설정
+    })
       .then((res) => {
         console.log('/api/v1/kakao/signup======>', res.data);
         console.log('성공');
