@@ -3,10 +3,10 @@ import { css } from '@emotion/react';
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import config from 'config';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function RedirectHandler() {
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get('code');
@@ -26,6 +26,7 @@ function RedirectHandler() {
       .then((res) => {
         console.log('axios 1======>', res.data);
         console.log('성공');
+        navigate('/onboarding');
       })
       .then((err) => {
         console.error('axios 1=======>', err);
