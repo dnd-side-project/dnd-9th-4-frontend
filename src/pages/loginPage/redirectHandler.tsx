@@ -33,14 +33,15 @@ function RedirectHandler() {
         console.log('실패');
       });
 
-    // axios
-    //   .post(`${config.backendUrl}/api/v1/kakao/signup`, codeData)
-    //   .then((response) => {
-    //     console.log('axios 2=======>', response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error('axios 2=======>', error);
-    //   });
+    axios
+      .post(`${config.backendUrl}/api/v1/kakao/signup`, codeData)
+      .then((response) => {
+        console.log('axios 2=======>', response.data);
+        navigate('/onboarding');
+      })
+      .catch((error) => {
+        console.error('axios 2=======>', error);
+      });
   }, []);
 
   return (
