@@ -8,32 +8,40 @@ import PostMore from 'assets/matchingPostIcon/MoreIcon.svg';
 import PostLocation from 'assets/matchingPostIcon/PostLocation.svg';
 import PostSport from 'assets/matchingPostIcon/PostSport.svg';
 import PostTime from 'assets/matchingPostIcon/PostTime.svg';
-//import Dialog from '@mui/material/Dialog';
-import { MatchingModal } from 'components/matchingPage/matchingPostPageComponents';
+import {
+  MatchingModal,
+  PostHashTag,
+} from 'components/matchingPage/matchingPostPageComponents';
+import { matchingPostPageStyles } from 'components/styles/matchingPostPageStyles';
 
 const testData = {
   id: 1,
-  memberId: 1, // id랑 닉네임도 있어야 할 듯
+  memberId: 1, // 사진도 있어야 하지 않을까?
   profileImg:
     'https://image.hmall.com/static/8/0/42/35/2135420804_0.jpg?RS=600x600&AR=0',
-  title: '같이 헬스하실 분!',
-  sport: '헬스',
-  region: '대전광역시 유성구 봉명동',
-  time: '2023-08-20 18:30:00',
-  createDate: '2023-07-31',
-  endDate: '2023-08-15',
-  mateExercisePeriod: '경력상관없어요',
-  mateGender: 'MAN', // ui에는 한글인데 여기서는 MAN, 프론트에서 MAN->남자 이렇게 할 순 있긴함
-  mateAge: '20',
-  description:
-    '동네에서 같이 헬스하실 분 구해요\n운동 초보라서 같이 운동하면서\n성장할 또래 운동친구 만나고 싶습니다!\n헬스장은 상의해서 정해요~!',
-  image: '?',
+  writerUsername: 'john_doe',
+  writerAge: '30',
+  writerGender: 'MALE',
+  sport: 'HIKING',
+  exerciseStyles: ['운동만 집중해서', '서로 도우면서 보조'],
+  interests: ['체력키우기', '다이어트', '유산소'],
+  title: '한라산 올라가실 분~',
+  content: '취미로 등산하는데 한라산 꼭 가보고 싶었어요!!',
+  region: '대전광역시 유성구',
+  gender: '여성',
+  age: '20대 초반',
+  runtime: '2023-09-12 13:00:00',
+  periodEx: null,
+  matchedMembers: [],
+  selectedMember: null,
 };
 
 function MatchingPostPage() {
   const [recruiting, setRecruiting] = useState<boolean>(false);
   const { id } = useParams();
   const navigate = useNavigate();
+
+  console.log(id, '번째 게시물');
 
   // 매칭 신청 모달
   const [openModal1, setOpenModal1] = useState(false);
@@ -118,84 +126,21 @@ function MatchingPostPage() {
           />
         </div>
       </div>
-      <div
-        css={css({
-          marginTop: '17px',
-          marginInline: '15px',
-        })}
-      >
-        <div
-          css={css({
-            display: 'flex',
-            alignItems: 'center',
-          })}
-        >
+      <div css={matchingPostPageStyles.container}>
+        <div css={matchingPostPageStyles.profileContainer}>
           <img
             src={testData.profileImg}
-            css={css({
-              flex: 1,
-              width: '60px',
-              height: '60px',
-              borderRadius: '50%',
-            })}
+            css={matchingPostPageStyles.profileImg}
           />
-          <span
-            css={css({
-              flex: 1,
-              color: '#000',
-              fontFamily: 'Pretendard',
-              fontSize: '14px',
-              fontStyle: 'normal',
-              fontWeight: 700,
-              lineHeight: '150%',
-              letterSpacing: '-0.266px',
-              paddingLeft: '12px',
-              paddingRight: '15px',
-            })}
-          >
-            푸바오
+          <span css={matchingPostPageStyles.profileName}>
+            {testData.writerUsername}
           </span>
-          <span
-            css={css({
-              flex: 3,
-              color: '#676F83',
-              fontFamily: 'Pretendard',
-              fontSize: '14px',
-              fontStyle: 'normal',
-              fontWeight: 500,
-              lineHeight: '150%',
-              letterSpacing: '-0.266px',
-            })}
-          >
-            {testData.mateAge}/{testData.mateGender === 'MAN' ? '남' : '여'}
+          <span css={matchingPostPageStyles.profileInfo}>
+            {testData.writerAge}/
+            {testData.writerGender === 'MALE' ? '남' : '여'}
           </span>
-          <div
-            css={css({
-              flex: 2,
-              display: 'inline-flex',
-              padding: '4px 0px',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '8px',
-              borderRadius: '19.35px',
-              border: '1px solid var(--grey-04, #959DB1)',
-              background: '#FFF',
-            })}
-          >
-            <span
-              css={css({
-                color: 'var(--grey-04, var(--grey-04, #959DB1))',
-                textAlign: 'center',
-                fontFamily: 'Pretendard',
-                fontSize: '14px',
-                fontStyle: 'normal',
-                fontWeight: 500,
-                lineHeight: '150%', // 21px
-                letterSpacing: '-0.8px',
-              })}
-            >
-              프로필보기
-            </span>
+          <div css={matchingPostPageStyles.profileButton}>
+            <span>프로필보기</span>
           </div>
         </div>
         <div
@@ -219,47 +164,15 @@ function MatchingPostPage() {
         >
           {recruiting ? '수락대기중' : '모집중'}
         </div>
-        <div
-          css={css({
-            color: '#3A3A3A',
-            fontFamily: 'Pretendard',
-            fontSize: '22px',
-            fontStyle: 'normal',
-            fontWeight: 700,
-            lineHeight: '120%' /* 24px */,
-            letterSpacing: '-0.6px',
-            marginBottom: '19.97px',
-          })}
-        >
-          {testData.title}
-        </div>
-        <div
-          css={css({
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '11px',
-            '& > div': {
-              display: 'flex',
-              '> div': {
-                color: 'var(--grey-03, #676F83)',
-                fontFamily: 'Pretendard',
-                fontSize: '16px',
-                fontStyle: 'normal',
-                fontWeight: 500,
-                lineHeight: '150%', // '24px'
-                letterSpacing: '-0.304px',
-                paddingLeft: '8.74px',
-              },
-            },
-          })}
-        >
+        <div css={matchingPostPageStyles.title}>{testData.title}</div>
+        <div css={matchingPostPageStyles.matchingInfo}>
           <div>
             <img src={PostLocation} />
             <div>{testData.region}</div>
           </div>
           <div>
             <img src={PostTime} />
-            <div>{testData.time}</div>
+            <div>{testData.runtime}</div>
           </div>
           <div>
             <img src={PostSport} />
@@ -273,21 +186,7 @@ function MatchingPostPage() {
             marginBlock: '21px',
           })}
         />
-        <div
-          css={css({
-            color: '#3A3A3A',
-            fontFamily: 'Pretendard',
-            fontSize: '16px',
-            fontStyle: 'normal',
-            fontWeight: 500,
-            lineHeight: '150%', // '24px'
-            letterSpacing: '-0.304px',
-            paddingBlock: '8px',
-            whiteSpace: 'pre-line',
-          })}
-        >
-          {testData.description}
-        </div>
+        <div css={matchingPostPageStyles.content}>{testData.content}</div>
         <div
           css={css({
             height: '1px',
@@ -295,7 +194,10 @@ function MatchingPostPage() {
             marginBlock: '18px',
           })}
         />
-        <div>{id}번 게시물</div>
+        <div>
+          <PostHashTag title="운동스타일" hashTag={testData.exerciseStyles} />
+          <PostHashTag title="저의 관심사예요" hashTag={testData.interests} />
+        </div>
       </div>
       <div
         css={css({

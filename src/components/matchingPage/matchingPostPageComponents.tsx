@@ -9,6 +9,11 @@ interface MatchingModalData {
   title: string;
 }
 
+interface PostHashTagData {
+  title: string;
+  hashTag: string[];
+}
+
 /*
     [매칭 신청 모달]
 */
@@ -92,5 +97,54 @@ export function MatchingModal(props: MatchingModalData) {
         </div>
       </div>
     </Dialog>
+  );
+}
+
+/*
+    [운동 스타일, 관심사]
+*/
+export function PostHashTag(props: PostHashTagData) {
+  return (
+    <div>
+      <div
+        css={css({
+          color: 'var(--grey-01, var(--grey-01, #202123))',
+          fontFamily: 'Pretendard',
+          fontSize: '16px',
+          fontStyle: 'normal',
+          fontWeight: 700,
+          lineHeight: '150%',
+          letterSpacing: '-0.304px',
+          marginBottom: '11px',
+        })}
+      >
+        {props.title}
+      </div>
+      {props.hashTag.map((content, index) => (
+        <div
+          key={index}
+          css={css({
+            display: 'inline-flex',
+            padding: '4px 12px',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '8px',
+            borderRadius: '19.35px',
+            background: 'rgba(255, 135, 97, 0.10)',
+            color: '#FF8761',
+            fontFamily: 'Pretendard',
+            fontSize: '14px',
+            fontStyle: 'normal',
+            fontWeight: 500,
+            lineHeight: '150%',
+            letterSpacing: '-0.266px',
+            marginRight: '12px',
+            marginBottom: '25px',
+          })}
+        >
+          #{content}
+        </div>
+      ))}
+    </div>
   );
 }

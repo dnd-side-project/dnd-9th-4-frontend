@@ -168,6 +168,7 @@ function MatchingPage() {
   // 검색 아이콘 클릭
   const onClickSearchICon = () => {
     console.log('검색 아이콘 클릭');
+    navigate('/matching/search');
   };
 
   // 글쓰기 클릭

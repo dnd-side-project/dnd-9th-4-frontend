@@ -12,6 +12,8 @@ import 수영아이콘 from 'assets/sportTypeIcon/수영.svg';
 import 등산아이콘 from 'assets/sportTypeIcon/등산.svg';
 import 싸이클아이콘 from 'assets/sportTypeIcon/싸이클.svg';
 import 기타아이콘 from 'assets/sportTypeIcon/기타.svg';
+import { useRecoilState } from 'recoil';
+import { postWriteState } from 'recoil/postWrite';
 
 // 아이콘 사이즈 맞춰주면 좋겠음
 const sportListData = {
@@ -51,13 +53,20 @@ const sportListData = {
 
 function selectSportPage() {
   const [selectSport, setSelectSport] = useState<string | null>(null);
+  const [postWrite, setPostWrite] = useRecoilState(postWriteState);
+
   const navigate = useNavigate();
+
   const onClickSport = (sport: string) => {
     setSelectSport(sport);
+    setPostWrite({ ...postWrite, sport: sport });
     setTimeout(() => {
       navigate('/post/style');
     }, 200); // 0.2초 뒤에 navigate 함수 실행
   };
+
+  console.log(postWrite);
+
   return (
     <div>
       <NaviBarTitle title="운동종목 설정" />

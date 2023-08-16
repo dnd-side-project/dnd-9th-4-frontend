@@ -20,6 +20,7 @@ import OnBoardingPage5 from 'pages/onBoardingPage/OnBoardingPage5';
 import OnBoardingPage6 from 'pages/onBoardingPage/OnBoardingPage6';
 import OnBoardingPage7 from 'pages/onBoardingPage/OnBoardingPage7';
 import OnBoardingFinishPage from 'pages/onBoardingPage/OnBoardingFinishPage';
+import SearchPage from 'pages/matchingPage/searchPage';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
             <Route path="7" element={<OnBoardingPage7 />} />
             <Route path="finish" element={<OnBoardingFinishPage />} />
           </Route>
+          <Route path="/matching/search" element={<SearchPage />} />
         </Routes>
       </Router>
     </>

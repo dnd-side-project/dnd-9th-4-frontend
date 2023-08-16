@@ -202,6 +202,20 @@ export function LableTitle(props: LableTitleData) {
       })}
     >
       {props.title}
+      <span
+        css={css({
+          color: '#0074FF',
+          fontFamily: 'Pretendard',
+          fontSize: '18px',
+          fontStyle: 'normal',
+          fontWeight: 700,
+          lineHeight: '150%',
+          letterSpacing: '-0.304px',
+        })}
+      >
+        {' '}
+        *
+      </span>
     </div>
   );
 }
