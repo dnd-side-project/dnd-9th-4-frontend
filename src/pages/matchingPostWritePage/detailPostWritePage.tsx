@@ -13,6 +13,7 @@ import BottomSheet from 'components/common/BottomSheet';
 import Calendar from 'react-calendar';
 import 'pages/matchingPostWritePage/calendar.css';
 import moment from 'moment';
+import { InitAndApplyButton } from 'components/common/commonComponents';
 
 function datailPostWrtiePage() {
   // recoil
@@ -47,9 +48,6 @@ function datailPostWrtiePage() {
     if (body.length < MAX_CHARACTERS) setBody(event.target.value);
   };
 
-  // 운동일시
-  const [isOpenDay, setIsOpenDay] = useState(false);
-
   // 작성하기 버튼
   const onClickSubmitButton = () => {
     console.log('제출하기');
@@ -58,8 +56,33 @@ function datailPostWrtiePage() {
   };
 
   // 달력
+  const [isOpenDay, setIsOpenDay] = useState(false);
   const currDate = new Date();
   const currDateTime = moment(currDate).format('MM-DD');
+  const [runtime, setRuntime] = useState(new Date());
+
+  const onClickDay = (runtime: Date) => {
+    setRuntime(runtime);
+  };
+
+  const onClickApply = () => {
+    setIsOpenDay(false);
+    const formattedDate = runtime.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    setPostWrite({ ...postWrite, runtime: formattedDate });
+    setIsOpenTime(true);
+  };
+
+  const onClickSelectionInit = () => {
+    setRuntime(currDate);
+    setPostWrite({ ...postWrite, runtime: null });
+  };
+
+  // 시간
+  const [isOpenTime, setIsOpenTime] = useState(false);
 
   return (
     <div>
@@ -212,7 +235,7 @@ function datailPostWrtiePage() {
                 //paddingLeft: '25px',
                 outline: 'none',
                 //transition: 'border-color 0.3s ease-in-out',
-                color: 'gray',
+                color: postWrite.runtime == null ? 'gray' : 'black',
                 fontFamily: 'Pretendard',
                 fontSize: '15px',
                 fontStyle: 'normal',
@@ -225,7 +248,11 @@ function datailPostWrtiePage() {
             <input
               type="text"
               name="date"
-              value="2023.08.05(sat)"
+              value={
+                postWrite.runtime == null
+                  ? moment(currDate).format('YYYY년 MM월 DD일')
+                  : postWrite.runtime
+              }
               readOnly
               css={css({
                 marginRight: '15px',
@@ -284,7 +311,13 @@ function datailPostWrtiePage() {
         title="모집글 등록하기"
         onClickButton={onClickSubmitButton}
       />
-      <BottomSheet isOpen={isOpenDay} onClose={() => setIsOpenDay(false)}>
+      <BottomSheet
+        isOpen={isOpenDay}
+        onClose={() => {
+          setIsOpenDay(false);
+          setRuntime(currDate);
+        }}
+      >
         <>
           <div
             css={css({
@@ -306,9 +339,23 @@ function datailPostWrtiePage() {
             tileDisabled={({ date }) =>
               moment(date).format('MM-DD') < currDateTime
             }
-            calendarType="US"
+            calendarType="gregory"
+            onClickDay={onClickDay}
+            value={runtime}
+          />
+          <InitAndApplyButton
+            onClickSelectionInit={onClickSelectionInit}
+            onClickApply={onClickApply}
           />
         </>
+      </BottomSheet>
+      <BottomSheet
+        isOpen={isOpenTime}
+        onClose={() => {
+          setIsOpenTime(false);
+        }}
+      >
+        <div>안녕하세용</div>
       </BottomSheet>
     </div>
   );

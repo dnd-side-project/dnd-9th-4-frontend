@@ -1,15 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { css } from '@emotion/react';
-import MingcuteRightLine from 'assets/mingcute_right-line.svg';
 import {
   HomeTopScreen,
-  MatchingPostList,
-  TitleHeader,
-  NewPleMateList,
+  NewPleMateListBox,
+  MatchingSchedule,
+  Recommendation,
 } from 'components/homePage/homePageComponents';
-import { ButtonNavigation } from 'components/common/commonComponents';
-import LogoBox from 'assets/newPleLogo/LogoBox.png';
+import {
+  ButtonNavigation,
+  Horizontalline,
+} from 'components/common/commonComponents';
 import { useNavigate } from 'react-router-dom';
 
 // 내 주변 뉴플메이트 테스트 데이터
@@ -72,74 +73,49 @@ const mathcingPostsTestData = {
   ],
 };
 
+// 나의 매칭 일정 테스트 데이터
+const MatchingScheduleTestData = {
+  schduleList: [
+    {
+      id: 1,
+      dDay: 3,
+      runTime: '8월 6일(토)',
+      title: '같이 퇴근 후 헬스다닐 분 구해요',
+      region: '서울특별시 강남구',
+      sport: '헬스',
+    },
+  ],
+};
+
 function HomePage() {
   const navigate = useNavigate();
+
   const onClickMatchingPostList = () => {
     navigate('/matching');
     window.scrollTo(0, 0);
   };
+
+  const onClickMatchingScheduleList = () => {
+    // 매칭 일정 페이지로 이동
+    console.log('이동');
+  };
+
   return (
-    <div>
-      <HomeTopScreen
+    <div css={css({ marginInline: '16px', paddingBottom: '90px' })}>
+      <HomeTopScreen nickname="뉴플" text="더운 여름 운동으로 이겨내요!" />
+      <NewPleMateListBox matelist={profileTestData.matelist} />
+      <MatchingSchedule
+        onClickArrow={onClickMatchingScheduleList}
         nickname="뉴플"
-        profileImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2qL4TnNIt-zmP-lncsFEHdAbP3Hwn1z29vQ&usqp=CAU"
+        count="3"
+        scheduleDataList={MatchingScheduleTestData.schduleList}
       />
-      <div>
-        <TitleHeader title="내 주변 뉴플메이트" />
-        <NewPleMateList matelist={profileTestData.matelist} />
-      </div>
-      <div>
-        <div
-          css={css({
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingTop: '20px',
-          })}
-        >
-          <TitleHeader title="새로운 매칭 모집글" />
-          <div
-            css={css({
-              paddingTop: '30.65px',
-              paddingRight: '21.79px',
-            })}
-          >
-            <img src={MingcuteRightLine} onClick={onClickMatchingPostList} />
-          </div>
-        </div>
-        <MatchingPostList postList={mathcingPostsTestData.postList} />
-      </div>
-      <div>
-        <img
-          src={LogoBox}
-          css={css({
-            height: '105.322px',
-            width: '100%',
-            marginTop: '50px',
-          })}
-        />
-      </div>
-      <div>
-        <TitleHeader title="오늘의 운동정보" />
-        <div
-          css={css({
-            display: 'flex',
-            flexDirection: 'row',
-            paddingTop: '13.67px',
-            paddingLeft: '19.5px',
-            paddingBottom: '128.46px',
-            '& > div': {
-              marginRight: '19.18px',
-              width: '143.59px',
-              height: '174.302px',
-              flexShrink: '0',
-              backgroundColor: '#ECF6FE',
-            },
-          })}
-        >
-          <div>미완성</div>
-        </div>
-      </div>
+      <Horizontalline margin="40px" color="#EFF3FA" height="6px" />
+      <Recommendation
+        onClickArrow={onClickMatchingPostList}
+        nickname="뉴플"
+        postList={mathcingPostsTestData.postList}
+      />
       <ButtonNavigation />
     </div>
   );
