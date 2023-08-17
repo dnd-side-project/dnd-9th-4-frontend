@@ -12,26 +12,11 @@ function RedirectHandler() {
     const code = new URL(window.location.href).searchParams.get('code');
 
     console.log('인가코드', code);
+    console.log(typeof code);
 
     const codeData = {
       code: code,
     };
-
-    axios({
-      method: 'post',
-      url: `${config.backendUrl}/api/v1/kakao/signup`,
-      data: codeData,
-      withCredentials: true, // CORS 관련 설정
-    })
-      .then((res) => {
-        console.log('axios 1======>', res.data);
-        console.log('성공');
-        navigate('/onboarding');
-      })
-      .then((err) => {
-        console.error('axios 1=======>', err);
-        console.log('실패');
-      });
 
     axios
       .post(`${config.backendUrl}/api/v1/kakao/signup`, codeData)
