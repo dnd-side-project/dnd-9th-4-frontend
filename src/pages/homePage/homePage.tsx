@@ -29,10 +29,22 @@ const profileTestData = {
         'https://cdn.pixabay.com/photo/2016/11/02/14/32/lotte-world-tower-1791802_1280.jpg',
     },
     {
-      memberId: 4,
+      memberId: 3,
       nickname: '고양이',
       profileImg:
         'https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492_1280.jpg',
+    },
+    {
+      memberId: 4,
+      nickname: '헬스짱',
+      profileImg:
+        'https://cdn.pixabay.com/photo/2022/08/19/18/56/gym-7397553_1280.jpg',
+    },
+    {
+      memberId: 5,
+      nickname: '런닝이',
+      profileImg:
+        'https://cdn.pixabay.com/photo/2016/07/09/05/20/runner-1505712_1280.jpg',
     },
   ],
 };
@@ -84,6 +96,14 @@ const MatchingScheduleTestData = {
       region: '서울특별시 강남구',
       sport: '헬스',
     },
+    {
+      id: 2,
+      dDay: 5,
+      runTime: '8월 8일(월)',
+      title: '싸이클 같이 타요!!!!!',
+      region: '서울특별시 강남구',
+      sport: '싸이클',
+    },
   ],
 };
 
@@ -107,7 +127,7 @@ function HomePage() {
       <MatchingSchedule
         onClickArrow={onClickMatchingScheduleList}
         nickname="뉴플"
-        count="3"
+        count={MatchingScheduleTestData.schduleList.length}
         scheduleDataList={MatchingScheduleTestData.schduleList}
       />
       <Horizontalline margin="40px" color="#EFF3FA" height="6px" />

@@ -7,6 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import HomePageTopLogo from 'assets/homePage/HomePageTopLogo.svg';
 import NewPleMateListBoxPng from 'assets/homePage/NewPleMateListBox.png';
 import MingcuteRightLine from 'assets/mingcute_right-line.svg';
+import EmptySchedule from 'assets/homePage/EmptySchedule.svg';
+import { NewPleMateCarousel } from 'components/homePage/NewPleMateCarousel';
+import { MatchingScheduleCarousel } from 'components/homePage/MatchingScheduleCarousel';
 
 interface HomeTopScreenData {
   nickname: string;
@@ -262,63 +265,6 @@ interface NewPleMateListData {
 }
 
 /*
-    [내 주변 뉴플메이트 프로필&닉네임]
-*/
-export function NewPleMateList(props: NewPleMateListData) {
-  const onClickNewPleMate = (memberId: number) => {
-    console.log('추후에 클릭한 회원으로 이동', memberId);
-  };
-  return (
-    <div
-      css={css({
-        paddingTop: '22px',
-        paddingLeft: '20.25px',
-        paddingBottom: '31px',
-        textAlign: 'center',
-        display: 'flex',
-        flexDirection: 'row',
-        '& > div': {
-          marginRight: '10.74px',
-        },
-      })}
-    >
-      {props.matelist.map((profile) => (
-        <div
-          onClick={() => onClickNewPleMate(profile.memberId)}
-          key={profile.memberId}
-        >
-          <img
-            src={profile.profileImg}
-            alt={profile.nickname}
-            css={css({
-              width: '70px',
-              height: '70px',
-              borderRadius: '70px',
-              flexShrink: 0,
-            })}
-          />
-          <p
-            css={css({
-              marginTop: '4px',
-              color: '#FFF',
-              textAlign: 'center',
-              fontFamily: 'Pretendard',
-              fontSize: '14px',
-              fontStyle: 'normal',
-              fontWeight: 600,
-              lineHeight: '150%',
-              letterSpacing: '-0.266px',
-            })}
-          >
-            {profile.nickname}
-          </p>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/*
   [내 주변 뉴플메이트(수정)]
 */
 export function NewPleMateListBox(props: NewPleMateListData) {
@@ -335,7 +281,29 @@ export function NewPleMateListBox(props: NewPleMateListData) {
         margin="21px"
         paddingTop="48px"
       />
-      <NewPleMateList matelist={props.matelist} />
+      {props.matelist.length == 0 ? (
+        <div
+          css={css({
+            height: '142px',
+            textAlign: 'center',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--gray-08, #949494)',
+            fontFamily: 'Pretendard',
+            fontSize: '14px',
+            fontStyle: 'normal',
+            fontWeight: 600,
+            lineHeight: '120%', // '16.8px'
+            letterSpacing: '-0.266px',
+            paddingBottom: '20px',
+          })}
+        >
+          내 주변 뉴플메이트가 없어요.
+        </div>
+      ) : (
+        <NewPleMateCarousel matelist={props.matelist} />
+      )}
     </div>
   );
 }
@@ -350,9 +318,9 @@ interface scheduleData {
 }
 
 interface MatchingScheduleData {
-  onClickArrow: () => void;
+  onClickArrow?: () => void;
   nickname: string;
-  count: string;
+  count: number;
   scheduleDataList: scheduleData[];
 }
 
@@ -375,119 +343,54 @@ export function MatchingSchedule(props: MatchingScheduleData) {
           <img src={MingcuteRightLine} onClick={props.onClickArrow} />
         </div>
       </div>
+      {props.count == 0 ? (
+        <SheduleNo />
+      ) : (
+        <ScheduleYes
+          nickname={props.nickname}
+          count={props.count}
+          scheduleDataList={props.scheduleDataList}
+        />
+      )}
+    </div>
+  );
+}
+
+/*
+  [매칭 일정 있음 O]
+*/
+export function ScheduleYes(props: MatchingScheduleData) {
+  return (
+    <>
       <SubTitleHeader
         text={`${props.nickname}님 이번 주 일정이 ${props.count}개 있어요!`}
       />
-      <div css={css({ display: 'flex' })}>
-        {props.scheduleDataList.map((sch) => (
-          <div
-            key={sch.id}
-            css={css({
-              display: 'flex',
-              flexDirection: 'column',
-              width: '260px',
-              height: '120px',
-              marginLeft: '7px',
-              //backgroundColor: 'yellow',
-              paddingLeft: '23px',
-              paddingTop: '20px',
-              marginTop: '20px',
-            })}
-          >
-            <div css={css({ display: 'flex' })}>
-              <div
-                css={css({
-                  display: 'flex',
-                  padding: '4px 12px',
-                  gap: '8px',
-                  flexShrink: 0,
-                  background: '#FFF1ED',
-                  borderRadius: '19.35px',
-                  alignItems: 'center',
-                })}
-              >
-                <div
-                  css={css({
-                    color: '#FF8761',
-                    fontFamily: 'Pretendard',
-                    fontSize: '13px',
-                    fontStyle: 'normal',
-                    fontWeight: 600,
-                    lineHeight: '150%', // 문자열 형태로 표기
-                    letterSpacing: '-0.247px',
-                  })}
-                >
-                  D-{sch.dDay}
-                </div>
-              </div>
-              <div
-                css={css({
-                  padding: '4px 12px',
-                  color: '#FF7246',
-                  fontFamily: 'Pretendard',
-                  fontSize: '14px',
-                  fontStyle: 'normal',
-                  fontWeight: 600,
-                  lineHeight: '150%', // 문자열 형태로 표기
-                  letterSpacing: '-0.266px',
-                })}
-              >
-                {sch.runTime}
-              </div>
-            </div>
-            <div
-              css={css({
-                color: '#3A3A3A',
-                fontFamily: 'Pretendard',
-                fontSize: '16px',
-                fontStyle: 'normal',
-                fontWeight: 600,
-                lineHeight: '150%', // 문자열 형태로 표기
-                letterSpacing: '-0.304px',
-                marginTop: '12px',
-                marginBottom: '3px',
-              })}
-            >
-              {sch.title}
-            </div>
-            <div
-              css={css({
-                display: 'flex',
-                flexDirection: 'row',
-                '& > div': {
-                  display: 'flex',
-                  ' > img': {
-                    marginTop: '1.5px',
-                    width: '17px',
-                    height: '17px',
-                  },
-                  ' > p': {
-                    marginTop: '0px',
-                    marginBottom: '0px',
-                    marginLeft: '1px',
-                    marginRight: '7px',
-                    color: '#676F83',
-                    fontFamily: 'Pretendard',
-                    fontSize: '13px',
-                    fontStyle: 'normal',
-                    fontWeight: 500,
-                    lineHeight: '150%' /* 21px */,
-                    letterSpacing: '-0.247px',
-                  },
-                },
-              })}
-            >
-              <div>
-                <img src={LocationPinIcon} />
-                <p>{sch.region}</p>
-              </div>
-              <div>
-                <img src={Exercise} />
-                <p>{sch.sport}</p>
-              </div>
-            </div>
-          </div>
-        ))}
+      <MatchingScheduleCarousel scheduleDataList={props.scheduleDataList} />
+    </>
+  );
+}
+
+/*
+  [매칭 일정 없음 X]
+*/
+export function SheduleNo() {
+  return (
+    <div css={css({ textAlign: 'center' })}>
+      <img src={EmptySchedule} />
+      <div
+        css={css({
+          marginTop: '25px',
+          color: 'var(--gray-08, #949494)',
+          textAlign: 'center',
+          fontFamily: 'Pretendard',
+          fontSize: '14px',
+          fontStyle: 'normal',
+          fontWeight: 600,
+          lineHeight: '150%', // '21px'
+          letterSpacing: '-0.266px',
+        })}
+      >
+        이번 주 매칭 일정이 없어요.
       </div>
     </div>
   );

@@ -1,0 +1,32 @@
+.embla1 {
+    --slide-spacing: 1rem;
+    --slide-size: 30%;
+    --slide-height: 19rem;
+    padding-inline: 1.5rem;
+    padding-block: 1.6rem;
+  }
+  .embla1__viewport {
+    overflow: hidden;
+  }
+  .embla1__container {
+    backface-visibility: hidden;
+    display: flex;
+    touch-action: pan-y;
+    margin-left: 0px;
+  }
+  .embla1__slide {
+    flex: 0 0 var(--slide-size);
+    min-width: 0;
+    padding-inline: 0px;
+    position: relative;
+  }
+  .embla1__slide__img {
+    display: block;
+    /* height: var(--slide-height); */
+    /* width: 100%; */
+    width: 70px;
+    height: 70px;
+    border-radius: 70px;
+    object-fit: cover;
+  }
+  
