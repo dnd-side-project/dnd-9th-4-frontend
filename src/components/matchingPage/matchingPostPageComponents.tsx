@@ -7,6 +7,7 @@ interface MatchingModalData {
   onClickModalClose: () => void;
   onClickModalOk: () => void;
   title: string;
+  subTitle: string;
 }
 
 interface PostHashTagData {
@@ -31,11 +32,11 @@ export function MatchingModal(props: MatchingModalData) {
           display: 'flex',
           flexDirection: 'column',
           width: '290px',
-          height: '236px',
+          height: '150px',
           alignItems: 'center',
         })}
       >
-        <div css={css({ flex: 1, paddingTop: '120px' })}>
+        <div css={css({ flex: 1, paddingTop: '30px' })}>
           <span
             css={css({
               color: '#000',
@@ -50,11 +51,28 @@ export function MatchingModal(props: MatchingModalData) {
           >
             {props.title}
           </span>
+          <div
+            css={css({
+              color: 'var(--grey-04, var(--grey-04, #959DB1))',
+              textAlign: 'center',
+              fontFamily: 'Pretendard',
+              fontSize: '14px',
+              fontStyle: 'normal',
+              fontWeight: 600,
+              lineHeight: '150%',
+              letterSpacing: '-0.266px',
+              marginTop: '3px',
+            })}
+          >
+            {props.subTitle}
+          </div>
         </div>
         <div
           css={css({
             flex: 1,
             display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
             '& > div': {
               display: 'flex',
               width: '128px',

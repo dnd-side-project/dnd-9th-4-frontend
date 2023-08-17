@@ -42,3 +42,107 @@ export const matchingPostWriteStyles = {
     },
   }),
 };
+
+export const matchingDetailWrtieStyles = {
+  titleInput: css({
+    borderRadius: '4px',
+    width: '100%',
+    height: '47px',
+    border: '0.75px solid #D1D3D7',
+    marginTop: '13px',
+    paddingLeft: '16px',
+    outline: 'none',
+    transition: 'border-color 0.3s ease-in-out',
+    fontFamily: 'Pretendard',
+    fontSize: '15px',
+    fontStyle: 'normal',
+    fontWeight: 400,
+    lineHeight: '150%', // "24px"
+    letterSpacing: '-0.304px',
+  }),
+
+  bodyInput: css({
+    borderRadius: '4px',
+    width: '100%',
+    height: '150px',
+    border: '0.75px solid #D1D3D7',
+    marginTop: '13px',
+    paddingLeft: '16px',
+    paddingRight: '16px',
+    paddingTop: '12px',
+    outline: 'none',
+    transition: 'border-color 0.3s ease-in-out',
+    fontFamily: 'Pretendard',
+    fontSize: '15px',
+    fontStyle: 'normal',
+    fontWeight: 400,
+    lineHeight: '150%', // "24px"
+    letterSpacing: '-0.304px',
+  }),
+
+  bodyLen: css({
+    color: '#C0C0C0',
+    fontFamily: 'Pretendard',
+    fontSize: '14px',
+    fontStyle: 'normal',
+    fontWeight: 400,
+    lineHeight: '150%', // "24px"
+    letterSpacing: '-0.8px',
+    textAlign: 'right',
+    marginRight: '3px',
+  }),
+
+  runTimeInput: css({
+    display: 'flex',
+    textAlign: 'end',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '& > input': {
+      flex: 1,
+      borderRadius: '4px',
+      width: '60px',
+      height: '47px',
+      //border: '0.75px solid #D1D3D7',
+      marginTop: '13px',
+      textAlign: 'center',
+      //paddingLeft: '25px',
+      outline: 'none',
+      //transition: 'border-color 0.3s ease-in-out',
+      fontFamily: 'Pretendard',
+      fontSize: '15px',
+      fontStyle: 'normal',
+      fontWeight: 400,
+      lineHeight: '150%', // "24px"
+      letterSpacing: '-0.8px',
+    },
+  }),
+
+  regionInput: css({
+    borderRadius: '4px',
+    width: '100%',
+    height: '47px',
+    border: '0.75px solid #D1D3D7',
+    marginTop: '13px',
+    paddingLeft: '16px',
+    outline: 'none',
+    transition: 'border-color 0.3s ease-in-out',
+    color: '#CACFD9',
+    fontFamily: 'Pretendard',
+    fontSize: '15px',
+    fontStyle: 'normal',
+    fontWeight: 400,
+    lineHeight: '150%', // "24px"
+    letterSpacing: '-0.304px',
+  }),
+
+  bottomSheetTitle: css({
+    color: '#000',
+    fontFamily: 'Pretendard',
+    fontSize: '16px',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    lineHeight: '120%',
+    letterSpacing: '-0.304px',
+    marginBottom: '20px',
+  }),
+};

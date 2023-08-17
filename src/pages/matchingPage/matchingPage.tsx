@@ -4,8 +4,12 @@ import { css } from '@emotion/react';
 import Mail from 'assets/matchingPageIcon/mail.svg';
 import Search from 'assets/matchingPageIcon/Search.svg';
 import Filter from 'assets/matchingPageIcon/Filter.svg';
+import DownArrow from 'assets/matchingPageIcon/DownArrow.svg';
 import PostWrite from 'assets/matchingPageIcon/PostWriteIcon.svg';
-import { ButtonNavigation } from 'components/common/commonComponents';
+import {
+  ButtonNavigation,
+  InitAndApplyButton,
+} from 'components/common/commonComponents';
 import {
   //MatchingPostList,
   MatchingPostFiltering,
@@ -15,6 +19,10 @@ import { MatchingPostList } from 'components/homePage/homePageComponents';
 import Sheet from 'react-modal-sheet';
 import { matchingPageStyles } from 'components/styles/matchingPageStyles';
 import { useNavigate } from 'react-router-dom';
+import BottomSheet from 'components/common/BottomSheet';
+import Calendar from 'react-calendar';
+import 'pages/matchingPostWritePage/calendar.css';
+import moment from 'moment';
 
 // 매칭 모집글 테스트 데이터
 const mathcingPostsTestData = {
@@ -82,10 +90,11 @@ const mathcingPostsTestData = {
   ],
 };
 
-// 오늘 날짜&요일 가져옴
+// 날짜 가져옴
 const getCurrentDateAndDay = () => {
   const today = new Date();
 
+  // 오늘 날짜&요일 가져옴
   const todayDate = today.getDate();
 
   const days = ['일', '월', '화', '수', '목', '금', '토'];
@@ -97,7 +106,12 @@ const getCurrentDateAndDay = () => {
     weekdays.push({ date: nextDay.getDate(), day: days[nextDay.getDay()] });
   }
 
-  return { todayDate, weekdays };
+  const year = today.getFullYear();
+  const month = today.toLocaleString('default', { month: 'long' });
+
+  const calendarDate = `${year}년 ${month}`;
+
+  return { todayDate, weekdays, calendarDate };
 };
 
 interface FilterListData {
@@ -151,7 +165,7 @@ function MatchingPage() {
   };
 
   // 날짜
-  const { todayDate, weekdays } = getCurrentDateAndDay();
+  const { todayDate, weekdays, calendarDate } = getCurrentDateAndDay();
   const [date, setDate] = useState(todayDate);
 
   // 날짜 누르기
@@ -159,6 +173,11 @@ function MatchingPage() {
     setDate(date);
     console.log(date);
   };
+
+  // 달력
+  const [isOpenDay, setIsOpenDay] = useState(false);
+  const currDate = new Date();
+  const currDateTime = moment(currDate).format('MM-DD');
 
   // 쪽지함 클릭
   const onClickMailbox = () => {
@@ -192,6 +211,45 @@ function MatchingPage() {
             </div>
           </div>
         </div>
+        <div css={css({ display: 'flex', marginTop: '20px' })}>
+          <div
+            css={css({
+              color: '#333',
+              fontFamily: 'Pretendard',
+              fontSize: '16px',
+              fontStyle: 'normal',
+              fontWeight: 600,
+              lineHeight: '150%',
+              letterSpacing: '-0.304px',
+              marginLeft: '26px',
+            })}
+            onClick={() => setIsOpenDay(true)}
+          >
+            {calendarDate}
+          </div>
+          <img src={DownArrow} />
+        </div>
+        <BottomSheet
+          isOpen={isOpenDay}
+          onClose={() => {
+            setIsOpenDay(false);
+          }}
+        >
+          <>
+            <Calendar
+              className="react-calendar"
+              formatDay={(locale, date) => moment(date).format('DD')}
+              tileDisabled={({ date }) =>
+                moment(date).format('MM-DD') < currDateTime
+              }
+              calendarType="gregory"
+            />
+            <InitAndApplyButton
+              onClickSelectionInit={() => console.log('초기화')}
+              onClickApply={() => console.log('적용')}
+            />
+          </>
+        </BottomSheet>
         <MatchingPostDate
           weekdays={weekdays}
           date={date}
@@ -254,7 +312,14 @@ function MatchingPage() {
             )}
 
             {filterList && filterList?.sports.length !== 0 && (
-              <div>{filterList.sports}</div>
+              <div>
+                <div>
+                  {filterList.sports[0]}
+                  {filterList.sports.length > 1 && (
+                    <span> 외 {filterList.sports.length - 1}개</span>
+                  )}
+                </div>
+              </div>
             )}
           </div>
         </div>
@@ -267,9 +332,6 @@ function MatchingPage() {
         css={matchingPageStyles.writeButton}
         onClick={onClickWriteButton}
       />
-      {/* <div css={matchingPageStyles.writeButton} onClick={onClickWriteButton}>
-        <span>+ 글쓰기</span>
-      </div> */}
       <ButtonNavigation />
     </div>
   );

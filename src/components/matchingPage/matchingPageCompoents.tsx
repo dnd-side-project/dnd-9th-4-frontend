@@ -2,8 +2,8 @@
 import { css } from '@emotion/react';
 //import LocationPinIcon from 'assets/locationPin.svg';
 import Sheet from 'react-modal-sheet';
-import Resatrt from 'assets/Restart.svg';
 //import { useNavigate } from 'react-router-dom';
+import { InitAndApplyButton } from 'components/common/commonComponents';
 
 // interface MatchingPost {
 //   id: number;
@@ -506,64 +506,10 @@ export function MatchingPostFiltering(props: MatchingFilterSheetData) {
               </div>
             </div>
           </div>
-          <div
-            css={css({
-              marginTop: '32px',
-              display: 'flex',
-              textAlign: 'center',
-            })}
-          >
-            <div
-              css={css({
-                flex: '3',
-                display: 'flex',
-                alignItems: 'center',
-                paddingLeft: '16px',
-                paddingRight: '20px',
-              })}
-            >
-              <img src={Resatrt} css={css({ width: '20px', height: '20px' })} />
-              <div
-                css={css({
-                  color: '#000',
-                  textAlign: 'center',
-                  fontFamily: 'Pretendard',
-                  fontSize: '14px',
-                  fontStyle: 'normal',
-                  fontWeight: 500,
-                  lineHeight: '150%',
-                  letterSpacing: '-0.266px',
-                })}
-                onClick={props.onClickSelectionInit}
-              >
-                선택초기화
-              </div>
-            </div>
-            <div
-              css={css({
-                flex: '5',
-                display: 'flex',
-                width: '181px',
-                height: '49px',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexShrink: 0,
-                borderRadius: '8px',
-                background: '#06F',
-                color: '#FFF',
-                textAlign: 'center',
-                fontFamily: 'Pretendard',
-                fontSize: '16px',
-                fontStyle: 'normal',
-                fontWeight: 600,
-                lineHeight: '150%' /* 24px */,
-                letterSpacing: '-0.304px',
-              })}
-              onClick={props.onClickApplyFilter}
-            >
-              적용하기
-            </div>
-          </div>
+          <InitAndApplyButton
+            onClickSelectionInit={props.onClickSelectionInit}
+            onClickApply={props.onClickApplyFilter}
+          />
         </div>
       </Sheet.Content>
     </Sheet.Container>
@@ -581,7 +527,7 @@ export function MatchingPostDate(props: MatchingPostDateData) {
         alignItems: 'center',
         marginLeft: '16px',
         marginRight: '16px',
-        marginTop: '16px',
+        marginTop: '5px',
         marginBottom: '15px',
       })}
     >

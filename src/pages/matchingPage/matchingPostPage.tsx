@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import { useParams, useNavigate } from 'react-router-dom';
-import HomeLogo from 'assets/newPleLogo/HomePageLogo.svg';
 import PostBack from 'assets/matchingPostIcon/PostBack.svg';
 import PostMore from 'assets/matchingPostIcon/MoreIcon.svg';
 import PostLocation from 'assets/matchingPostIcon/PostLocation.svg';
@@ -90,11 +89,16 @@ function MatchingPostPage() {
     setRecruiting(false);
   };
 
+  const backgroundImageUrl =
+    'https://s3-alpha-sig.figma.com/img/c30e/7915/f5c8a8b7d7941fc9b5e4f753dc834a96?Expires=1693180800&Signature=OOHtxeyC3xlMhUGtV1ysNjRToOaFVYdgsjrz8HuKcAIj4pHAd6OI39e4DL6AWa6XNrLKxIwYg0AU42S-cm8d~g7PYKNzbTd5yhSAJmSKFiP7Br3SCHnCnNPwrLNEuBZKO2zcZKeaWWhogfcQ98CqRiaAJA17Bb1cldQk33O-qWbtXhRYrR4y384anMYBim0OJddhe4czf-hm7QWMeR5HdInD2~w1EzZWmFakLoa2R9SghM7RGyTrYL5G1Skl70lP0PI5C4uMo8q3jWEkGn5Yd64pS47gSXs5~V4xLTfnavauZfG~50oUc5TFNwgwxKwIhcMm7EPQ7xyZpDZxuDpTdw__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4';
+
   return (
     <div>
       <div
         css={css({
-          backgroundColor: '#66A3FF',
+          backgroundImage: `url(${backgroundImageUrl})`,
+          backgroundSize: 'cover', // cover, contain, 또는 크기 값으로 설정 가능
+          backgroundPosition: 'center',
           display: 'flex',
           height: '189.084px',
           flexDirection: 'column',
@@ -119,12 +123,7 @@ function MatchingPostPage() {
             display: 'flex',
             justifyContent: 'center', // 가로 가운데 정렬
           })}
-        >
-          <img
-            src={HomeLogo}
-            css={css({ height: '30px', marginRight: '10px' })}
-          />
-        </div>
+        ></div>
       </div>
       <div css={matchingPostPageStyles.container}>
         <div css={matchingPostPageStyles.profileContainer}>
@@ -245,18 +244,21 @@ function MatchingPostPage() {
         onClickModalClose={onClickModalClose}
         onClickModalOk={onClickApplyMatching}
         title="매칭을 신청하시겠습니까?"
+        subTitle="서브타이틀!"
       />
       <MatchingModal // 매칭 신청 확인 모달
         open={openModal2}
         onClickModalClose={onClickModal2Close}
         onClickModalOk={onClickModal2Close}
         title="매칭을 신청 완료되었습니다!"
+        subTitle="서브타이틀"
       />
       <MatchingModal // 매칭 취소 모달
         open={openCancelModal}
         onClickModalClose={onClickCancelModalClose}
         onClickModalOk={onClickCancleMatching}
         title="매칭을 취소하시겠습니까?"
+        subTitle="서브타이틀"
       />
     </div>
   );
