@@ -6,8 +6,12 @@ import LoginLogo from 'assets/newPleLogo/LoginLogo.svg';
 import LoginLogoTitle from 'assets/newPleLogo/LoginLogoTitle.svg';
 import Kakao from 'assets/Kakao.svg';
 import { css } from '@emotion/react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
+  const navigate = useNavigate();
+
   const restApiKey = config.restApiKey;
   const redirectUri = config.redirectUri;
 
@@ -18,8 +22,17 @@ function LoginPage() {
     window.location.href = kakaoURL;
   };
 
-  const onClickLookAroundText = () => {
-    console.log('둘러보기 클릭');
+  // 게스트 입장하기
+  const onClickGuest = () => {
+    axios
+      .post(`${config.backendUrl}/api/v1/guest/signup`)
+      .then((response) => {
+        console.log('응답 데이터:', response.data);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error('에러:', error);
+      });
   };
 
   return (
@@ -43,8 +56,8 @@ function LoginPage() {
           <img src={Kakao} />
           <p css={loginPageStyles.loginButtonText}>카카오 로그인</p>
         </div>
-        <p css={loginPageStyles.lookAroundText} onClick={onClickLookAroundText}>
-          둘러보기
+        <p css={loginPageStyles.lookAroundText} onClick={onClickGuest}>
+          게스트로 입장하기
         </p>
       </div>
     </div>
