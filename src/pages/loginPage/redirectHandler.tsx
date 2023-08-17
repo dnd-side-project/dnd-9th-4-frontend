@@ -18,14 +18,25 @@ function RedirectHandler() {
       code: code,
     };
 
+    // axios
+    //   .post(`${config.backendUrl}/api/v1/kakao/signup`, codeData)
+    //   .then((response) => {
+    //     console.log('axios 2=======>', response.data);
+    //     navigate('/onboarding');
+    //   })
+    //   .catch((error) => {
+    //     console.error('axios 2=======>', error);
+    //   });
+
     axios
-      .post(`${config.backendUrl}/api/v1/kakao/signup`, codeData)
+      .get(`https://dnd-newple-server.store/api/v1/guest/signup?code=${code}`)
       .then((response) => {
-        console.log('axios 2=======>', response.data);
-        navigate('/onboarding');
+        // 성공적으로 응답 받았을 때 처리할 로직을 여기에 작성합니다
+        console.log('응답 데이터:', response.data);
       })
       .catch((error) => {
-        console.error('axios 2=======>', error);
+        // 요청이 실패하거나 에러가 발생했을 때 처리할 로직을 여기에 작성합니다
+        console.error('에러:', error);
       });
   }, []);
 
