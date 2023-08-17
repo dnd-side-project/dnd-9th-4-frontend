@@ -29,7 +29,7 @@ function RedirectHandler() {
     //   });
 
     axios
-      .get(`https://dnd-newple-server.store/api/v1/guest/signup?code=${code}`)
+      .post(`https://dnd-newple-server.store/api/v1/guest/signup?code=${code}`)
       .then((response) => {
         // 성공적으로 응답 받았을 때 처리할 로직을 여기에 작성합니다
         console.log('응답 데이터:', response.data);
