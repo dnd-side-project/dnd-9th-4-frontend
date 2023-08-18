@@ -17,17 +17,20 @@ function LoginPage() {
 
   // const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUri}&response_type=code`;
 
-  const onClickLoginButton = () => {
+  const onClickLoginButton = async (
+    event: React.MouseEvent<HTMLAnchorElement>,
+  ) => {
+    event.preventDefault();
     console.log('카카오톡으로 로그인 클릭');
     //window.location.href = kakaoURL;
-    axios
-      .get(`${config.backendUrl}/api/v1/kakao/login`)
-      .then((response) => {
-        console.log('서버 응답 데이터:', response.data);
-      })
-      .catch((error) => {
-        console.error('에러 발생:', error);
-      });
+    try {
+      const response = await axios.get(
+        `${config.backendUrl}/api/v1/kakao/login`,
+      );
+      console.log('서버 응답 데이터:', response.data);
+    } catch (error) {
+      console.error('에러 발생:', error);
+    }
   };
 
   // 게스트 입장하기
@@ -60,10 +63,14 @@ function LoginPage() {
         />
       </div>
       <div css={loginPageStyles.loginButtonContainer}>
-        <div css={loginPageStyles.loginButton} onClick={onClickLoginButton}>
+        <a
+          href="#"
+          css={loginPageStyles.loginButton}
+          onClick={onClickLoginButton}
+        >
           <img src={Kakao} />
           <p css={loginPageStyles.loginButtonText}>카카오 로그인</p>
-        </div>
+        </a>
         <p css={loginPageStyles.lookAroundText} onClick={onClickGuest}>
           게스트로 입장하기
         </p>

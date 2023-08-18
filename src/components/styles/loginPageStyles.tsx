@@ -51,6 +51,7 @@ export const loginPageStyles = {
     borderRadius: '8px',
     background: '#FFE606',
     cursor: 'pointer',
+    textDecoration: 'none',
   }),
 
   loginButtonText: css({
