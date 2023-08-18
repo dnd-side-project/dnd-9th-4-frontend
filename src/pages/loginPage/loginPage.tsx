@@ -12,14 +12,22 @@ import { useNavigate } from 'react-router-dom';
 function LoginPage() {
   const navigate = useNavigate();
 
-  const restApiKey = config.restApiKey;
-  const redirectUri = config.redirectUri;
+  // const restApiKey = config.restApiKey;
+  // const redirectUri = config.redirectUri;
 
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUri}&response_type=code`;
+  // const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUri}&response_type=code`;
 
   const onClickLoginButton = () => {
     console.log('카카오톡으로 로그인 클릭');
-    window.location.href = kakaoURL;
+    //window.location.href = kakaoURL;
+    axios
+      .get(`${config.backendUrl}/api/v1/kakao/login`)
+      .then((response) => {
+        console.log('서버 응답 데이터:', response.data);
+      })
+      .catch((error) => {
+        console.error('에러 발생:', error);
+      });
   };
 
   // 게스트 입장하기
