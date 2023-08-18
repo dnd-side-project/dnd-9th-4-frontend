@@ -1,28 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
-import Mail from 'assets/matchingPageIcon/mail.svg';
 import Search from 'assets/matchingPageIcon/Search.svg';
 import Filter from 'assets/matchingPageIcon/Filter.svg';
-import DownArrow from 'assets/matchingPageIcon/DownArrow.svg';
 import PostWrite from 'assets/matchingPageIcon/PostWriteIcon.svg';
+import { ButtonNavigation } from 'components/common/commonComponents';
 import {
-  ButtonNavigation,
-  InitAndApplyButton,
-} from 'components/common/commonComponents';
-import {
-  //MatchingPostList,
+  MatchingPostBigCalendar,
   MatchingPostFiltering,
-  MatchingPostDate,
 } from 'components/matchingPage/matchingPageCompoents';
 import { MatchingPostList } from 'components/homePage/homePageComponents';
 import Sheet from 'react-modal-sheet';
 import { matchingPageStyles } from 'components/styles/matchingPageStyles';
 import { useNavigate } from 'react-router-dom';
-import BottomSheet from 'components/common/BottomSheet';
-import Calendar from 'react-calendar';
 import 'pages/matchingPostWritePage/calendar.css';
-import moment from 'moment';
 
 // 매칭 모집글 테스트 데이터
 const mathcingPostsTestData = {
@@ -90,30 +81,6 @@ const mathcingPostsTestData = {
   ],
 };
 
-// 날짜 가져옴
-const getCurrentDateAndDay = () => {
-  const today = new Date();
-
-  // 오늘 날짜&요일 가져옴
-  const todayDate = today.getDate();
-
-  const days = ['일', '월', '화', '수', '목', '금', '토'];
-
-  const weekdays = [];
-  for (let i = 0; i <= 6; i++) {
-    const nextDay = new Date();
-    nextDay.setDate(todayDate + i);
-    weekdays.push({ date: nextDay.getDate(), day: days[nextDay.getDay()] });
-  }
-
-  const year = today.getFullYear();
-  const month = today.toLocaleString('default', { month: 'long' });
-
-  const calendarDate = `${year}년 ${month}`;
-
-  return { todayDate, weekdays, calendarDate };
-};
-
 interface FilterListData {
   gender: string | null;
   recruit: string | null;
@@ -122,8 +89,6 @@ interface FilterListData {
 
 function MatchingPage() {
   const navigate = useNavigate();
-
-  const [showMailCircle] = useState(true); // false이면 쪽지창에 주황색원 안보임
 
   // 상세 필터 창
   const [isOpen, setOpen] = useState(false);
@@ -164,26 +129,6 @@ function MatchingPage() {
     });
   };
 
-  // 날짜
-  const { todayDate, weekdays, calendarDate } = getCurrentDateAndDay();
-  const [date, setDate] = useState(todayDate);
-
-  // 날짜 누르기
-  const onClickDate = (date: number) => {
-    setDate(date);
-    console.log(date);
-  };
-
-  // 달력
-  const [isOpenDay, setIsOpenDay] = useState(false);
-  const currDate = new Date();
-  const currDateTime = moment(currDate).format('MM-DD');
-
-  // 쪽지함 클릭
-  const onClickMailbox = () => {
-    console.log('쪽지함 클릭');
-  };
-
   // 검색 아이콘 클릭
   const onClickSearchICon = () => {
     console.log('검색 아이콘 클릭');
@@ -202,59 +147,12 @@ function MatchingPage() {
         <div>
           <div css={matchingPageStyles.displayFlex}>
             <p css={matchingPageStyles.title}>뉴플메이트 모집글</p>
-            <div css={matchingPageStyles.mailBox}>
-              {showMailCircle && <div css={matchingPageStyles.mailBoxCircle} />}
-              <img src={Mail} alt="Mail Icon" onClick={onClickMailbox} />
-            </div>
             <div css={matchingPageStyles.searchIcon}>
               <img src={Search} alt="Search Icon" onClick={onClickSearchICon} />
             </div>
           </div>
         </div>
-        <div css={css({ display: 'flex', marginTop: '20px' })}>
-          <div
-            css={css({
-              color: '#333',
-              fontFamily: 'Pretendard',
-              fontSize: '16px',
-              fontStyle: 'normal',
-              fontWeight: 600,
-              lineHeight: '150%',
-              letterSpacing: '-0.304px',
-              marginLeft: '26px',
-            })}
-            onClick={() => setIsOpenDay(true)}
-          >
-            {calendarDate}
-          </div>
-          <img src={DownArrow} />
-        </div>
-        <BottomSheet
-          isOpen={isOpenDay}
-          onClose={() => {
-            setIsOpenDay(false);
-          }}
-        >
-          <>
-            <Calendar
-              className="react-calendar"
-              formatDay={(locale, date) => moment(date).format('DD')}
-              tileDisabled={({ date }) =>
-                moment(date).format('MM-DD') < currDateTime
-              }
-              calendarType="gregory"
-            />
-            <InitAndApplyButton
-              onClickSelectionInit={() => console.log('초기화')}
-              onClickApply={() => console.log('적용')}
-            />
-          </>
-        </BottomSheet>
-        <MatchingPostDate
-          weekdays={weekdays}
-          date={date}
-          onClickDate={onClickDate}
-        />
+        <MatchingPostBigCalendar />
         <div css={matchingPageStyles.displayFlex}>
           <img
             src={Filter}

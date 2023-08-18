@@ -3,7 +3,7 @@ import React from 'react';
 //import { css } from '@emotion/react';
 
 function SearchPage() {
-  return <div>검색페이지</div>;
+  return <div>안녕</div>;
 }
 
 export default SearchPage;

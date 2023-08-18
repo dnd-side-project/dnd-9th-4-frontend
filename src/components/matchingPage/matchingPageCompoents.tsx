@@ -1,9 +1,15 @@
 /** @jsxImportSource @emotion/react */
+import React, { useState } from 'react';
 import { css } from '@emotion/react';
 //import LocationPinIcon from 'assets/locationPin.svg';
 import Sheet from 'react-modal-sheet';
 //import { useNavigate } from 'react-router-dom';
 import { InitAndApplyButton } from 'components/common/commonComponents';
+import DownArrow from 'assets/matchingPageIcon/DownArrow.svg';
+import BottomSheet from 'components/common/BottomSheet';
+import Calendar from 'react-calendar';
+import 'pages/matchingPostWritePage/calendar.css';
+import moment from 'moment';
 
 // interface MatchingPost {
 //   id: number;
@@ -517,7 +523,7 @@ export function MatchingPostFiltering(props: MatchingFilterSheetData) {
 }
 
 /*
-    [게시물 날짜 필터링]
+    [주간 달력]
 */
 export function MatchingPostDate(props: MatchingPostDateData) {
   return (
@@ -592,5 +598,125 @@ export function MatchingPostDate(props: MatchingPostDateData) {
         </div>
       ))}
     </div>
+  );
+}
+
+// 오늘 날짜 가져옴
+const getCurrentDateAndDay = (date: Date) => {
+  const today = date;
+
+  // 오늘 날짜&요일 가져옴
+  const todayDate = today.getDate();
+
+  const days = ['일', '월', '화', '수', '목', '금', '토'];
+
+  const weekdays = [];
+  for (let i = 0; i <= 6; i++) {
+    const nextDay = new Date();
+    nextDay.setDate(todayDate + i);
+    weekdays.push({ date: nextDay.getDate(), day: days[nextDay.getDay()] });
+  }
+
+  const year = today.getFullYear();
+  const month = today.toLocaleString('default', { month: 'long' });
+
+  const calendarDate = `${year}년 ${month}`;
+
+  return { todayDate, weekdays, calendarDate };
+};
+
+/*
+    [주간 + 월간 달력]
+*/
+export function MatchingPostBigCalendar() {
+  // 오늘 날짜 가져오기
+  const { todayDate, weekdays, calendarDate } = getCurrentDateAndDay(
+    new Date(),
+  );
+
+  // 주간 데이터, 년도-월간 데이터, 오늘 날짜 데이터
+  const [week, setWeek] = useState(weekdays);
+  const [date, setDate] = useState(todayDate);
+  const [month, setMonth] = useState(calendarDate);
+
+  // [작은 달력]
+  // 날짜 누르기
+  const onClickDate = (date: number) => {
+    setDate(date);
+    console.log('나중에 해당 날짜 게시물 목록 보이게 함');
+  };
+
+  // [큰 달력]
+  const [isOpenDay, setIsOpenDay] = useState(false);
+  const currDate = new Date();
+  const currDateTime = moment(currDate).format('MM-DD');
+  const [calenderDay, setCalenderDay] = useState(new Date());
+
+  // 큰 달력 날짜 클릭
+  const onClickApplyCalender = () => {
+    console.log(calenderDay);
+    const { todayDate, weekdays, calendarDate } =
+      getCurrentDateAndDay(calenderDay);
+    setIsOpenDay(false);
+    setWeek(weekdays);
+    setDate(todayDate);
+    setMonth(calendarDate);
+  };
+
+  // 큰 달력 초기화
+  const onClickInitCalender = () => {
+    setCalenderDay(currDate);
+    const { todayDate, weekdays, calendarDate } =
+      getCurrentDateAndDay(currDate);
+    setIsOpenDay(false);
+    setWeek(weekdays);
+    setDate(todayDate);
+    setMonth(calendarDate);
+  };
+  return (
+    <>
+      <div css={css({ display: 'flex', marginTop: '20px' })}>
+        <div
+          css={css({
+            color: '#333',
+            fontFamily: 'Pretendard',
+            fontSize: '16px',
+            fontStyle: 'normal',
+            fontWeight: 600,
+            lineHeight: '150%',
+            letterSpacing: '-0.304px',
+            marginLeft: '26px',
+          })}
+          onClick={() => setIsOpenDay(true)}
+        >
+          {month}
+        </div>
+        <img src={DownArrow} />
+      </div>
+      <BottomSheet
+        isOpen={isOpenDay}
+        onClose={() => {
+          setIsOpenDay(false);
+        }}
+      >
+        <>
+          <Calendar
+            className="react-calendar"
+            formatDay={(locale, date) => moment(date).format('DD')}
+            tileDisabled={({ date }) =>
+              moment(date).format('MM-DD') < currDateTime
+            }
+            calendarType="gregory"
+            onClickDay={setCalenderDay}
+            value={calenderDay}
+          />
+          <InitAndApplyButton
+            onClickSelectionInit={() => onClickInitCalender()}
+            onClickApply={() => onClickApplyCalender()}
+          />
+        </>
+      </BottomSheet>
+      <MatchingPostDate weekdays={week} date={date} onClickDate={onClickDate} />
+    </>
   );
 }
