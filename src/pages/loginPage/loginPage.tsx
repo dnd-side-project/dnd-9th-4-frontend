@@ -19,7 +19,9 @@ function LoginPage() {
 
   const onClickLoginButton = async () => {
     try {
-      const res = await fetch(`${config.backendUrl}/api/v1/kakao/login`);
+      const res = await fetch(`${config.backendUrl}/api/v1/kakao/login`, {
+        mode: 'no-cors',
+      });
       console.log(res);
       console.log(res.headers);
     } catch (err) {
