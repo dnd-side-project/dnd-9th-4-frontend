@@ -31,6 +31,10 @@ interface MatchingScheduleData {
 export function MatchingScheduleCarousel(props: MatchingScheduleData) {
   const [emblaRef] = useEmblaCarousel(OPTIONS);
 
+  const onClickSchedule = (id: number) => {
+    console.log('추후', id, '번째 스케쥴 페이지로 이동?');
+  };
+
   return (
     <div className="embla2">
       <div className="embla2__viewport" ref={emblaRef}>
@@ -40,7 +44,11 @@ export function MatchingScheduleCarousel(props: MatchingScheduleData) {
           })}
         >
           {props.scheduleDataList.map((sch) => (
-            <div className="embla2__slide" key={sch.id}>
+            <div
+              className="embla2__slide"
+              key={sch.id}
+              onClick={() => onClickSchedule(sch.id)}
+            >
               <div css={css({ display: 'flex' })}>
                 <div
                   css={css({

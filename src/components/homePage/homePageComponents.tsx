@@ -426,7 +426,7 @@ export function Recommendation(props: RecommendationData) {
         </div>
       </div>
       <SubTitleHeader
-        text={`${props.nickname}님의 관심 운동을 기반으로 한 추천게시글 입니다.`}
+        text={`${props.nickname}님의 관심 운동을 기반으로 한 추천게시글 입니다!`}
       />
       <MatchingPostList postList={props.postList} />
     </div>

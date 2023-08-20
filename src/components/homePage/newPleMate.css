@@ -8,12 +8,6 @@
   .embla1__viewport {
     overflow: hidden;
   }
-  .embla1__container {
-    backface-visibility: hidden;
-    display: flex;
-    touch-action: pan-y;
-    margin-left: 0px;
-  }
   .embla1__slide {
     flex: 0 0 var(--slide-size);
     min-width: 0;

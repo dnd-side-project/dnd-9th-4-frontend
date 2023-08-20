@@ -2,21 +2,25 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import HomeIcon from 'assets/bottomNavigation/Home.png';
-import MatchingIcon from 'assets/bottomNavigation/Matching.svg';
-import MyIcon from 'assets/bottomNavigation/My.svg';
-import BlueHomeIcon from 'assets/bottomNavigation/BlueHome.png';
-import BlueMatchingIcon from 'assets/bottomNavigation/BlueMatching.svg';
-import BlueMyIcon from 'assets/bottomNavigation/BlueMy.svg';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Resatrt from 'assets/Restart.svg';
+import HomeBlue from 'assets/bottomNavigation/HomeBlue.svg';
+import HomeGray from 'assets/bottomNavigation/HomeGray.svg';
+import MatchingBlue from 'assets/bottomNavigation/MatchingBlue.svg';
+import MatchingGray from 'assets/bottomNavigation/MatchingGray.svg';
+import MailBlue from 'assets/bottomNavigation/MailBlue.svg';
+import MailGray from 'assets/bottomNavigation/MailGray.svg';
+import MyBlue from 'assets/bottomNavigation/MyBlue.svg';
+import MyGray from 'assets/bottomNavigation/MyGray.svg';
 
-interface InitAndApplyData {
-  onClickSelectionInit: () => void;
-  onClickApply: () => void;
-}
+const navigationItems = [
+  { label: '홈', icon: [HomeBlue, HomeGray], value: '/' },
+  { label: '매칭', icon: [MatchingBlue, MatchingGray], value: '/matching' },
+  { label: '쪽지', icon: [MailBlue, MailGray], value: '/mailBox' },
+  { label: 'My', icon: [MyBlue, MyGray], value: '/my' },
+];
 
 /*
     [하단 버튼 네비게이션]
@@ -31,7 +35,7 @@ export function ButtonNavigation() {
     setValue(newValue);
   };
 
-  const onClickHomeNavigation = (path: string) => {
+  const onClickNavigation = (path: string) => {
     navigate(path);
     window.scrollTo(0, 0);
   };
@@ -53,57 +57,32 @@ export function ButtonNavigation() {
           height: '83px',
         })}
       >
-        <BottomNavigationAction
-          label="홈"
-          icon={<img src={value === '/' ? BlueHomeIcon : HomeIcon} alt="홈" />}
-          value="/"
-          onClick={() => onClickHomeNavigation('/')}
-        />
-        <BottomNavigationAction
-          label="매칭"
-          icon={
-            <img
-              src={value === '/matching' ? BlueMatchingIcon : MatchingIcon}
-              alt="매칭"
-            />
-          }
-          value="/matching"
-          onClick={() => onClickHomeNavigation('/matching')}
-        />
-        <BottomNavigationAction
-          label="쪽지"
-          icon={
-            <img
-              src={value === '/mailBox' ? BlueMatchingIcon : MatchingIcon}
-              alt="쪽지"
-            />
-          }
-          value="/mailBox"
-          onClick={() => onClickHomeNavigation('/mailBox')}
-        />
-        <BottomNavigationAction
-          label="My"
-          icon={
-            <img
-              src={value === '/my' ? BlueMyIcon : MyIcon}
-              alt="My"
-              css={css({
-                width: '25px',
-                height: '25px',
-                paddingBottom: '3px',
-              })}
-            />
-          }
-          value="/my"
-          onClick={() => onClickHomeNavigation('/my')}
-        />
+        {navigationItems.map((item) => (
+          <BottomNavigationAction
+            key={item.value}
+            label={item.label}
+            icon={
+              <img
+                src={value === item.value ? item.icon[0] : item.icon[1]}
+                alt={item.label}
+              />
+            }
+            value={item.value}
+            onClick={() => onClickNavigation(item.value)}
+          />
+        ))}
       </BottomNavigation>
     </Box>
   );
 }
 
+interface InitAndApplyData {
+  onClickSelectionInit: () => void;
+  onClickApply: () => void;
+}
+
 /*
-  [선택 초기화, 적용하기]
+  [선택 초기화, 적용하기 버튼]
 */
 export function InitAndApplyButton(props: InitAndApplyData) {
   return (
@@ -112,6 +91,8 @@ export function InitAndApplyButton(props: InitAndApplyData) {
         marginTop: '32px',
         display: 'flex',
         textAlign: 'center',
+        width: '21.25rem',
+        marginBottom: '40px',
       })}
     >
       <div
@@ -119,8 +100,8 @@ export function InitAndApplyButton(props: InitAndApplyData) {
           flex: '3',
           display: 'flex',
           alignItems: 'center',
-          paddingLeft: '16px',
-          paddingRight: '20px',
+          paddingLeft: '20px',
+          //paddingRight: '20px',
         })}
       >
         <img src={Resatrt} css={css({ width: '20px', height: '20px' })} />
@@ -184,7 +165,6 @@ export function Horizontalline(props: HorizontallineData) {
         height: props.height ? props.height : '1px',
         backgroundColor: props.color ? props.color : '#E2E2E2',
         marginBlock: props.margin ? props.margin : '10px',
-        //marginTop: '20px',
       })}
     />
   );
