@@ -61,7 +61,7 @@ function selectSportPage() {
     setSelectSport(sport);
     setPostWrite({ ...postWrite, sport: sport });
     setTimeout(() => {
-      navigate('/post/style');
+      navigate('/post/detail');
     }, 200); // 0.2초 뒤에 navigate 함수 실행
   };
 
@@ -75,7 +75,6 @@ function selectSportPage() {
           height: '1px',
           backgroundColor: '#E2E2E2',
           marginBlock: '10px',
-          //marginTop: '20px',
         })}
       />
       <SelectSportList

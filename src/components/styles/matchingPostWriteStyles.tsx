@@ -44,8 +44,15 @@ export const matchingPostWriteStyles = {
 };
 
 export const matchingDetailWrtieStyles = {
+  container: css({
+    display: 'flex',
+    flexDirection: 'column',
+    marginLeft: '22px',
+    marginRight: '22px',
+  }),
+
   titleInput: css({
-    borderRadius: '4px',
+    borderRadius: '6px',
     width: '100%',
     height: '47px',
     border: '0.75px solid #D1D3D7',
@@ -54,15 +61,15 @@ export const matchingDetailWrtieStyles = {
     outline: 'none',
     transition: 'border-color 0.3s ease-in-out',
     fontFamily: 'Pretendard',
-    fontSize: '15px',
+    fontSize: '16px',
     fontStyle: 'normal',
-    fontWeight: 400,
+    // fontWeight: 400,
     lineHeight: '150%', // "24px"
     letterSpacing: '-0.304px',
   }),
 
   bodyInput: css({
-    borderRadius: '4px',
+    borderRadius: '6px',
     width: '100%',
     height: '150px',
     border: '0.75px solid #D1D3D7',
@@ -73,9 +80,9 @@ export const matchingDetailWrtieStyles = {
     outline: 'none',
     transition: 'border-color 0.3s ease-in-out',
     fontFamily: 'Pretendard',
-    fontSize: '15px',
+    fontSize: '16px',
     fontStyle: 'normal',
-    fontWeight: 400,
+    //fontWeight: 400,
     lineHeight: '150%', // "24px"
     letterSpacing: '-0.304px',
   }),
@@ -99,7 +106,7 @@ export const matchingDetailWrtieStyles = {
     alignItems: 'center',
     '& > input': {
       flex: 1,
-      borderRadius: '4px',
+      borderRadius: '6px',
       width: '60px',
       height: '47px',
       //border: '0.75px solid #D1D3D7',
@@ -109,16 +116,16 @@ export const matchingDetailWrtieStyles = {
       outline: 'none',
       //transition: 'border-color 0.3s ease-in-out',
       fontFamily: 'Pretendard',
-      fontSize: '15px',
+      fontSize: '16px',
       fontStyle: 'normal',
-      fontWeight: 400,
+      //fontWeight: 400,
       lineHeight: '150%', // "24px"
       letterSpacing: '-0.8px',
     },
   }),
 
   regionInput: css({
-    borderRadius: '4px',
+    borderRadius: '6px',
     width: '100%',
     height: '47px',
     border: '0.75px solid #D1D3D7',
@@ -128,9 +135,9 @@ export const matchingDetailWrtieStyles = {
     transition: 'border-color 0.3s ease-in-out',
     color: '#CACFD9',
     fontFamily: 'Pretendard',
-    fontSize: '15px',
+    fontSize: '16px',
     fontStyle: 'normal',
-    fontWeight: 400,
+    //fontWeight: 400,
     lineHeight: '150%', // "24px"
     letterSpacing: '-0.304px',
   }),

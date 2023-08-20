@@ -9,7 +9,6 @@ import MatchingPage from 'pages/matchingPage/matchingPage';
 import RedirectHandler from 'pages/loginPage/redirectHandler';
 import SelectSportPage from 'pages/matchingPostWritePage/selectSportPage';
 import DetailPostWritePage from 'pages/matchingPostWritePage/detailPostWritePage';
-import SportSytleInterestPage from 'pages/matchingPostWritePage/sportSytleInterestPage';
 import MatchingPostPage from 'pages/matchingPage/matchingPostPage';
 import OnBoardingPage from 'pages/onBoardingPage/OnBoardingPage';
 import OnBoardingPage1 from 'pages/onBoardingPage/OnBoardingPage1';
@@ -34,7 +33,6 @@ function App() {
           <Route path="/auth" element={<RedirectHandler />} />
           <Route path="/post/sport" element={<SelectSportPage />} />
           <Route path="/post/detail" element={<DetailPostWritePage />} />
-          <Route path="/post/style" element={<SportSytleInterestPage />} />
           <Route path="/post/:id" element={<MatchingPostPage />} />
           <Route path="onboarding">
             <Route index element={<OnBoardingPage />} />
