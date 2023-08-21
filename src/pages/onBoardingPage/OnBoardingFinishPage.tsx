@@ -5,7 +5,6 @@ import { ReactComponent as Finish } from 'assets/onBoardingPageIcon/img_finish.s
 import { appContainer } from 'components/styles/common/common';
 import {
   finishContainer,
-  finishTextArea,
   onBoardingBodyArea,
 } from 'components/styles/onBoardingPage';
 import { useNavigate } from 'react-router-dom';
@@ -17,10 +16,9 @@ const OnBoardingFinishPage = () => {
       <PrevHeader text="" />
       <div css={onBoardingBodyArea}>
         <div css={finishContainer}>
-          <div css={finishTextArea}>
-            {'가입이 완료되었습니다.\n나와 맞는 뉴플메이트를 찾아보세요!'}
-          </div>
           <Finish />
+          <div className="title">가입이 완료되었습니다!</div>
+          <div className="text">지금 나와 맞는 뉴플메이트를 찾아보세요!</div>
         </div>
       </div>
       <NextButton

@@ -27,9 +27,19 @@ const UnselectedTag = ({
     borderRadius: '19.35px',
     color: isSelected ? '#2A64F6' : '#959DB1',
     borderColor: isSelected ? '#2A64F6' : '#959DB1',
+    backgroundColor: isSelected ? '#ECF6FE' : '#FFFFFF',
     width: width !== undefined ? `${width}px` : 'auto',
     marginRight: '12px',
     marginBottom: '12px',
+    '&.MuiChip-root': {
+      // Disabling Ripple effect
+      '&:focus, &:hover': {
+        backgroundColor: isSelected ? '#ECF6FE' : '#FFFFFF',
+      },
+      '&:active': {
+        backgroundColor: isSelected ? '#ECF6FE' : '#FFFFFF',
+      },
+    },
 
     '& .MuiChip-label': {
       overflow: 'visible',
@@ -45,7 +55,6 @@ const UnselectedTag = ({
       variant="outlined"
       onClick={handleClick}
       sx={chipStyle}
-      style={{ backgroundColor: 'transparent' }}
     />
   );
 };

@@ -93,7 +93,7 @@ export const progressBg = css({
 
 export const progressInner = (value: number) =>
   css({
-    width: `${value * 14.3}%`,
+    width: `${value * 12.5}%`,
     height: '100%',
     backgroundColor: '#0066FF',
   });
@@ -124,16 +124,28 @@ export const genderBoxArea = css({
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
+
+  '& .content-box': {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: '18px',
+    fontWeight: 500,
+    color: '#000000',
+  },
 });
 
 export const genderArea = css({
-  flex: 1,
+  width: '100%',
   height: '164.5px',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: '9px',
   backgroundColor: '#F9FAFC',
+  marginBottom: '7px',
   '&.active': {
     border: '2px solid #0066FF',
   },
@@ -166,6 +178,36 @@ export const selectPeriodContainer = css({
 export const mbtiArea = css({
   marginTop: '31px',
 });
+
+export const mbtiSectionContainer = css({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  fontWeight: 600,
+  lineHeight: '120%',
+  color: '#676F83',
+  marginBottom: '30px',
+  '& .box-area': {
+    marginTop: '12px',
+    display: 'flex',
+    width: '100%',
+  },
+});
+
+export const mbtiSectionBoxArea = (isActive: boolean) =>
+  css({
+    flex: 1,
+    height: '46px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    border: isActive ? '1px solid #0074FF' : '1px solid #959DB1',
+    borderRadius: '5px',
+    color: isActive ? '#0074FF' : '#959DB1',
+    fontSize: '18px',
+    fontWeight: 600,
+    backgroundColor: isActive ? '#ECF6FE' : '#FFFFFF',
+  });
 
 export const subQuestionHeader = css({
   display: 'flex',
@@ -211,15 +253,26 @@ export const finishContainer = css({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
+
+  '& .title': {
+    marginTop: '20.22px',
+    textAlign: 'center',
+    fontSize: '20px',
+    fontWeight: 700,
+    lineHeight: '160%',
+    color: '#3A3A3A',
+  },
+  '& .text': {
+    marginTop: '3.75px',
+    textAlign: 'center',
+    fontSize: '14px',
+    fontWeight: 500,
+    lineHeight: '160%',
+    color: '#959DB1',
+  },
 });
 
-export const finishTextArea = css({
-  marginBottom: '70.82px',
-  textAlign: 'center',
-  fontSize: '20px',
-  fontWeight: 700,
-  lineHeight: '160%',
-});
+export const finishTextArea = css({});
 
 export const sliderContainer = css({
   overflow: 'hidden',
@@ -310,4 +363,13 @@ export const exercisePeriodPickerContainer = css`
 
 export const exercisePeriodPickerArea = css({
   display: 'flex',
+});
+
+export const selectStyleContent = css({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  flexWrap: 'wrap',
+  paddingRight: '70px',
 });

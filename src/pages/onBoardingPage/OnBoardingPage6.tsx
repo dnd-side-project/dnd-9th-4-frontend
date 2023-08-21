@@ -1,38 +1,27 @@
 /** @jsxImportSource @emotion/react */
+import React, { useState } from 'react';
 import NextButton from 'components/common/NextButton';
 import PrevHeader from 'components/common/PrevHeader';
 import ProgressBar from 'components/onBoardingPage/ProgressBar';
 import Question from 'components/onBoardingPage/Question';
-import SelectMateContent from 'components/onBoardingPage/SelectMateContent';
+import SelectStyleContent from 'components/onBoardingPage/SelectStyleContent';
 import { appContainer } from 'components/styles/common/common';
 import { onBoardingBodyArea } from 'components/styles/onBoardingPage';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-export type mate = {
-  interested: string[];
-  gender: string;
-  age: string;
-  character: string;
-  career: string;
-};
 
 const OnBoardingPage6 = () => {
   const navigate = useNavigate();
-  const [mateInfo, setMateInfo] = useState<mate>({
-    interested: [],
-    gender: '',
-    age: '',
-    character: '',
-    career: '',
-  });
+  const [selectedStyle, setSelectedStyle] = useState<string[]>([]);
+  const [selectedInterested, setSelectedInterested] = useState<string[]>([]);
 
-  const isNextEnabled =
-    mateInfo.interested.length > 0 &&
-    mateInfo.gender !== '' &&
-    mateInfo.age !== '' &&
-    mateInfo.character !== '' &&
-    mateInfo.career !== '';
+  const onUpdateSelectedStyles = (styles: string[]) => {
+    setSelectedStyle(styles);
+    console.log('Selected Styles : ' + styles);
+  };
+  const onUpdateSelectedInterested = (interested: string[]) => {
+    setSelectedInterested(interested);
+    console.log('Selected Interested : ' + interested);
+  };
 
   return (
     <div css={appContainer}>
@@ -40,15 +29,18 @@ const OnBoardingPage6 = () => {
       <ProgressBar value={6} />
       <div css={onBoardingBodyArea}>
         <Question
-          keyword="선호하는 운동메이트"
+          keyword="나의 운동스타일과 관심사"
           sentence={'를\n선택해주세요.'}
           isEssential={false}
         />
-        <SelectMateContent onUpdateMateInfo={setMateInfo} />
+        <SelectStyleContent
+          onUpdateSelectedStyles={onUpdateSelectedStyles}
+          onUpdateSelectedInterested={onUpdateSelectedInterested}
+        />
       </div>
       <NextButton
         text={'다음'}
-        isEnabled={isNextEnabled}
+        isEnabled={selectedStyle.length > 0 && selectedInterested.length > 0}
         onEnabledClick={() => {
           navigate('/onboarding/7');
         }}

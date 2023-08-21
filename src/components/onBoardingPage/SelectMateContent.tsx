@@ -1,51 +1,35 @@
 /** @jsxImportSource @emotion/react */
-import Label from 'components/common/Label';
 import UnselectedTag from 'components/common/UnselectedTag';
 import { stackColumn, stackRow } from 'components/styles/common/common';
 import {
   subQuestion,
   subQuestionHeader,
 } from 'components/styles/onBoardingPage';
-import { mate } from 'pages/onBoardingPage/OnBoardingPage6';
+import { mate } from 'pages/onBoardingPage/OnBoardingPage7';
 import React, { useEffect, useState } from 'react';
-import InterestedExerciseArea from './InterestedExerciseArea';
 
 const SelectMateContent = ({
   onUpdateMateInfo,
 }: {
   onUpdateMateInfo: (mateInfo: mate) => void;
 }) => {
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [mateGender, setMateGender] = useState('');
   const [mateAge, setMateAge] = useState('');
   const [mateCharacter, setMateCharacter] = useState('');
   const [mateCareer, setMateCareer] = useState('');
 
-  const onUpdateSelectedTags = (tags: string[]) => {
-    setSelectedTags(tags);
-    console.log(selectedTags);
-  };
-
   useEffect(() => {
     onUpdateMateInfo({
-      interested: selectedTags,
       gender: mateGender,
       age: mateAge,
       character: mateCharacter,
       career: mateCareer,
     });
-  }, [selectedTags, mateGender, mateAge, mateCharacter, mateCareer]);
+  }, [mateGender, mateAge, mateCharacter, mateCareer]);
 
   return (
     <div css={stackColumn}>
-      <div style={{ marginTop: '29px' }}>
-        <div css={subQuestionHeader}>
-          <div css={subQuestion}>관심있는 운동</div>
-          <Label text="중복선택 가능" />
-        </div>
-        <InterestedExerciseArea onUpdateSelectedTags={onUpdateSelectedTags} />
-      </div>
-      <div style={{ marginTop: '44px' }}>
+      <div style={{ marginTop: '46.23px' }}>
         <div css={subQuestionHeader}>
           <div css={subQuestion}>성별</div>
         </div>
@@ -66,7 +50,7 @@ const SelectMateContent = ({
           />
         </div>
       </div>
-      <div style={{ marginTop: '17px' }}>
+      <div style={{ marginTop: '25px' }}>
         <div css={subQuestionHeader}>
           <div css={subQuestion}>나이</div>
         </div>
@@ -87,7 +71,7 @@ const SelectMateContent = ({
           />
         </div>
       </div>
-      <div style={{ marginTop: '17px' }}>
+      <div style={{ marginTop: '25px' }}>
         <div css={subQuestionHeader}>
           <div css={subQuestion}>성격</div>
         </div>
@@ -108,7 +92,7 @@ const SelectMateContent = ({
           />
         </div>
       </div>
-      <div style={{ marginTop: '17px', marginBottom: '45px' }}>
+      <div style={{ marginTop: '25px', marginBottom: '45px' }}>
         <div css={subQuestionHeader}>
           <div css={subQuestion}>운동 경력</div>
         </div>
