@@ -2,6 +2,26 @@
 import { css } from '@emotion/react';
 
 export const matchingPostPageStyles = {
+  banner: css({
+    backgroundSize: 'cover', // cover, contain, 또는 크기 값으로 설정 가능
+    backgroundPosition: 'center',
+    display: 'flex',
+    height: '189.084px',
+    flexDirection: 'column',
+  }),
+  bannerButton: css({
+    flex: 2,
+    display: 'flex',
+    justifyContent: 'space-between', // 가로 가운데 정렬
+    alignItems: 'end',
+    padding: '0px 16px',
+    marginBottom: '20px',
+  }),
+  emptyButton: css({
+    flex: 3,
+    display: 'flex',
+    justifyContent: 'center',
+  }),
   container: css({
     marginTop: '17px',
     marginInline: '15px',
@@ -60,6 +80,20 @@ export const matchingPostPageStyles = {
       letterSpacing: '-0.8px',
     },
   }),
+  recruit: css({
+    height: '1px',
+    backgroundColor: '#E2E2E2',
+    marginBlock: '11.47px',
+  }),
+  recruitText: css({
+    fontFamily: 'Pretendard',
+    fontSize: '16px',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    lineHeight: '150%',
+    letterSpacing: '-0.304px',
+    marginBottom: '11.47px',
+  }),
   title: css({
     color: '#3A3A3A',
     fontFamily: 'Pretendard',
@@ -98,5 +132,35 @@ export const matchingPostPageStyles = {
     letterSpacing: '-0.304px',
     paddingBlock: '8px',
     whiteSpace: 'pre-line',
+  }),
+  modalButtonContainer: css({
+    width: '100%',
+    position: 'fixed',
+    bottom: '20px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    zIndex: 1000,
+  }),
+  modalButtonBox: css({
+    margin: '17px 15px',
+    textAlign: 'center',
+    display: 'flex',
+    height: '48px',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '10px',
+    flexShrink: 0,
+    borderRadius: '6px',
+    background: '#06F',
+  }),
+  modalButtonText: css({
+    color: '#FFF',
+    textAlign: 'center',
+    fontFamily: 'Pretendard',
+    fontSize: '18px',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    lineHeight: '150%',
+    letterSpacing: '-0.342px',
   }),
 };

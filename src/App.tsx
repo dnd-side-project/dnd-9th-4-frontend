@@ -10,6 +10,7 @@ import RedirectHandler from 'pages/loginPage/redirectHandler';
 import SelectSportPage from 'pages/matchingPostWritePage/selectSportPage';
 import DetailPostWritePage from 'pages/matchingPostWritePage/detailPostWritePage';
 import MatchingPostPage from 'pages/matchingPage/matchingPostPage';
+import MatchingRequestListPage from 'pages/matchingPage/matchingRequestListPage';
 import OnBoardingPage from 'pages/onBoardingPage/OnBoardingPage';
 import OnBoardingPage1 from 'pages/onBoardingPage/OnBoardingPage1';
 import OnBoardingPage2 from 'pages/onBoardingPage/OnBoardingPage2';
@@ -46,6 +47,10 @@ function App() {
             <Route path="finish" element={<OnBoardingFinishPage />} />
           </Route>
           <Route path="/matching/search" element={<SearchPage />} />
+          <Route
+            path="/matching/request"
+            element={<MatchingRequestListPage />}
+          />
         </Routes>
       </Router>
     </>

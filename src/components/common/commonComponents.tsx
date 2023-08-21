@@ -77,7 +77,7 @@ export function ButtonNavigation() {
 }
 
 interface InitAndApplyData {
-  onClickSelectionInit: () => void;
+  onClickSelectionInit?: () => void;
   onClickApply: () => void;
 }
 
@@ -95,32 +95,34 @@ export function InitAndApplyButton(props: InitAndApplyData) {
         marginBottom: '40px',
       })}
     >
-      <div
-        css={css({
-          flex: '3',
-          display: 'flex',
-          alignItems: 'center',
-          paddingLeft: '20px',
-          //paddingRight: '20px',
-        })}
-      >
-        <img src={Resatrt} css={css({ width: '20px', height: '20px' })} />
+      {props.onClickSelectionInit ? (
         <div
           css={css({
-            color: '#000',
-            textAlign: 'center',
-            fontFamily: 'Pretendard',
-            fontSize: '14px',
-            fontStyle: 'normal',
-            fontWeight: 500,
-            lineHeight: '150%',
-            letterSpacing: '-0.266px',
+            flex: '3',
+            display: 'flex',
+            alignItems: 'center',
+            paddingLeft: '20px',
+            //paddingRight: '20px',
           })}
-          onClick={props.onClickSelectionInit}
         >
-          선택초기화
+          <img src={Resatrt} css={css({ width: '20px', height: '20px' })} />
+          <div
+            css={css({
+              color: '#000',
+              textAlign: 'center',
+              fontFamily: 'Pretendard',
+              fontSize: '14px',
+              fontStyle: 'normal',
+              fontWeight: 500,
+              lineHeight: '150%',
+              letterSpacing: '-0.266px',
+            })}
+            onClick={props.onClickSelectionInit}
+          >
+            선택초기화
+          </div>
         </div>
-      </div>
+      ) : null}
       <div
         css={css({
           flex: '5',

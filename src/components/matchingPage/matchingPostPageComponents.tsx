@@ -1,13 +1,56 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import Dialog from '@mui/material/Dialog';
+import { matchingPostPageStyles } from 'components/styles/matchingPostPageStyles';
+import PostBack from 'assets/matchingPostIcon/PostBack.svg';
+import PostMore from 'assets/matchingPostIcon/MoreIcon.svg';
+import { useNavigate } from 'react-router-dom';
+import 배너1 from 'assets/postBanner/배너1.png';
+import 배너2 from 'assets/postBanner/배너2.png';
+import 배너3 from 'assets/postBanner/배너3.png';
+import 배너4 from 'assets/postBanner/배너4.png';
+import 배너5 from 'assets/postBanner/배너5.png';
+import 배너6 from 'assets/postBanner/배너6.png';
+import 배너7 from 'assets/postBanner/배너7.png';
+import 배너8 from 'assets/postBanner/배너8.png';
+
+const bannerImages = [배너1, 배너2, 배너3, 배너4, 배너5, 배너6, 배너7, 배너8];
+
+const getRandomBanner = () => {
+  const randomIndex = Math.floor(Math.random() * bannerImages.length);
+  return bannerImages[randomIndex];
+};
+
+/*
+  [상단 배너]
+*/
+export function TopBanner() {
+  const navigate = useNavigate();
+  const randomBannerUrl = getRandomBanner();
+  return (
+    <div
+      css={[
+        matchingPostPageStyles.banner,
+        { backgroundImage: `url(${randomBannerUrl})` },
+      ]}
+    >
+      <div css={matchingPostPageStyles.bannerButton}>
+        <img src={PostBack} onClick={() => navigate(-1)} />
+        <img src={PostMore} css={css({ paddingBottom: '5px' })} />
+      </div>
+      <div css={matchingPostPageStyles.emptyButton}></div>
+    </div>
+  );
+}
 
 interface MatchingModalData {
   open: boolean;
-  onClickModalClose: () => void;
+  onClickModalClose?: () => void;
   onClickModalOk: () => void;
   title: string;
+  title2?: string;
   subTitle: string;
+  buttonOne?: string;
 }
 
 interface PostHashTagData {
@@ -47,9 +90,15 @@ export function MatchingModal(props: MatchingModalData) {
               fontWeight: 600,
               lineHeight: '150%', // 혹은 24px로 표현해도 됩니다.
               letterSpacing: '-0.8px',
+              display: props.title2 ? 'flex' : undefined,
+              justifyContent: props.title2 ? 'center' : undefined,
+              alignItems: props.title2 ? 'center' : undefined,
+              height: props.title2 ? 'center' : '100%',
             })}
           >
             {props.title}
+            {props.title2 && <br />}
+            {props.title2}
           </span>
           <div
             css={css({
@@ -62,6 +111,9 @@ export function MatchingModal(props: MatchingModalData) {
               lineHeight: '150%',
               letterSpacing: '-0.266px',
               marginTop: '3px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             })}
           >
             {props.subTitle}
@@ -75,7 +127,7 @@ export function MatchingModal(props: MatchingModalData) {
             alignItems: 'center',
             '& > div': {
               display: 'flex',
-              width: '128px',
+              width: props.buttonOne ? '256px' : '128px',
               height: '41px',
               margin: '0px 4px',
               justifyContent: 'center',
@@ -96,14 +148,16 @@ export function MatchingModal(props: MatchingModalData) {
             },
           })}
         >
-          <div
-            css={css({
-              background: '#000000',
-            })}
-            onClick={props.onClickModalClose}
-          >
-            <span>취소</span>
-          </div>
+          {props.buttonOne ? null : (
+            <div
+              css={css({
+                background: '#000000',
+              })}
+              onClick={props.onClickModalClose}
+            >
+              <span>취소</span>
+            </div>
+          )}
           <div
             css={css({
               background: '#0066FF',
