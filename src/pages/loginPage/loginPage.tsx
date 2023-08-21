@@ -12,21 +12,23 @@ import { useNavigate } from 'react-router-dom';
 function LoginPage() {
   const navigate = useNavigate();
 
-  // const restApiKey = config.restApiKey;
-  // const redirectUri = config.redirectUri;
+  const onSubmitLoginForm = (event: React.FormEvent) => {
+    event.preventDefault();
 
-  // const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUri}&response_type=code`;
+    const form = event.target as HTMLFormElement;
+    const restApiKeyInput = document.createElement('input');
+    restApiKeyInput.type = 'hidden';
+    restApiKeyInput.name = 'client_id';
+    restApiKeyInput.value = config.restApiKey;
+    form.appendChild(restApiKeyInput);
 
-  const onClickLoginButton = async () => {
-    try {
-      const res = await fetch(`${config.backendUrl}/api/v1/kakao/login`, {
-        mode: 'no-cors',
-      });
-      console.log(res);
-      console.log(res.headers);
-    } catch (err) {
-      console.error(err);
-    }
+    const redirectUriInput = document.createElement('input');
+    redirectUriInput.type = 'hidden';
+    redirectUriInput.name = 'redirect_uri';
+    redirectUriInput.value = config.redirectUri;
+    form.appendChild(redirectUriInput);
+
+    form.submit();
   };
 
   // 게스트 입장하기
@@ -59,14 +61,16 @@ function LoginPage() {
         />
       </div>
       <div css={loginPageStyles.loginButtonContainer}>
-        <a
-          //href={`${config.backendUrl}/api/v1/kakao/login`}
-          css={loginPageStyles.loginButton}
-          onClick={onClickLoginButton}
+        <form
+          action={`${config.backendUrl}/api/v1/kakao/login`}
+          method="GET"
+          onSubmit={onSubmitLoginForm}
         >
-          <img src={Kakao} />
-          <p css={loginPageStyles.loginButtonText}>카카오 로그인</p>
-        </a>
+          <button type="submit" css={loginPageStyles.loginButton}>
+            <img src={Kakao} />
+            <p css={loginPageStyles.loginButtonText}>카카오 로그인</p>
+          </button>
+        </form>
         <p css={loginPageStyles.lookAroundText} onClick={onClickGuest}>
           게스트로 입장하기
         </p>
