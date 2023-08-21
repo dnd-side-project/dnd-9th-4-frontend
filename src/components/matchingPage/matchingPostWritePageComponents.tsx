@@ -129,52 +129,6 @@ export function SelectSportList(props: SelectSportListData) {
   );
 }
 
-interface StyleInterTitleData {
-  title: string;
-}
-
-/*
-    [관심사/스타일 타이틀]
-*/
-export function StyleInterTitle(props: StyleInterTitleData) {
-  return (
-    <div
-      css={css({
-        display: 'flex',
-        '& > p': {
-          fontFamily: 'Pretendard',
-          textAlign: 'center',
-          fontStyle: 'normal',
-          fontWeight: 600,
-          lineHeight: '120%',
-          letterSpacing: '-0.266px',
-          textAlignLast: 'left',
-        },
-      })}
-    >
-      <p
-        css={css({
-          color: '#3A3A3A',
-          marginTop: '20px',
-          fontSize: '18px',
-        })}
-      >
-        {props.title}
-      </p>
-      <p
-        css={css({
-          color: '#959DB1',
-          marginTop: '24px',
-          marginLeft: '17px',
-          fontSize: '13px',
-        })}
-      >
-        중복선택 가능
-      </p>
-    </div>
-  );
-}
-
 interface LableTitleData {
   title: string;
   marginTop: string;
@@ -228,8 +182,8 @@ interface InputData {
   value: string;
   onChangeInput?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeTextArea?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  error: boolean;
-  maxLength: number | null;
+  error?: boolean;
+  maxLength?: number | null;
 }
 
 /*
@@ -359,12 +313,14 @@ export function DropDowmSelect(props: DropDowmSelectData) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        marginRight: '12px',
+        //marginRight: '12px',
+        marginRight: '6px',
+        marginLeft: '6px',
       })}
     >
       <div
         css={css({
-          width: '173px',
+          width: '160px',
           height: '46px',
           flexShrink: 0,
           borderRadius: '5px',
@@ -374,6 +330,7 @@ export function DropDowmSelect(props: DropDowmSelectData) {
           textAlign: 'center',
           alignItems: 'center',
           paddingLeft: '21px',
+          //marginRight: '12px',
         })}
       >
         <span
@@ -392,13 +349,14 @@ export function DropDowmSelect(props: DropDowmSelectData) {
       </div>
       <div
         css={css({
-          width: '173px',
+          width: '160px',
           height: '282.471px',
           flexShrink: 0,
           borderRadius: '0px 0px 4px 4px',
           border: '1px solid var(--grey-05, #CACFD9)',
           overflowY: 'scroll',
           marginBottom: '1px',
+          //marginRight: '12px',
         })}
       >
         {props.itemList.map((item, index) => (

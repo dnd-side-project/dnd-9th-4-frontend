@@ -69,6 +69,7 @@ function datailPostWrtiePage() {
         content: body,
         runtime: moment(day).format('YYYY년 MM월 DD일') + '' + fullTime,
         region: applyBigRegion + '' + applySmalRegion,
+        tags: tagList,
       });
     }
   };
@@ -114,12 +115,6 @@ function datailPostWrtiePage() {
     setDayError(false);
   };
 
-  const onClickSelectionInit = () => {
-    setIsOpenDay(false);
-    setRuntime(currDate);
-    setDay(null);
-  };
-
   // [시간] - 시간
   const [isOpenTime, setIsOpenTime] = useState(false);
   const [hour, setHour] = useState<string>('0');
@@ -130,10 +125,6 @@ function datailPostWrtiePage() {
     const formattedHour = hour?.padStart(2, '0');
     setFullTime(formattedHour + '시 ' + minute + '분');
     setHourError(false);
-  };
-
-  const onClickTimeInit = () => {
-    setIsOpenTime(false);
   };
 
   const onClickHour = (value: string) => {
@@ -177,11 +168,7 @@ function datailPostWrtiePage() {
     setApplySamllRegion(smallRegion);
   };
 
-  const onClickRegionInit = () => {
-    setIsOpenRegion(false);
-  };
-
-  // [해시 태그]
+  // [해시태그]
   const hashTagData = [
     '20대',
     '30대',
@@ -197,6 +184,41 @@ function datailPostWrtiePage() {
     '같이성장해요',
     '서로도와요',
   ];
+  const [writeTag, setWriteTag] = useState('');
+
+  const onChamgeWriteTag = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+
+    if (inputValue.length > 7) {
+      const shortenedValue = inputValue.slice(0, 7);
+      setWriteTag(shortenedValue);
+    } else {
+      setWriteTag(inputValue);
+    }
+  };
+
+  const onClickTagAdd = () => {
+    setWriteTag('');
+    if (tagList.includes(writeTag) || writeTag == '') {
+      console.log('해시태그에 안들어감');
+    } else if (tagList.length < 5) {
+      setTagList([...tagList, writeTag]);
+    }
+  };
+
+  const [tagList, setTagList] = useState<string[]>([]);
+
+  const onClickHashTag = (tag: string) => {
+    if (tagList.includes(tag)) {
+      setTagList(tagList.filter((item) => item !== tag));
+    } else if (tagList.length < 5) {
+      setTagList([...tagList, tag]);
+    }
+  };
+
+  const onClickRemoveTag = (tag: string) => {
+    setTagList(tagList.filter((item) => item !== tag));
+  };
 
   return (
     <div
@@ -275,78 +297,57 @@ function datailPostWrtiePage() {
             marginTop="26px"
             require={false}
           />
-          <input
-            type="text"
-            name="tag"
-            placeholder="태그를 작성해주세요"
-            // value={props.value}
-            // onChange={props.onChangeInput}
-            css={[matchingDetailWrtieStyles.titleInput]}
-          />
-          <div
-            css={css({
-              color: 'var(--grey-04, var(--grey-04, #959DB1))',
-              fontFamily: 'Pretendard',
-              fontSize: '13px',
-              fontStyle: 'normal',
-              fontWeight: 500,
-              lineHeight: '150%' /* '19.5px' */,
-              letterSpacing: '-0.247px',
-              marginLeft: '3px',
-              marginTop: '10px',
-              marginBottom: '16.45px',
-            })}
-          >
+          <div css={matchingDetailWrtieStyles.tagContainer}>
+            <input
+              type="text"
+              name="tag"
+              placeholder="태그를 작성해주세요"
+              value={writeTag}
+              onChange={onChamgeWriteTag}
+              css={matchingDetailWrtieStyles.titleInput}
+            />
+            <span
+              css={matchingDetailWrtieStyles.tagPlus}
+              onClick={onClickTagAdd}
+            >
+              +
+            </span>
+          </div>
+          <div css={matchingDetailWrtieStyles.tagExplan}>
             한 개당 최대 8글자로 5개까지 추가가 가능해요
           </div>
           <div
-            css={css({
-              background: '#ECF6FE',
-              borderRadius: '8px',
-              height: '113.811px',
-              marginBottom: '18.12px',
-            })}
-          ></div>
-          <div
-            css={css({
-              color: '#3A3A3A',
-              fontFamily: 'Pretendard',
-              fontSize: '16px',
-              fontStyle: 'normal',
-              fontWeight: 500,
-              lineHeight: '150%',
-              letterSpacing: '-0.304px',
-              marginBottom: '19px',
-            })}
+            css={[
+              matchingDetailWrtieStyles.tagBox,
+              { paddingBottom: tagList.length != 0 ? '16.5px' : '0px' },
+            ]}
           >
-            추천태그
+            {tagList.map((item, index) => (
+              <div
+                key={index}
+                css={matchingDetailWrtieStyles.tagButton}
+                onClick={() => onClickRemoveTag(item)}
+              >
+                #{item}
+                <div css={matchingDetailWrtieStyles.tagBlueBox} />
+              </div>
+            ))}
           </div>
-          <div
-            css={css({
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '8px',
-            })}
-          >
+          <div css={matchingDetailWrtieStyles.commendTag}>추천태그</div>
+          <div css={matchingDetailWrtieStyles.commendTagList}>
             {hashTagData.map((item, index) => (
               <div
                 key={index}
-                css={css({
-                  display: 'inline-flex',
-                  padding: '4px 12px',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: '8px',
-                  borderRadius: '19.35px',
-                  border: '1px solid #959DB1',
-                  color: '#959DB1',
-                  fontFamily: 'Pretendard',
-                  fontSize: '14px',
-                  fontStyle: 'normal',
-                  fontWeight: 500,
-                  lineHeight: '150%',
-                  letterSpacing: '-0.266px',
-                })}
+                css={[
+                  matchingDetailWrtieStyles.commendTagButton,
+                  {
+                    border: `1px solid ${
+                      tagList.includes(item) ? '#007BFF' : '#959DB1'
+                    }`,
+                  },
+                  { color: tagList.includes(item) ? '#007BFF' : '#959DB1' },
+                ]}
+                onClick={() => onClickHashTag(item)}
               >
                 #{item}
               </div>
@@ -377,10 +378,7 @@ function datailPostWrtiePage() {
             onClickDay={onClickDay}
             value={runtime}
           />
-          <InitAndApplyButton
-            onClickSelectionInit={onClickSelectionInit}
-            onClickApply={onClickApply}
-          />
+          <InitAndApplyButton onClickApply={onClickApply} />
         </>
       </BottomSheet>
       <BottomSheet
@@ -409,10 +407,7 @@ function datailPostWrtiePage() {
               onClick={onClickMinute}
             />
           </div>
-          <InitAndApplyButton
-            onClickSelectionInit={onClickTimeInit}
-            onClickApply={onClickTimeApply}
-          />
+          <InitAndApplyButton onClickApply={onClickTimeApply} />
         </>
       </BottomSheet>
       <BottomSheet
@@ -445,10 +440,7 @@ function datailPostWrtiePage() {
               onClick={onClickSmallRegion}
             />
           </div>
-          <InitAndApplyButton
-            onClickSelectionInit={onClickRegionInit}
-            onClickApply={onClickRegionApply}
-          />
+          <InitAndApplyButton onClickApply={onClickRegionApply} />
         </>
       </BottomSheet>
     </div>

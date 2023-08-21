@@ -1,9 +1,9 @@
 import { atom } from 'recoil';
 
 interface postWriteData {
+  memberId: number | null;
   sport: string | null;
-  exerciseStyles: string[];
-  interests: string[];
+  tags: string[];
   title: string | null;
   content: string | null;
   region: string | null;
@@ -16,9 +16,9 @@ interface postWriteData {
 export const postWriteState = atom<postWriteData>({
   key: 'postWriteState',
   default: {
+    memberId: null,
     sport: null,
-    exerciseStyles: [],
-    interests: [],
+    tags: [],
     title: null,
     content: null,
     region: null,
