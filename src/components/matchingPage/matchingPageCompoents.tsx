@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
 //import LocationPinIcon from 'assets/locationPin.svg';
 //import Sheet from 'react-modal-sheet';
@@ -250,8 +250,8 @@ interface Weekday {
 }
 
 interface MatchingPostDateData {
-  weekdays: Weekday[];
-  date: number;
+  weekdays?: Weekday[];
+  date?: number;
   onClickDate: (date: number) => void;
 }
 
@@ -270,7 +270,7 @@ export function MatchingPostDate(props: MatchingPostDateData) {
         marginBottom: '15px',
       })}
     >
-      {props.weekdays.map((weekday, index) => (
+      {props.weekdays?.map((weekday, index) => (
         <div
           key={index}
           css={css({
@@ -336,18 +336,21 @@ export function MatchingPostDate(props: MatchingPostDateData) {
 
 // 날짜 정보 가져옴
 const getCurrentDateAndDay = (date: Date) => {
-  const today = date;
+  const today = new Date(date);
 
   // 오늘 날짜&요일 가져옴
-  const todayDate = today.getDate();
+  const todayDateDay = today.getDate();
 
-  const days = ['일', '월', '화', '수', '목', '금', '토'];
+  const dates = ['일', '월', '화', '수', '목', '금', '토'];
 
   const weekdays = [];
   for (let i = 0; i <= 6; i++) {
-    const nextDay = date;
-    nextDay.setDate(todayDate + i);
-    weekdays.push({ date: nextDay.getDate(), day: days[nextDay.getDay()] });
+    const nextDay = new Date(today);
+    nextDay.setDate(todayDateDay + i);
+    weekdays.push({
+      date: nextDay.getDate(),
+      day: dates[nextDay.getDay()],
+    });
   }
 
   const year = today.getFullYear();
@@ -355,58 +358,65 @@ const getCurrentDateAndDay = (date: Date) => {
 
   const calendarDate = `${year}년 ${month}`;
 
-  return { todayDate, weekdays, calendarDate };
+  return { weekdays, calendarDate };
 };
+
+interface weekdays {
+  date: number; // 날짜 ex 21
+  day: string; // 요일 ex 월
+}
 
 /*
     [주간 + 월간 달력]
 */
 export function MatchingPostBigCalendar() {
-  // 오늘 날짜 가져오기
-  const { todayDate, weekdays, calendarDate } = getCurrentDateAndDay(
-    new Date(),
-  );
+  const [weekday, setWeekday] = useState<weekdays[]>([]);
+  const [yearMonth, setYearMonth] = useState<string>('');
+  const [date, setDate] = useState<number>(1);
 
-  // 주간 데이터, 년도-월간 데이터, 오늘 날짜 데이터
-  const [week, setWeek] = useState(weekdays);
-  const [date, setDate] = useState(todayDate);
-  const [month, setMonth] = useState(calendarDate);
-
-  // [작은 달력]
-  // 날짜 누르기
-  const onClickDate = (date: number) => {
-    setDate(date);
-    console.log('나중에 해당 날짜 게시물 목록 보이게 함', date);
-  };
-
-  // [큰 달력]
-  const [isOpenDay, setIsOpenDay] = useState(false);
   const currDate = new Date();
   const currDateTime = moment(currDate).format('MM-DD');
-  const [calenderDay, setCalenderDay] = useState(new Date());
+  const [runtime, setRuntime] = useState(new Date()); // 달력 선택하는 값
+  const [day, setDay] = useState<Date | null>(null); // 최종 선택된 날짜 값
+  const [isOpenDay, setIsOpenDay] = useState(false);
 
-  // 큰 달력 날짜 클릭
+  useEffect(() => {
+    if (day) {
+      const { weekdays, calendarDate } = getCurrentDateAndDay(day);
+      setWeekday(weekdays);
+      setYearMonth(calendarDate);
+      setDate(weekdays[0].date);
+    } else {
+      const { weekdays, calendarDate } = getCurrentDateAndDay(new Date());
+      setWeekday(weekdays);
+      setYearMonth(calendarDate);
+      setDate(weekdays[0].date);
+    }
+  }, [day]);
+
+  // 큰 달력 날짜 선택
+  const onClickCalenderDay = (runtime: Date) => {
+    setRuntime(runtime);
+  };
+
+  // 큰 달력 날짜 반영
   const onClickApplyCalender = () => {
-    console.log(calenderDay);
-    const { todayDate, weekdays, calendarDate } =
-      getCurrentDateAndDay(calenderDay);
     setIsOpenDay(false);
-    console.log(weekdays, todayDate, calendarDate);
-    setWeek(weekdays);
-    setDate(todayDate);
-    setMonth(calendarDate);
+    setDay(runtime);
   };
 
   // 큰 달력 초기화
   const onClickInitCalender = () => {
-    setCalenderDay(currDate);
-    const { todayDate, weekdays, calendarDate } =
-      getCurrentDateAndDay(currDate);
     setIsOpenDay(false);
-    setWeek(weekdays);
-    setDate(todayDate);
-    setMonth(calendarDate);
+    setDay(null);
+    setRuntime(new Date());
   };
+
+  const onClickDate = (date: number) => {
+    console.log(date);
+    setDate(date);
+  };
+
   return (
     <>
       <div css={css({ display: 'flex', marginTop: '20px' })}>
@@ -423,7 +433,7 @@ export function MatchingPostBigCalendar() {
           })}
           onClick={() => setIsOpenDay(true)}
         >
-          {month}
+          {yearMonth}
         </div>
         <img src={DownArrow} />
       </div>
@@ -431,6 +441,11 @@ export function MatchingPostBigCalendar() {
         isOpen={isOpenDay}
         onClose={() => {
           setIsOpenDay(false);
+          if (day == null) {
+            setRuntime(new Date());
+          } else if (day != null) {
+            setRuntime(day);
+          }
         }}
       >
         <>
@@ -441,16 +456,20 @@ export function MatchingPostBigCalendar() {
               moment(date).format('MM-DD') < currDateTime
             }
             calendarType="gregory"
-            onClickDay={setCalenderDay}
-            value={calenderDay}
+            onClickDay={onClickCalenderDay}
+            value={runtime}
           />
           <InitAndApplyButton
-            onClickSelectionInit={() => onClickInitCalender()}
-            onClickApply={() => onClickApplyCalender()}
+            onClickSelectionInit={onClickInitCalender}
+            onClickApply={onClickApplyCalender}
           />
         </>
       </BottomSheet>
-      <MatchingPostDate weekdays={week} date={date} onClickDate={onClickDate} />
+      <MatchingPostDate
+        weekdays={weekday}
+        date={date}
+        onClickDate={onClickDate}
+      />
     </>
   );
 }
