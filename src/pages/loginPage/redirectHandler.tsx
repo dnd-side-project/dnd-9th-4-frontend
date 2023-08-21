@@ -1,38 +1,32 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React, { useEffect } from 'react';
-import axios from 'axios';
-import config from 'config';
-import { useNavigate } from 'react-router-dom';
+// import axios from 'axios';
+// import config from 'config';
+// import { useNavigate } from 'react-router-dom';
 
 function RedirectHandler() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   useEffect(() => {
-    const code = new URL(window.location.href).searchParams.get('code');
+    console.log('리다이렉트됨');
+    // const code = new URL(window.location.href).searchParams.get('code');
 
-    console.log('인가코드', code);
+    // console.log('인가코드', code);
 
-    const backendUrl = `${config.backendUrl}/login`;
-    //const backendUrl = 'http://localhost:8080/login';
+    // const codeData = {
+    //   code: code,
+    // };
 
-    const codeData = {
-      code: code,
-    };
-
-    axios
-      .post(backendUrl, codeData)
-      .then((response) => {
-        console.log('인가코드 전송 성공');
-        console.log(response.data);
-        // 토큰 받아서 로그인 세션 유지
-        // 온보딩 페이지로 이동
-        navigate('/onboarding');
-      })
-      .catch((error) => {
-        console.error('인가코드 전송 실패');
-        console.error(error);
-      });
+    // axios
+    //   .post(`${config.backendUrl}/api/v1/kakao/signup`, codeData)
+    //   .then((response) => {
+    //     console.log('카카오 로그인 성공 ======>', response.data);
+    //     navigate('/onboarding');
+    //   })
+    //   .catch((error) => {
+    //     console.error('카카오 로그인 실패 ======>', error);
+    //   });
   }, []);
 
   return (

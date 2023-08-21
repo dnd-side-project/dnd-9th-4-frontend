@@ -21,6 +21,17 @@ import OnBoardingPage6 from 'pages/onBoardingPage/OnBoardingPage6';
 import OnBoardingPage7 from 'pages/onBoardingPage/OnBoardingPage7';
 import OnBoardingFinishPage from 'pages/onBoardingPage/OnBoardingFinishPage';
 import SearchPage from 'pages/matchingPage/searchPage';
+import MyPage from 'pages/myPage/MyPage';
+import MatchingRecordPage from 'pages/myPage/MatchingRecordPage';
+import MyProfilePage from 'pages/myPage/MyProfilePage';
+import ProfileEditPage from 'pages/myPage/ProfileEditPage';
+import MyArticlePage from 'pages/myPage/MyArticlePage';
+import MessageListPage from 'pages/message/MessageListPage';
+import MessagePage from 'pages/message/MessagePage';
+import MessageWritePage from 'pages/message/MessageWritePage';
+import WithdrawPage from 'pages/myPage/WithdrawPage';
+import ProfilePage from 'pages/profilePage/ProfilePage';
+import WriteReviewPage from 'pages/profilePage/WriteReviewPage';
 
 function App() {
   return (
@@ -31,6 +42,11 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/matching" element={<MatchingPage />} />
+          <Route path="/matching/search" element={<SearchPage />} />
+          <Route
+            path="/matching/request"
+            element={<MatchingRequestListPage />}
+          />
           <Route path="/auth" element={<RedirectHandler />} />
           <Route path="/post/sport" element={<SelectSportPage />} />
           <Route path="/post/detail" element={<DetailPostWritePage />} />
@@ -46,11 +62,21 @@ function App() {
             <Route path="7" element={<OnBoardingPage7 />} />
             <Route path="finish" element={<OnBoardingFinishPage />} />
           </Route>
-          <Route path="/matching/search" element={<SearchPage />} />
-          <Route
-            path="/matching/request"
-            element={<MatchingRequestListPage />}
-          />
+          <Route path="/message" element={<MessageListPage />} />
+          <Route path="/message/:id" element={<MessagePage />} />
+          <Route path="/message/:id/write" element={<MessageWritePage />} />
+          <Route path="my">
+            <Route index element={<MyPage />} />
+            <Route path="profile">
+              <Route index element={<MyProfilePage />} />
+              <Route path="edit" element={<ProfileEditPage />} />
+            </Route>
+            <Route path="upload" element={<MyArticlePage />} />
+            <Route path="record" element={<MatchingRecordPage />} />
+            <Route path="withdraw" element={<WithdrawPage />} />
+          </Route>
+          <Route path="/profile/:id" element={<ProfilePage />} />
+          <Route path="/profile/:id/review" element={<WriteReviewPage />} />
         </Routes>
       </Router>
     </>

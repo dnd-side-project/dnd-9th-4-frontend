@@ -6,19 +6,40 @@ import LoginLogo from 'assets/newPleLogo/LoginLogo.svg';
 import LoginLogoTitle from 'assets/newPleLogo/LoginLogoTitle.svg';
 import Kakao from 'assets/Kakao.svg';
 import { css } from '@emotion/react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
-  const restApiKey = config.restApiKey;
-  const redirectUri = config.redirectUri;
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUri}&response_type=code`;
+  const navigate = useNavigate();
 
-  const onClickLoginButton = () => {
-    console.log('카카오톡으로 로그인 클릭');
-    window.location.href = kakaoURL;
+  // const restApiKey = config.restApiKey;
+  // const redirectUri = config.redirectUri;
+
+  // const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUri}&response_type=code`;
+
+  const onClickLoginButton = async () => {
+    try {
+      const res = await fetch(`${config.backendUrl}/api/v1/kakao/login`, {
+        mode: 'no-cors',
+      });
+      console.log(res);
+      console.log(res.headers);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const onClickLookAroundText = () => {
-    console.log('둘러보기 클릭');
+  // 게스트 입장하기
+  const onClickGuest = () => {
+    axios
+      .post(`${config.backendUrl}/api/v1/guest/signup`)
+      .then((response) => {
+        console.log('응답 데이터:', response.data);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error('에러:', error);
+      });
   };
 
   return (
@@ -38,12 +59,16 @@ function LoginPage() {
         />
       </div>
       <div css={loginPageStyles.loginButtonContainer}>
-        <div css={loginPageStyles.loginButton} onClick={onClickLoginButton}>
+        <a
+          //href={`${config.backendUrl}/api/v1/kakao/login`}
+          css={loginPageStyles.loginButton}
+          onClick={onClickLoginButton}
+        >
           <img src={Kakao} />
           <p css={loginPageStyles.loginButtonText}>카카오 로그인</p>
-        </div>
-        <p css={loginPageStyles.lookAroundText} onClick={onClickLookAroundText}>
-          둘러보기
+        </a>
+        <p css={loginPageStyles.lookAroundText} onClick={onClickGuest}>
+          게스트로 입장하기
         </p>
       </div>
     </div>

@@ -14,7 +14,7 @@ const PrevHeader = ({ text }: { text: string }) => {
   return (
     <div css={prevHeaderContainer}>
       <ArrowLeft onClick={handleArrowClick} />
-      <div>{text}</div>
+      <div style={{ height: '21px' }}>{text}</div>
     </div>
   );
 };
