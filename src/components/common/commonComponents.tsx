@@ -18,7 +18,7 @@ import MyGray from 'assets/bottomNavigation/MyGray.svg';
 const navigationItems = [
   { label: '홈', icon: [HomeBlue, HomeGray], value: '/' },
   { label: '매칭', icon: [MatchingBlue, MatchingGray], value: '/matching' },
-  { label: '쪽지', icon: [MailBlue, MailGray], value: '/mailBox' },
+  { label: '쪽지', icon: [MailBlue, MailGray], value: '/message' },
   { label: 'My', icon: [MyBlue, MyGray], value: '/my' },
 ];
 
