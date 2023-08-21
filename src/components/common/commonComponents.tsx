@@ -68,12 +68,12 @@ export function ButtonNavigation() {
           label="쪽지"
           icon={
             <img
-              src={value === '/mailBox' ? BlueMatchingIcon : MatchingIcon}
+              src={value === '/message' ? BlueMatchingIcon : MatchingIcon}
               alt="쪽지"
             />
           }
-          value="/mailBox"
-          onClick={() => onClickHomeNavigation('/mailBox')}
+          value="/message"
+          onClick={() => onClickHomeNavigation('/message')}
         />
         <BottomNavigationAction
           label="My"
