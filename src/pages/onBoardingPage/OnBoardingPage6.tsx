@@ -6,13 +6,32 @@ import ProgressBar from 'components/onBoardingPage/ProgressBar';
 import Question from 'components/onBoardingPage/Question';
 import SelectStyleContent from 'components/onBoardingPage/SelectStyleContent';
 import { appContainer } from 'components/styles/common/common';
-import { onBoardingBodyArea } from 'components/styles/onBoardingPage';
+import {
+  onBoardingBodyArea,
+  skipStyle,
+} from 'components/styles/onBoardingPage';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { onboardingProfileState } from 'recoil/onboardingProfileState';
 
 const OnBoardingPage6 = () => {
   const navigate = useNavigate();
+  const [onboardingProfile, setOnboardingProfile] = useRecoilState(
+    onboardingProfileState,
+  );
   const [selectedStyle, setSelectedStyle] = useState<string[]>([]);
   const [selectedInterested, setSelectedInterested] = useState<string[]>([]);
+
+  const handleProfileChange = () => {
+    const updatedProfile = {
+      ...onboardingProfile,
+      exerciseStyles: selectedStyle,
+      interests: selectedInterested,
+    };
+    setOnboardingProfile(updatedProfile);
+    console.log(updatedProfile);
+    console.log(onboardingProfile);
+  };
 
   const onUpdateSelectedStyles = (styles: string[]) => {
     setSelectedStyle(styles);
@@ -26,6 +45,9 @@ const OnBoardingPage6 = () => {
   return (
     <div css={appContainer}>
       <PrevHeader text="" />
+      <div css={skipStyle} onClick={() => navigate('/onboarding/7')}>
+        건너뛰기
+      </div>
       <ProgressBar value={6} />
       <div css={onBoardingBodyArea}>
         <Question
@@ -42,6 +64,7 @@ const OnBoardingPage6 = () => {
         text={'다음'}
         isEnabled={selectedStyle.length > 0 && selectedInterested.length > 0}
         onEnabledClick={() => {
+          handleProfileChange();
           navigate('/onboarding/7');
         }}
       />

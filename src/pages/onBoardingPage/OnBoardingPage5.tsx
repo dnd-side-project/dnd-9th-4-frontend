@@ -5,20 +5,41 @@ import MbtiSection from 'components/onBoardingPage/MbtiSection';
 import ProgressBar from 'components/onBoardingPage/ProgressBar';
 import Question from 'components/onBoardingPage/Question';
 import { appContainer } from 'components/styles/common/common';
-import { onBoardingBodyArea } from 'components/styles/onBoardingPage';
+import {
+  onBoardingBodyArea,
+  skipStyle,
+} from 'components/styles/onBoardingPage';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { onboardingProfileState } from 'recoil/onboardingProfileState';
 
 const OnBoardingPage5 = () => {
   const navigate = useNavigate();
+  const [onboardingProfile, setOnboardingProfile] = useRecoilState(
+    onboardingProfileState,
+  );
   const [isEorI, setIsEorI] = useState('');
   const [isNorS, setIsNorS] = useState('');
   const [isForT, setIsForT] = useState('');
   const [isPorJ, setIsPorJ] = useState('');
 
+  const handleProfileChange = () => {
+    const updatedProfile = {
+      ...onboardingProfile,
+      mbti: isEorI + isNorS + isForT + isPorJ,
+    };
+    setOnboardingProfile(updatedProfile);
+    console.log(updatedProfile);
+    console.log(onboardingProfile);
+  };
+
   return (
     <div css={appContainer}>
       <PrevHeader text="" />
+      <div css={skipStyle} onClick={() => navigate('/onboarding/6')}>
+        건너뛰기
+      </div>
       <ProgressBar value={5} />
       <div css={onBoardingBodyArea}>
         <Question
@@ -62,6 +83,7 @@ const OnBoardingPage5 = () => {
         }
         onEnabledClick={() => {
           console.log(isEorI + isNorS + isForT + isPorJ);
+          handleProfileChange();
           navigate('/onboarding/6');
         }}
       />

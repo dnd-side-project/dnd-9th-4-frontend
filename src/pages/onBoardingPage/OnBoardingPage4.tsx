@@ -12,14 +12,29 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { regionData } from 'data/variable';
+import { useRecoilState } from 'recoil';
+import { onboardingProfileState } from 'recoil/onboardingProfileState';
 
 const OnBoardingPage4 = () => {
   const navigate = useNavigate();
+  const [onboardingProfile, setOnboardingProfile] = useRecoilState(
+    onboardingProfileState,
+  );
   const [selectedRegion, setSelectedRegion] = useState('');
   const [selectedSubRegion, setSelectedSubRegion] = useState('');
   const [subRegionValues, setSubRegionValues] = useState<string[]>([]);
 
   const regionKeys = regionData.map((obj) => Object.keys(obj)[0]);
+
+  const handleProfileChange = () => {
+    const updatedProfile = {
+      ...onboardingProfile,
+      region: `${selectedRegion} ${selectedSubRegion}`,
+    };
+    setOnboardingProfile(updatedProfile);
+    console.log(updatedProfile);
+    console.log(onboardingProfile);
+  };
 
   const handleRegionChange = (region: string) => {
     console.log(region);
@@ -68,6 +83,7 @@ const OnBoardingPage4 = () => {
           text={'다음'}
           isEnabled={true}
           onEnabledClick={() => {
+            handleProfileChange();
             navigate('/onboarding/5');
           }}
         />

@@ -373,3 +373,14 @@ export const selectStyleContent = css({
   flexWrap: 'wrap',
   paddingRight: '70px',
 });
+
+export const skipStyle = css({
+  position: 'absolute',
+  right: 16,
+  display: 'flex',
+  alignItems: 'center',
+  fontFamily: 'Pretendard',
+  fontSize: '14px',
+  fontWeight: 600,
+  color: '#676F83',
+});

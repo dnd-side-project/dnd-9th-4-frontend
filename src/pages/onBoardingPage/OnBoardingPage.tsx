@@ -14,9 +14,24 @@ import { useState } from 'react';
 import SelectProfileArea from 'components/onBoardingPage/SelectProfileArea';
 import CheckNickname from 'components/onBoardingPage/CheckNickname';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { onboardingProfileState } from 'recoil/onboardingProfileState';
 
 const OnBoardingPage = () => {
   const navigate = useNavigate();
+  const [onboardingProfile, setOnboardingProfile] = useRecoilState(
+    onboardingProfileState,
+  );
+  const handleProfileChange = () => {
+    const updatedProfile = {
+      ...onboardingProfile,
+      userName: nickname,
+      profileImg: selectProfile,
+    };
+    setOnboardingProfile(updatedProfile);
+    console.log(updatedProfile);
+    console.log(onboardingProfile);
+  };
 
   const [isOpen, setIsOpen] = useState(false);
   const [nickname, setNickname] = useState('');
@@ -48,6 +63,7 @@ const OnBoardingPage = () => {
           text={'다음'}
           isEnabled={isNicknameEntered && selectProfile !== ProfileEmpty}
           onEnabledClick={() => {
+            handleProfileChange();
             navigate('/onboarding/1');
           }}
         />

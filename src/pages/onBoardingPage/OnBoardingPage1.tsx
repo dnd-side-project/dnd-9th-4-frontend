@@ -13,10 +13,22 @@ import { ReactComponent as Male } from 'assets/onBoardingPageIcon/img_gender_mal
 import { ReactComponent as Female } from 'assets/onBoardingPageIcon/img_gender_female.svg';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { onboardingProfileState } from 'recoil/onboardingProfileState';
 
 const OnBoardingPage1 = () => {
   const navigate = useNavigate();
+  const [onboardingProfile, setOnboardingProfile] = useRecoilState(
+    onboardingProfileState,
+  );
   const [gender, setGender] = useState('');
+
+  const handleProfileChange = () => {
+    const updatedProfile = { ...onboardingProfile, gender: gender };
+    setOnboardingProfile(updatedProfile);
+    console.log(updatedProfile);
+    console.log(onboardingProfile);
+  };
 
   return (
     <div css={appContainer}>
@@ -32,8 +44,8 @@ const OnBoardingPage1 = () => {
           <div className="content-box">
             <div
               css={genderArea}
-              onClick={() => setGender('Male')}
-              className={gender === 'Male' ? ' active' : ''}
+              onClick={() => setGender('남성')}
+              className={gender === '남성' ? ' active' : ''}
             >
               <Male />
             </div>
@@ -43,8 +55,8 @@ const OnBoardingPage1 = () => {
           <div className="content-box">
             <div
               css={genderArea}
-              onClick={() => setGender('Female')}
-              className={gender === 'Female' ? ' active' : ''}
+              onClick={() => setGender('여성')}
+              className={gender === '여성' ? ' active' : ''}
             >
               <Female />
             </div>
@@ -56,6 +68,7 @@ const OnBoardingPage1 = () => {
         text={'다음'}
         isEnabled={gender !== ''}
         onEnabledClick={() => {
+          handleProfileChange();
           navigate('/onboarding/2');
         }}
       />
