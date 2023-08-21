@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import Gallery from 'assets/profile/img_gallery.svg';
 import Profile1 from 'assets/profile/img_profile_1.svg';
 import Profile2 from 'assets/profile/img_profile_2.svg';
 import Profile3 from 'assets/profile/img_profile_3.svg';
@@ -30,6 +31,11 @@ const SelectProfileList = ({
 
   const slides1 = [
     <div css={selectProfileListSlider}>
+      <img
+        src={Gallery}
+        style={{ width: '52px', height: '52px' }}
+        onClick={() => setSelectProfile(Gallery)}
+      />
       <img
         src={Profile1}
         style={{ width: '52px', height: '52px' }}
@@ -65,16 +71,16 @@ const SelectProfileList = ({
         style={{ width: '52px', height: '52px' }}
         onClick={() => setSelectProfile(Profile7)}
       />
-      <img
-        src={Profile8}
-        style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Profile8)}
-      />
     </div>,
   ];
 
   const slides2 = [
     <div css={selectProfileListSlider}>
+      <img
+        src={Profile8}
+        style={{ width: '52px', height: '52px' }}
+        onClick={() => setSelectProfile(Profile8)}
+      />
       <img
         src={Profile9}
         style={{ width: '52px', height: '52px' }}

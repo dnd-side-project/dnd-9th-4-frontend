@@ -13,6 +13,38 @@ export const appContainer = css({
   margin: '0 auto',
   height: '100%',
   width: '100%',
+  fontSize: '16px',
+});
+
+export const noPdddingContainer = css({
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+  fontFamily: 'Pretendard',
+  fontSize: '16px',
+  fontWeight: 500,
+  lineHeight: '150%',
+  color: '#000000',
+});
+
+export const bodyContainer = css({
+  width: '100%',
+  flex: 1,
+  overflowY: 'auto',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  whiteSpace: 'pre-wrap',
+  scrollbarGutter: 'unset',
+  '&::-webkit-scrollbar': {
+    width: '0.5em',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    background: 'transparent',
+  },
 });
 
 // margin
@@ -56,11 +88,14 @@ export const textWeight = (size: number) =>
 
 export const prevHeaderContainer = css({
   width: '100%',
-  minHeight: '46px',
+  marginBottom: '16px',
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'top',
+  alignItems: 'center',
   position: 'relative',
+  fontSize: '18px',
+  fontWeight: 600,
+  color: '#000',
 });
 
 export const nextButtonContainer = css({
@@ -108,3 +143,12 @@ export const checkCircle = ({
     backgroundColor: isChecked ? '#0066FF' : '#D9D9D9',
     transition: 'background-color 0.2s',
   });
+
+export const dividerContainer = css({
+  position: 'relative',
+  width: '100%',
+});
+
+export const verticalLastBlock = css({
+  marginBottom: '60px',
+});
