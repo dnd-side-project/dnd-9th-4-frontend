@@ -29,20 +29,26 @@ const OnBoardingPage1 = () => {
           isEssential={true}
         />
         <div css={genderBoxArea}>
-          <div
-            css={genderArea}
-            onClick={() => setGender('Male')}
-            className={gender === 'Male' ? ' active' : ''}
-          >
-            <Male />
+          <div className="content-box">
+            <div
+              css={genderArea}
+              onClick={() => setGender('Male')}
+              className={gender === 'Male' ? ' active' : ''}
+            >
+              <Male />
+            </div>
+            <div>남성</div>
           </div>
           <div style={{ width: '12.5px' }} />
-          <div
-            css={genderArea}
-            onClick={() => setGender('Female')}
-            className={gender === 'Female' ? ' active' : ''}
-          >
-            <Female />
+          <div className="content-box">
+            <div
+              css={genderArea}
+              onClick={() => setGender('Female')}
+              className={gender === 'Female' ? ' active' : ''}
+            >
+              <Female />
+            </div>
+            <div>여성</div>
           </div>
         </div>
       </div>

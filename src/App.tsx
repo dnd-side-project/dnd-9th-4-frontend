@@ -32,6 +32,7 @@ import MessageWritePage from 'pages/message/MessageWritePage';
 import WithdrawPage from 'pages/myPage/WithdrawPage';
 import ProfilePage from 'pages/profilePage/ProfilePage';
 import WriteReviewPage from 'pages/profilePage/WriteReviewPage';
+import OnBoardingPage8 from 'pages/onBoardingPage/OnBoardingPage8';
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
             <Route path="5" element={<OnBoardingPage5 />} />
             <Route path="6" element={<OnBoardingPage6 />} />
             <Route path="7" element={<OnBoardingPage7 />} />
+            <Route path="8" element={<OnBoardingPage8 />} />
             <Route path="finish" element={<OnBoardingFinishPage />} />
           </Route>
           <Route path="/message" element={<MessageListPage />} />

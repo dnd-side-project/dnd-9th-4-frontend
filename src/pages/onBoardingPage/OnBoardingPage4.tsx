@@ -1,21 +1,41 @@
 /** @jsxImportSource @emotion/react */
-import BottomSheet from 'components/common/BottomSheet';
+import DropDown from 'components/common/DropDown';
 import NextButton from 'components/common/NextButton';
 import PrevHeader from 'components/common/PrevHeader';
 import ProgressBar from 'components/onBoardingPage/ProgressBar';
 import Question from 'components/onBoardingPage/Question';
-import SelectRectangle from 'components/onBoardingPage/SelectRectangle';
 import { appContainer } from 'components/styles/common/common';
 import {
   onBoardingBodyArea,
   selectPeriodContainer,
 } from 'components/styles/onBoardingPage';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { regionData } from 'data/variable';
 
 const OnBoardingPage4 = () => {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
+  const [selectedRegion, setSelectedRegion] = useState('');
+  const [selectedSubRegion, setSelectedSubRegion] = useState('');
+  const [subRegionValues, setSubRegionValues] = useState<string[]>([]);
+
+  const regionKeys = regionData.map((obj) => Object.keys(obj)[0]);
+
+  const handleRegionChange = (region: string) => {
+    console.log(region);
+    setSelectedRegion(region);
+    const targetObject = regionData[regionKeys.indexOf(region)];
+    setSubRegionValues(targetObject[region]);
+    setSelectedSubRegion(targetObject[region][0]);
+    // console.log(
+    //   `REGION : ${selectedRegion} | SUBREGIONVALUE : ${subRegionValues} | SUB REGION : ${selectedSubRegion}`,
+    // );
+  };
+  useEffect(() => {
+    console.log(
+      `REGION : ${selectedRegion} | SUBREGIONVALUE : ${subRegionValues} | SUB REGION : ${selectedSubRegion}`,
+    );
+  }, [selectedRegion, subRegionValues, selectedSubRegion]);
 
   return (
     <>
@@ -29,12 +49,19 @@ const OnBoardingPage4 = () => {
             isEssential={true}
           />
           <div css={selectPeriodContainer}>
-            <SelectRectangle
-              text="서울특별시"
-              onClick={() => setIsOpen(true)}
-            />
+            <DropDown
+              placeHolder="시/도"
+              value={selectedRegion}
+              items={regionKeys}
+              setValue={handleRegionChange}
+            />{' '}
             <div style={{ width: '12px' }} />
-            <SelectRectangle text="강남구" onClick={() => setIsOpen(true)} />
+            <DropDown
+              placeHolder="군/구"
+              value={selectedSubRegion}
+              items={subRegionValues}
+              setValue={setSelectedSubRegion}
+            />{' '}
           </div>
         </div>
         <NextButton
@@ -45,9 +72,6 @@ const OnBoardingPage4 = () => {
           }}
         />
       </div>
-      <BottomSheet isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <div>주로 운동하는 지역을 입력해주세요</div>
-      </BottomSheet>
     </>
   );
 };
