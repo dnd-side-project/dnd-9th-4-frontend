@@ -11,11 +11,26 @@ import {
 } from 'components/styles/onBoardingPage';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { onboardingProfileState } from 'recoil/onboardingProfileState';
 
 const OnBoardingPage3 = () => {
   const navigate = useNavigate();
+  const [onboardingProfile, setOnboardingProfile] = useRecoilState(
+    onboardingProfileState,
+  );
   const [year, setYear] = useState('');
   const [month, setMonth] = useState('');
+
+  const handleProfileChange = () => {
+    const updatedProfile = {
+      ...onboardingProfile,
+      periodEx: `${year} ${month}`,
+    };
+    setOnboardingProfile(updatedProfile);
+    console.log(updatedProfile);
+    console.log(onboardingProfile);
+  };
 
   const yearItem = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
     (item) => item.toString() + '년',
@@ -59,6 +74,7 @@ const OnBoardingPage3 = () => {
           text={'다음'}
           isEnabled={year !== '' && month !== ''}
           onEnabledClick={() => {
+            handleProfileChange();
             navigate('/onboarding/4');
             console.log('YEAR : ' + year + ' | MONTH : ' + month);
           }}

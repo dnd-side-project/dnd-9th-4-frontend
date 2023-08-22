@@ -5,9 +5,14 @@ import ProgressBar from 'components/onBoardingPage/ProgressBar';
 import Question from 'components/onBoardingPage/Question';
 import SelectMateContent from 'components/onBoardingPage/SelectMateContent';
 import { appContainer } from 'components/styles/common/common';
-import { onBoardingBodyArea } from 'components/styles/onBoardingPage';
+import {
+  onBoardingBodyArea,
+  skipStyle,
+} from 'components/styles/onBoardingPage';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { onboardingProfileState } from 'recoil/onboardingProfileState';
 
 export type mate = {
   gender: string;
@@ -18,12 +23,28 @@ export type mate = {
 
 const OnBoardingPage7 = () => {
   const navigate = useNavigate();
+  const [onboardingProfile, setOnboardingProfile] = useRecoilState(
+    onboardingProfileState,
+  );
   const [mateInfo, setMateInfo] = useState<mate>({
     gender: '',
     age: '',
     character: '',
     career: '',
   });
+
+  const handleProfileChange = () => {
+    const updatedProfile = {
+      ...onboardingProfile,
+      wantedPersonality: mateInfo.character,
+      wantedAge: mateInfo.age,
+      wantedGender: mateInfo.gender,
+      wantedPeriodEx: mateInfo.career,
+    };
+    setOnboardingProfile(updatedProfile);
+    console.log(updatedProfile);
+    console.log(onboardingProfile);
+  };
 
   const isNextEnabled =
     mateInfo.gender !== '' &&
@@ -34,6 +55,9 @@ const OnBoardingPage7 = () => {
   return (
     <div css={appContainer}>
       <PrevHeader text="" />
+      <div css={skipStyle} onClick={() => navigate('/onboarding/8')}>
+        건너뛰기
+      </div>
       <ProgressBar value={7} />
       <div css={onBoardingBodyArea}>
         <Question
@@ -47,6 +71,7 @@ const OnBoardingPage7 = () => {
         text={'다음'}
         isEnabled={isNextEnabled}
         onEnabledClick={() => {
+          handleProfileChange();
           navigate('/onboarding/8');
         }}
       />

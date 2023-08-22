@@ -12,10 +12,25 @@ import {
 } from 'components/styles/onBoardingPage';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { onboardingProfileState } from 'recoil/onboardingProfileState';
 
 const OnBoardingPage2 = () => {
   const navigate = useNavigate();
+  const [onboardingProfile, setOnboardingProfile] = useRecoilState(
+    onboardingProfileState,
+  );
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  const handleProfileChange = () => {
+    const updatedProfile = {
+      ...onboardingProfile,
+      sport: selectedTags,
+    };
+    setOnboardingProfile(updatedProfile);
+    console.log(updatedProfile);
+    console.log(onboardingProfile);
+  };
 
   const onUpdateSelectedTags = (tags: string[]) => {
     setSelectedTags(tags);
@@ -41,6 +56,7 @@ const OnBoardingPage2 = () => {
         text={'다음'}
         isEnabled={selectedTags.length > 0}
         onEnabledClick={() => {
+          handleProfileChange();
           navigate('/onboarding/3');
         }}
       />
