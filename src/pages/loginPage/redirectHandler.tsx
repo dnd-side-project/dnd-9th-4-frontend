@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import config from 'config';
 import { useNavigate } from 'react-router-dom';
+// import { setCookie } from 'auth/cookie';
 
 function RedirectHandler() {
   const navigate = useNavigate();
@@ -21,7 +22,16 @@ function RedirectHandler() {
     axios
       .post(`${config.backendUrl}/api/v1/kakao/signup`, codeData)
       .then((response) => {
-        console.log('카카오 로그인 성공 ======>', response.data);
+        console.log('카카오 로그인 성공 ======>', response);
+
+        // JWT Token(access Token) - recoil 상태관리
+        const jwtToken = response.headers['authorization'];
+        console.log(jwtToken);
+
+        // Refresh Token - 쿠키
+        const refreshToken = response.headers['set-cookie'];
+        console.log(refreshToken);
+
         navigate('/onboarding');
       })
       .catch((error) => {
