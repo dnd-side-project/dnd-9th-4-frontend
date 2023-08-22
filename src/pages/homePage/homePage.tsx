@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
 import {
   HomeTopScreen,
@@ -12,6 +12,7 @@ import {
   Horizontalline,
 } from 'components/common/commonComponents';
 import { useNavigate } from 'react-router-dom';
+import { getCookie } from 'auth/cookie';
 
 // 내 주변 뉴플메이트 테스트 데이터
 const profileTestData = {
@@ -119,6 +120,12 @@ function HomePage() {
     // 매칭 일정 페이지로 이동
     console.log('이동');
   };
+
+  // 토큰 값 가져오기
+  useEffect(() => {
+    const jwtToken = getCookie('jwtToken');
+    console.log(jwtToken);
+  }, []);
 
   return (
     <div css={css({ marginInline: '16px', paddingBottom: '90px' })}>

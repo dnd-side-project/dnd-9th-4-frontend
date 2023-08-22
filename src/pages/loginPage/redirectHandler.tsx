@@ -13,8 +13,6 @@ function RedirectHandler() {
     console.log('리다이렉트됨');
     const code = new URL(window.location.href).searchParams.get('code');
 
-    console.log('인가코드', code);
-
     const codeData = {
       code: code,
     };
@@ -30,7 +28,6 @@ function RedirectHandler() {
 
         // JWT Token(access Token)
         const jwtToken = response.headers['authorization'].substring(7);
-        console.log(jwtToken);
         setCookie('jwtToken', jwtToken);
 
         navigate('/onboarding');
