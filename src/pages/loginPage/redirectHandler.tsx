@@ -28,7 +28,8 @@ function RedirectHandler() {
 
         // JWT Token(access Token)
         const jwtToken = response.headers['authorization'].substring(7);
-        setCookie('jwtToken', jwtToken);
+        console.log(jwtToken);
+        setCookie('token', jwtToken);
 
         navigate('/onboarding');
       })

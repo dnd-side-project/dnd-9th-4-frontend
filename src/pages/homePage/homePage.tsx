@@ -123,7 +123,7 @@ function HomePage() {
 
   // 토큰 값 가져오기
   useEffect(() => {
-    const jwtToken = getCookie('jwtToken');
+    const jwtToken = getCookie('token');
     console.log(jwtToken);
   }, []);
 
