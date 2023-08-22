@@ -24,6 +24,7 @@ const OnBoardingPage = () => {
   );
   const memberId = localStorage.getItem('memberId');
   const handleProfileChange = () => {
+    console.log('ONBOARDING : ' + memberId);
     const updatedProfile = {
       ...onboardingProfile,
       memberId: Number(memberId),

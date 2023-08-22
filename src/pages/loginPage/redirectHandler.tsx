@@ -24,14 +24,8 @@ function RedirectHandler() {
       .then((response) => {
         console.log('카카오 로그인 성공 ======>', response);
 
-        const memberId = response.data;
-        console.log(response);
-        console.log(response.data);
-        console.log(response.data.data.memberId);
-        console.log(response.data.memberId);
-        console.log(response.data['data']);
-        console.log(response.data['memberId']);
-        console.log(response.data['data']['memberId']);
+        const memberId = response.data['data']['memberId'];
+        console.log(memberId);
         localStorage.setItem('memberId', memberId);
 
         // JWT Token(access Token) - recoil 상태관리
