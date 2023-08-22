@@ -14,24 +14,25 @@ import 배너6 from 'assets/postBanner/배너6.png';
 import 배너7 from 'assets/postBanner/배너7.png';
 import 배너8 from 'assets/postBanner/배너8.png';
 
-const bannerImages = [배너1, 배너2, 배너3, 배너4, 배너5, 배너6, 배너7, 배너8];
-
-const getRandomBanner = () => {
-  const randomIndex = Math.floor(Math.random() * bannerImages.length);
-  return bannerImages[randomIndex];
-};
+interface BannerData {
+  id: number;
+}
 
 /*
   [상단 배너]
 */
-export function TopBanner() {
+export function TopBanner(props: BannerData) {
   const navigate = useNavigate();
-  const randomBannerUrl = getRandomBanner();
+  const bannerImages = [배너1, 배너2, 배너3, 배너4, 배너5, 배너6, 배너7, 배너8];
+  const id = props.id % 8;
+  const selectedBannerIndex = id === 0 ? 7 : id - 1;
+  const selectedBanner = bannerImages[selectedBannerIndex];
+
   return (
     <div
       css={[
         matchingPostPageStyles.banner,
-        { backgroundImage: `url(${randomBannerUrl})` },
+        { backgroundImage: `url(${selectedBanner})` },
       ]}
     >
       <div css={matchingPostPageStyles.bannerButton}>
