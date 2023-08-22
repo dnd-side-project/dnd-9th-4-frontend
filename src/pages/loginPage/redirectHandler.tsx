@@ -24,7 +24,7 @@ function RedirectHandler() {
       .then((response) => {
         console.log('카카오 로그인 성공 ======>', response);
 
-        const memberId = response.data.memberId;
+        const memberId = response.data['memberId'];
         console.log(memberId);
         localStorage.setItem('memberId', memberId);
 
