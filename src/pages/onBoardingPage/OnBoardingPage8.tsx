@@ -20,7 +20,21 @@ import {
 } from 'components/styles/onBoardingPage';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
+import { postOnboardingProfile } from 'api/onboardingPageApi';
+import { useRecoilValue } from 'recoil';
+import { onboardingProfileState } from 'recoil/onboardingProfileState';
 const OnBoardingPage8 = () => {
+  const onboardingProfile = useRecoilValue(onboardingProfileState);
+  const { mutate } = useMutation(
+    () => postOnboardingProfile(onboardingProfile),
+    {
+      onSuccess: (data) => {
+        console.log(onboardingProfile.userName + ':성공' + data);
+      },
+      onError: (error) => console.log(error),
+    },
+  );
   const navigate = useNavigate();
   const [isClicked, setIsClicked] = useState(false);
 
@@ -61,6 +75,7 @@ const OnBoardingPage8 = () => {
         text={'다음'}
         isEnabled={isClicked}
         onEnabledClick={() => {
+          mutate();
           navigate('/onboarding/finish');
         }}
       />

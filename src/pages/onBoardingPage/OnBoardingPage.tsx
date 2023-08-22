@@ -22,9 +22,11 @@ const OnBoardingPage = () => {
   const [onboardingProfile, setOnboardingProfile] = useRecoilState(
     onboardingProfileState,
   );
+  const memberId = localStorage.getItem('memberId');
   const handleProfileChange = () => {
     const updatedProfile = {
       ...onboardingProfile,
+      memberId: Number(memberId),
       userName: nickname,
       profileImg: selectProfile,
     };
