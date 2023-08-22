@@ -8,7 +8,8 @@ const cookies = new Cookies();
  */
 export const setCookie = (name: string, value: string) => {
   return cookies.set(name, value, {
-    maxAge: 604800000,
+    httpOnly: true,
+    maxAge: 6 * 60 * 60,
     path: '/',
     secure: true,
   }); // 6시간

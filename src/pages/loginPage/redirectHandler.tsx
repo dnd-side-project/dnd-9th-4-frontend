@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import config from 'config';
 import { useNavigate } from 'react-router-dom';
-// import { setCookie } from 'auth/cookie';
+import { setCookie } from 'auth/cookie';
 
 function RedirectHandler() {
   const navigate = useNavigate();
@@ -12,8 +12,6 @@ function RedirectHandler() {
   useEffect(() => {
     console.log('리다이렉트됨');
     const code = new URL(window.location.href).searchParams.get('code');
-
-    console.log('인가코드', code);
 
     const codeData = {
       code: code,
@@ -28,13 +26,10 @@ function RedirectHandler() {
         console.log(memberId);
         localStorage.setItem('memberId', memberId);
 
-        // JWT Token(access Token) - recoil 상태관리
-        const jwtToken = response.headers['authorization'];
+        // JWT Token(access Token)
+        const jwtToken = response.headers['authorization'].substring(7);
         console.log(jwtToken);
-
-        // Refresh Token - 쿠키
-        const refreshToken = response.headers['set-cookie'];
-        console.log(refreshToken);
+        setCookie('token', jwtToken);
 
         navigate('/onboarding');
       })
