@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from 'pages/homePage/homePage';
 import LoginPage from 'pages/loginPage/loginPage';
@@ -35,6 +35,20 @@ import WriteReviewPage from 'pages/profilePage/WriteReviewPage';
 import OnBoardingPage8 from 'pages/onBoardingPage/OnBoardingPage8';
 
 function App() {
+  useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
+    const memberId = localStorage.getItem('memberId');
+    if (
+      !token &&
+      !memberId &&
+      window.location.pathname !== '/login' &&
+      window.location.pathname !== '/auth'
+    ) {
+      // jwtToken, memberId 가 없으면 로그인 페이지로
+      window.location.href = '/login';
+    }
+  }, []);
+
   return (
     <>
       <Global styles={globalStyle} />

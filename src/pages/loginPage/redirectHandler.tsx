@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import config from 'config';
 import { useNavigate } from 'react-router-dom';
-import { setCookie } from 'auth/cookie';
 
 function RedirectHandler() {
   const navigate = useNavigate();
@@ -28,8 +27,7 @@ function RedirectHandler() {
 
         // JWT Token(access Token)
         const jwtToken = response.headers['authorization'].substring(7);
-        console.log(jwtToken);
-        setCookie('token', jwtToken);
+        localStorage.setItem('jwtToken', jwtToken);
 
         navigate('/onboarding');
       })
