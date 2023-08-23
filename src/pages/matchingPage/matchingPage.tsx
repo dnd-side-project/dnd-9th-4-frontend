@@ -16,6 +16,8 @@ import { useNavigate } from 'react-router-dom';
 import 'pages/matchingPostWritePage/calendar.css';
 import BottomSheet from 'components/common/BottomSheet';
 import DownArrowGray from 'assets/matchingPageIcon/DownArrowGray.svg';
+// import config from 'config';
+// import axios from 'axios';
 
 // 매칭 모집글 테스트 데이터
 const mathcingPostsTestData = {
@@ -133,6 +135,20 @@ function MatchingPage() {
   // 시간 필터링
   const [isOpenTime, setOpenTime] = useState(false);
   const [sort, setSort] = useState('최신순');
+
+  // const getMatchingPostList = async () => {
+  //   try {
+  //     const res = await axios.get(`${config.backendUrl}/health`);
+  //     console.log(res);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   // 수행할 함수
+  //   getMatchingPostList();
+  // });
 
   return (
     <div>

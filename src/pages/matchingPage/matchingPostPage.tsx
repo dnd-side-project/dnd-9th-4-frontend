@@ -95,7 +95,7 @@ function MatchingPostPage() {
 
   return (
     <div>
-      <TopBanner />
+      <TopBanner id={Number(id)} />
       <div css={matchingPostPageStyles.container}>
         <div css={matchingPostPageStyles.profileContainer}>
           <img

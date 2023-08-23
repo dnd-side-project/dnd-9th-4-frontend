@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import config from 'config';
 import { useNavigate } from 'react-router-dom';
-import { setCookie } from 'auth/cookie';
+import { getJwtToken, getMemberId } from 'api/localStorage';
 
 function RedirectHandler() {
   const navigate = useNavigate();
@@ -22,16 +22,27 @@ function RedirectHandler() {
       .then((response) => {
         console.log('카카오 로그인 성공 ======>', response);
 
+        const storedMemberId = getMemberId();
+        const storedJwtToken = getJwtToken();
+
+        // memberId
         const memberId = response.data['data']['memberId'];
-        console.log(memberId);
-        localStorage.setItem('memberId', memberId);
 
-        // JWT Token(access Token)
-        const jwtToken = response.headers['authorization'].substring(7);
-        console.log(jwtToken);
-        setCookie('token', jwtToken);
+        // 이미 storedJwtToken가 있고 storedMemberId가 memberId랑 같으면 온보딩 이동X
+        if (storedJwtToken && Number(storedMemberId) === memberId) {
+          console.log('이미 가입된 회원');
+          navigate('/');
+        } else {
+          console.log('새로운 회원');
 
-        navigate('/onboarding');
+          localStorage.setItem('memberId', memberId);
+
+          // JWT Token
+          const jwtToken = response.headers['authorization'].substring(7);
+          localStorage.setItem('jwtToken', jwtToken);
+
+          navigate('/onboarding');
+        }
       })
       .catch((error) => {
         console.error('카카오 로그인 실패 ======>', error);

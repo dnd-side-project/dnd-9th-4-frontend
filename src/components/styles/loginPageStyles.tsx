@@ -14,9 +14,7 @@ export const loginPageStyles = {
 
   flex1Container: css({ flex: 1 }),
 
-  flex2Container: css({ flex: 2 }),
-
-  subTitle: css({
+  title: css({
     color: '#FFFFFF',
     textAlign: 'center',
     fontFamily: 'Pretendard',
@@ -24,15 +22,23 @@ export const loginPageStyles = {
     fontStyle: 'normal',
     fontWeight: 700,
     lineHeight: '150%' /* 30px */,
-    letterSpacing: '-0.8px',
-    margin: 0,
+    letterSpacing: '-0.38px',
+    whiteSpace: 'pre-line',
+    marginTop: '40px',
+    marginBottom: '17px',
   }),
 
-  logoContainer: css({
-    flex: 3,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+  subTitle: css({
+    color: '#D8D8D8',
+    textAlign: 'center',
+    fontFamily: 'Pretendard',
+    fontSize: '14px',
+    fontStyle: 'normal',
+    fontWeight: 500,
+    lineHeight: '150%' /* 30px */,
+    letterSpacing: '-0.266px',
+    whiteSpace: 'pre-line',
+    marginBottom: '80px',
   }),
 
   loginButtonContainer: css({

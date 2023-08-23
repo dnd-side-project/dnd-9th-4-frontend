@@ -2,12 +2,11 @@
 import React from 'react';
 import { loginPageStyles } from 'components/styles/loginPageStyles';
 import config from 'config';
-import LoginLogo from 'assets/newPleLogo/LoginLogo.svg';
-import LoginLogoTitle from 'assets/newPleLogo/LoginLogoTitle.svg';
 import Kakao from 'assets/Kakao.svg';
-import { css } from '@emotion/react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { LoginCarousel } from 'components/loginPage/loginPage';
+import { css } from '@emotion/react';
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -46,19 +45,15 @@ function LoginPage() {
 
   return (
     <div css={loginPageStyles.container}>
-      <div css={loginPageStyles.flex1Container} />
-      <div css={loginPageStyles.flex1Container}>
-        <p css={loginPageStyles.subTitle}>
-          나와 맞는 운동메이트와 만나
-          <br /> 함께 운동해요!
-        </p>
-      </div>
-      <div css={loginPageStyles.logoContainer}>
-        <img src={LoginLogo} css={css({ width: '220px' })} />
-        <img
-          src={LoginLogoTitle}
-          css={css({ width: '142px', marginTop: '71px' })}
-        />
+      <div
+        css={css({
+          flex: 5,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        })}
+      >
+        <LoginCarousel />
       </div>
       <div css={loginPageStyles.loginButtonContainer}>
         <form
