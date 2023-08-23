@@ -38,6 +38,9 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
     const memberId = localStorage.getItem('memberId');
+    console.log('App -> token', token);
+    console.log('App -> memberId', memberId);
+    console.log('paht', window.location.pathname);
     if (
       !token &&
       !memberId &&
@@ -45,6 +48,7 @@ function App() {
       window.location.pathname !== '/auth'
     ) {
       // jwtToken, memberId 가 없으면 로그인 페이지로
+      console.log('로그인페이지로 이동');
       window.location.href = '/login';
     }
   }, []);
