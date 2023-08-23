@@ -32,12 +32,12 @@ const OnBoardingPage4 = () => {
       region: `${selectedRegion} ${selectedSubRegion}`,
     };
     setOnboardingProfile(updatedProfile);
-    console.log(updatedProfile);
-    console.log(onboardingProfile);
+    // console.log(updatedProfile);
+    // console.log(onboardingProfile);
   };
 
   const handleRegionChange = (region: string) => {
-    console.log(region);
+    // console.log(region);
     setSelectedRegion(region);
     const targetObject = regionData[regionKeys.indexOf(region)];
     setSubRegionValues(targetObject[region]);

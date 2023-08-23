@@ -29,8 +29,8 @@ const OnBoardingPage6 = () => {
       interests: selectedInterested,
     };
     setOnboardingProfile(updatedProfile);
-    console.log(updatedProfile);
-    console.log(onboardingProfile);
+    // console.log(updatedProfile);
+    // console.log(onboardingProfile);
   };
 
   const onUpdateSelectedStyles = (styles: string[]) => {
