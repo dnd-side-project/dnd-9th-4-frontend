@@ -12,7 +12,6 @@ import {
   Horizontalline,
 } from 'components/common/commonComponents';
 import { useNavigate } from 'react-router-dom';
-import { getCookie } from 'auth/cookie';
 
 // 내 주변 뉴플메이트 테스트 데이터
 const profileTestData = {
@@ -121,10 +120,8 @@ function HomePage() {
     console.log('이동');
   };
 
-  // 토큰 값 가져오기
   useEffect(() => {
-    const jwtToken = getCookie('token');
-    console.log(jwtToken);
+    // useEffect
   }, []);
 
   return (
