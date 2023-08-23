@@ -163,4 +163,18 @@ export const matchingPostPageStyles = {
     lineHeight: '150%',
     letterSpacing: '-0.342px',
   }),
+  moreModal: css({
+    width: '120%',
+    textAlign: 'center',
+    '& > div': {
+      textAlign: 'center',
+      fontFamily: 'Pretendard',
+      fontSize: '18px',
+      fontStyle: 'normal',
+      fontWeight: 500,
+      lineHeight: '150%', // '27px'
+      letterSpacing: '-0.342px',
+      marginBlock: '15px',
+    },
+  }),
 };

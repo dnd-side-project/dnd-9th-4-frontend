@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
-//import { css } from '@emotion/react';
+import { css } from '@emotion/react';
 import { useParams } from 'react-router-dom';
 import PostLocation from 'assets/matchingPostIcon/PostLocation.svg';
 import PostSport from 'assets/matchingPostIcon/PostSport.svg';
@@ -12,27 +12,32 @@ import {
 } from 'components/matchingPage/matchingPostPageComponents';
 import { matchingPostPageStyles } from 'components/styles/matchingPostPageStyles';
 import { Horizontalline } from 'components/common/commonComponents';
+import BottomSheet from 'components/common/BottomSheet';
+import { useNavigate } from 'react-router-dom';
 
 const testData = {
+  age: '20대 초반',
+  content: '취미로 등산하는데 한라산 꼭 가보고 싶었어요!!',
+  gender: '여성',
   id: 1,
-  memberId: 1, // 사진도 있어야 하지 않을까?
-  profileImg:
-    'https://image.hmall.com/static/8/0/42/35/2135420804_0.jpg?RS=600x600&AR=0',
-  writerUsername: 'john_doe',
-  writerAge: '30',
-  writerGender: 'MALE',
+  memberId: 1,
+  region: '대전광역시 유성구',
+  runtime: '2023-09-12 13:00:00',
   sport: 'HIKING',
+  status: 'COMPLETED',
   tags: ['20대', '30대', '2030', '같이성장해요', '운동초보환영'],
   title: '한라산 올라가실 분~',
-  content: '취미로 등산하는데 한라산 꼭 가보고 싶었어요!!',
-  region: '대전광역시 유성구',
-  gender: '여성',
-  age: '20대 초반',
-  runtime: '2023-09-12 13:00:00',
-  status: 'RECRUITING',
+  writerAge: '30',
+  writerGender: 'MALE',
+  writerProfileImg:
+    'https://image.hmall.com/static/8/0/42/35/2135420804_0.jpg?RS=600x600&AR=0',
+  writerUsername: 'john_doe',
+  writtenDate: new Date('2023-08-23T12:04:36.183Z'),
 };
 
 function MatchingPostPage() {
+  const navigate = useNavigate();
+
   const [recruiting, setRecruiting] = useState<boolean>(false);
   const { id } = useParams();
 
@@ -53,22 +58,7 @@ function MatchingPostPage() {
     console.log('매칭 신청');
     setOpenModal1(false);
     setRecruiting(true);
-    // setTimeout(() => {
-    //   onClickModal2Oepn();
-    // }, 200);
   };
-
-  // // 매칭 신청 확인 모달
-  // const [openModal2, setOpenModal2] = useState(false);
-
-  // const onClickModal2Oepn = () => {
-  //   setOpenModal2(true);
-  // };
-
-  // const onClickModal2Close = () => {
-  //   setOpenModal2(false);
-  //   setRecruiting(true);
-  // };
 
   // 매칭 취소 모달
   const [openCancelModal, setOpenCancelModal] = useState(false);
@@ -93,13 +83,17 @@ function MatchingPostPage() {
     setRecruiting(false);
   };
 
+  // 상단 more 버튼
+  const [isMore, setIsMore] = useState(false);
+  console.log(isMore);
+
   return (
     <div>
-      <TopBanner id={Number(id)} />
+      <TopBanner id={Number(id)} onClickMoreButton={() => setIsMore(true)} />
       <div css={matchingPostPageStyles.container}>
         <div css={matchingPostPageStyles.profileContainer}>
           <img
-            src={testData.profileImg}
+            src={testData.writerProfileImg || undefined}
             css={matchingPostPageStyles.profileImg}
           />
           <span css={matchingPostPageStyles.profileName}>
@@ -161,13 +155,6 @@ function MatchingPostPage() {
         title="매칭을 신청하시겠습니까?"
         subTitle="서브타이틀"
       />
-      {/* <MatchingModal // 매칭 신청 확인 모달
-        open={openModal2}
-        onClickModalClose={onClickModal2Close}
-        onClickModalOk={onClickModal2Close}
-        title="매칭을 신청 완료되었습니다!"
-        subTitle="서브타이틀"
-      /> */}
       <MatchingModal // 매칭 취소 모달
         open={openCancelModal}
         onClickModalClose={onClickCancelModalClose}
@@ -182,6 +169,19 @@ function MatchingPostPage() {
         subTitle="매칭 신청이 취소되었습니다."
         buttonOne="buttonOne"
       />
+      <BottomSheet isOpen={isMore} onClose={() => setIsMore(false)}>
+        <div css={matchingPostPageStyles.moreModal}>
+          <div css={css({ color: '#2E7BEE' })} onClick={() => navigate(`edit`)}>
+            수정하기
+          </div>
+          <Horizontalline color="#D1D3D7" />
+          <div css={css({ color: '#FF0000' })}>삭제하기</div>
+          <Horizontalline color="#D1D3D7" />
+          <div css={css({ color: '#2E7BEE' })} onClick={() => setIsMore(false)}>
+            취소
+          </div>
+        </div>
+      </BottomSheet>
     </div>
   );
 }

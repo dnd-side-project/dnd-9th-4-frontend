@@ -16,6 +16,7 @@ import 배너8 from 'assets/postBanner/배너8.png';
 
 interface BannerData {
   id: number;
+  onClickMoreButton?: () => void;
 }
 
 /*
@@ -37,7 +38,11 @@ export function TopBanner(props: BannerData) {
     >
       <div css={matchingPostPageStyles.bannerButton}>
         <img src={PostBack} onClick={() => navigate(-1)} />
-        <img src={PostMore} css={css({ paddingBottom: '5px' })} />
+        <img
+          src={PostMore}
+          css={css({ paddingBottom: '5px' })}
+          onClick={props.onClickMoreButton}
+        />
       </div>
       <div css={matchingPostPageStyles.emptyButton}></div>
     </div>
@@ -52,11 +57,7 @@ interface MatchingModalData {
   title2?: string;
   subTitle: string;
   buttonOne?: string;
-}
-
-interface PostHashTagData {
-  title: string;
-  hashTag: string[];
+  img?: string;
 }
 
 /*
@@ -68,9 +69,20 @@ export function MatchingModal(props: MatchingModalData) {
       open={props.open}
       onClose={props.onClickModalClose}
       PaperProps={{
-        style: { borderRadius: '16px' },
+        style: { borderRadius: '16px', overflow: 'visible' },
       }}
     >
+      {props.img ? (
+        <img
+          src={props.img}
+          css={css({
+            position: 'absolute',
+            top: '-50px',
+            left: '75px',
+            width: '50%',
+          })}
+        />
+      ) : null}
       <div
         css={css({
           display: 'flex',
@@ -171,6 +183,11 @@ export function MatchingModal(props: MatchingModalData) {
       </div>
     </Dialog>
   );
+}
+
+interface PostHashTagData {
+  title: string;
+  hashTag: string[];
 }
 
 /*
