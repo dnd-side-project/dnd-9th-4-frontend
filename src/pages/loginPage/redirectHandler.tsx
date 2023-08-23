@@ -32,7 +32,7 @@ function RedirectHandler() {
         console.log('post -> memberId', memberId);
 
         // 이미 storedJwtToken가 있고 storedMemberId가 memberId랑 같으면 온보딩 이동X
-        if (storedJwtToken && storedMemberId === memberId) {
+        if (storedJwtToken && Number(storedMemberId) === memberId) {
           console.log('이미 가입된 회원');
           navigate('/');
         } else {
