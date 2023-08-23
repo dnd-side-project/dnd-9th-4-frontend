@@ -6,13 +6,12 @@ import { baseAxios } from './baseAxios';
  * @body 프로필 정보
  * @returns 통신코드(201..)
  */
-const token = localStorage.getItem('jwtToken');
 
 export const postOnboardingProfile = async (profile: OnboardingProfile) => {
   const response = await baseAxios
     .post('/api/profile', profile, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
       },
     })
     .then((response) => response.data);
