@@ -3,7 +3,7 @@ export type RegionData = {
 };
 
 export type OnboardingProfile = {
-  memberId: number | null;
+  // memberId: number | null;
   userName: string | null;
   introduce: string | null;
   profileImg: string | null;
@@ -47,4 +47,30 @@ export type MypageProfile = {
   wantedGender: string | null;
   wantedPeriodEx: string | null;
   wantedPersonality: string | null;
+};
+
+export type MessageList = {
+  messageId: number;
+  receiverId: number;
+  username: string;
+  profileImg: string;
+  sendDate: string;
+  lastMessage: string;
+};
+
+export type MessageHistory = {
+  myId: number;
+  myUsername: string;
+  myProfileImg: string;
+  receiverId: number;
+  receiverUsername: string;
+  receiverProfileImg: string;
+  messageResponses: Message[];
+};
+
+export type Message = {
+  messageId: number;
+  sendDate: string;
+  content: string;
+  sender: 'ME' | 'RECEIVER';
 };

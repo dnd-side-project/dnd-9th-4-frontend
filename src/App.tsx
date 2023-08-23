@@ -65,8 +65,11 @@ function App() {
             <Route path="finish" element={<OnBoardingFinishPage />} />
           </Route>
           <Route path="/message" element={<MessageListPage />} />
-          <Route path="/message/:id" element={<MessagePage />} />
-          <Route path="/message/:id/write" element={<MessageWritePage />} />
+          <Route path="/message/:receiverId" element={<MessagePage />} />
+          <Route
+            path="/message/:receiverId/write"
+            element={<MessageWritePage />}
+          />
           <Route path="my">
             <Route index element={<MyPage />} />
             <Route path="profile">
