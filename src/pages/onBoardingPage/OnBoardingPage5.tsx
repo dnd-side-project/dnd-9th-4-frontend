@@ -30,8 +30,8 @@ const OnBoardingPage5 = () => {
       mbti: isEorI + isNorS + isForT + isPorJ,
     };
     setOnboardingProfile(updatedProfile);
-    console.log(updatedProfile);
-    console.log(onboardingProfile);
+    // console.log(updatedProfile);
+    // console.log(onboardingProfile);
   };
 
   return (

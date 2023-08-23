@@ -28,8 +28,8 @@ const OnBoardingPage2 = () => {
       sport: selectedTags,
     };
     setOnboardingProfile(updatedProfile);
-    console.log(updatedProfile);
-    console.log(onboardingProfile);
+    // console.log(updatedProfile);
+    // console.log(onboardingProfile);
   };
 
   const onUpdateSelectedTags = (tags: string[]) => {

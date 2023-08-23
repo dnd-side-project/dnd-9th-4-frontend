@@ -33,8 +33,8 @@ const OnBoardingPage = () => {
       profileImg: selectProfile,
     };
     setOnboardingProfile(updatedProfile);
-    console.log(updatedProfile);
-    console.log(onboardingProfile);
+    // console.log(updatedProfile);
+    // console.log(onboardingProfile);
   };
 
   const [isOpen, setIsOpen] = useState(false);
