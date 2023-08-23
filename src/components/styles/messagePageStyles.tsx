@@ -57,7 +57,7 @@ export const messagePageHeaderArea = css({
   justifyContent: 'flex-start',
   paddingBottom: '28px',
   fontSize: '20px',
-  fontWeight: 600,
+  fontWeight: 700,
 });
 
 export const messagePageBodyArea = css({

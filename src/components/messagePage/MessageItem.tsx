@@ -4,28 +4,32 @@ import {
   messageListItemBodyArea,
   messageListItemTimeArea,
 } from 'components/styles/messagePageStyles';
-import { Message } from 'pages/message/MessagePage';
+import { Message } from 'data/type';
 import React from 'react';
 
 const MessageItem = ({
   messageItem,
+  profileImg,
+  userName,
   imgSize,
+  onClick,
 }: {
   messageItem: Message;
+  profileImg: string;
+  userName: string;
   imgSize: number;
+  onClick?: () => void;
 }) => {
   return (
-    <div css={messageListItemArea}>
-      <img src={messageItem.img} style={{ width: imgSize, height: imgSize }} />
+    <div css={messageListItemArea} onClick={onClick}>
+      <img src={profileImg} style={{ width: imgSize, height: imgSize }} />
       <div css={messageListItemBodyArea}>
         <div className="user-name">
-          {messageItem.isMe
-            ? `${messageItem.userName}(나)`
-            : messageItem.userName}
+          {messageItem.sender === 'ME' ? `${userName}(나)` : userName}
         </div>
-        <div>{messageItem.message}</div>
+        <div>{messageItem.content}</div>
       </div>
-      <div css={messageListItemTimeArea}>{messageItem.time}</div>
+      <div css={messageListItemTimeArea}>{messageItem.sendDate}</div>
     </div>
   );
 };

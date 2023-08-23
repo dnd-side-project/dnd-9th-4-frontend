@@ -27,13 +27,14 @@ const OnBoardingPage = () => {
     console.log('ONBOARDING : ' + memberId);
     const updatedProfile = {
       ...onboardingProfile,
-      memberId: Number(memberId),
+      // memberId: Number(memberId),
+      // memberId: 23,
       userName: nickname,
       profileImg: selectProfile,
     };
     setOnboardingProfile(updatedProfile);
-    console.log(updatedProfile);
-    console.log(onboardingProfile);
+    // console.log(updatedProfile);
+    // console.log(onboardingProfile);
   };
 
   const [isOpen, setIsOpen] = useState(false);

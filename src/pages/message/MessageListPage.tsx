@@ -10,46 +10,65 @@ import {
   messagePageHeaderArea,
 } from 'components/styles/messagePageStyles';
 import { ButtonNavigation } from 'components/common/commonComponents';
-import { Message } from './MessagePage';
 import MessageItem from 'components/messagePage/MessageItem';
+import { MessageList } from 'data/type';
+import { useNavigate } from 'react-router-dom';
+import { MessageListToMessage } from 'data/typeConverter';
 
 const MessageListPage = () => {
-  const messageList: Message[] = [
+  const navigate = useNavigate();
+  const messageList: MessageList[] = [
     {
-      img: Profile3,
-      userName: '푸바오',
-      message: '안녕하세요~ 반갑습니다!',
-      time: '00/00 00:00',
-      isMe: false,
+      messageId: 1,
+      receiverId: 20,
+      username: '푸바오',
+      profileImg: Profile3,
+      sendDate: '00/00 00:00',
+      lastMessage: '안녕하세요~',
     },
     {
-      img: Profile4,
-      userName: '아메리카노',
-      message: '그럼 그 때 뵙겠습니다!',
-      time: '00/00 00:00',
-      isMe: false,
+      messageId: 7,
+      receiverId: 25,
+      username: '메롱',
+      profileImg: Profile4,
+      sendDate: '00/00 00:00',
+      lastMessage: '넵 알겠습니다',
     },
     {
-      img: Profile5,
-      userName: '푸바오',
-      message: '안녕하세요~ 반갑습니다!',
-      time: '00/00 00:00',
-      isMe: false,
+      messageId: 14,
+      receiverId: 17,
+      username: '가나다라마바사',
+      profileImg: Profile6,
+      sendDate: '00/00 00:00',
+      lastMessage: '언제가 좋을까요?',
     },
     {
-      img: Profile6,
-      userName: '푸바오',
-      message: '안녕하세요~ 반갑습니다!',
-      time: '00/00 00:00',
-      isMe: false,
+      messageId: 35,
+      receiverId: 2,
+      username: '누구게',
+      profileImg: Profile5,
+      sendDate: '00/00 00:00',
+      lastMessage: '그 날은 일정이 있어서요ㅜ',
     },
   ];
+
+  const handleClick = (receiverId: number) => {
+    navigate(`/message/${receiverId}`);
+  };
+
   return (
     <div css={messagePageContainer}>
       <div css={messagePageHeaderArea}>쪽지함</div>
       <div css={messagePageBodyArea}>
         {messageList.map((message, index) => (
-          <MessageItem messageItem={message} imgSize={48} key={index} />
+          <MessageItem
+            messageItem={MessageListToMessage(message)}
+            profileImg={message.profileImg}
+            userName={message.username}
+            imgSize={48}
+            key={index}
+            onClick={() => handleClick(message.receiverId)}
+          />
         ))}
       </div>
       <ButtonNavigation />

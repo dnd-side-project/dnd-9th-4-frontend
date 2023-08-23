@@ -26,8 +26,8 @@ const OnBoardingPage1 = () => {
   const handleProfileChange = () => {
     const updatedProfile = { ...onboardingProfile, gender: gender };
     setOnboardingProfile(updatedProfile);
-    console.log(updatedProfile);
-    console.log(onboardingProfile);
+    // console.log(updatedProfile);
+    // console.log(onboardingProfile);
   };
 
   return (

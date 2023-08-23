@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect } from 'react';
+// import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from 'pages/homePage/homePage';
 import LoginPage from 'pages/loginPage/loginPage';
@@ -81,8 +82,11 @@ function App() {
             <Route path="finish" element={<OnBoardingFinishPage />} />
           </Route>
           <Route path="/message" element={<MessageListPage />} />
-          <Route path="/message/:id" element={<MessagePage />} />
-          <Route path="/message/:id/write" element={<MessageWritePage />} />
+          <Route path="/message/:receiverId" element={<MessagePage />} />
+          <Route
+            path="/message/:receiverId/write"
+            element={<MessageWritePage />}
+          />
           <Route path="my">
             <Route index element={<MyPage />} />
             <Route path="profile">
