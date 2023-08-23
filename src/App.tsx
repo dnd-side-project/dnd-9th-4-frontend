@@ -33,22 +33,18 @@ import WithdrawPage from 'pages/myPage/WithdrawPage';
 import ProfilePage from 'pages/profilePage/ProfilePage';
 import WriteReviewPage from 'pages/profilePage/WriteReviewPage';
 import OnBoardingPage8 from 'pages/onBoardingPage/OnBoardingPage8';
+import { getJwtToken, getMemberId } from 'api/localStorage';
 
 function App() {
   useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
-    const memberId = localStorage.getItem('memberId');
-    console.log('App -> token', token);
-    console.log('App -> memberId', memberId);
-    console.log('paht', window.location.pathname);
+    const token = getJwtToken();
+    const memberId = getMemberId();
     if (
-      !token &&
-      !memberId &&
+      (token == null || memberId == null) &&
       window.location.pathname !== '/login' &&
       window.location.pathname !== '/auth'
     ) {
       // jwtToken, memberId 가 없으면 로그인 페이지로
-      console.log('로그인페이지로 이동');
       window.location.href = '/login';
     }
   }, []);
