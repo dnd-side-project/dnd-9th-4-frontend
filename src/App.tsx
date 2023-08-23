@@ -33,6 +33,7 @@ import WithdrawPage from 'pages/myPage/WithdrawPage';
 import ProfilePage from 'pages/profilePage/ProfilePage';
 import WriteReviewPage from 'pages/profilePage/WriteReviewPage';
 import OnBoardingPage8 from 'pages/onBoardingPage/OnBoardingPage8';
+import EditDetailPostPage from 'pages/matchingPostWritePage/editDetailPostWritePage';
 import { getJwtToken, getMemberId } from 'api/localStorage';
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
           <Route path="/auth" element={<RedirectHandler />} />
           <Route path="/post/sport" element={<SelectSportPage />} />
           <Route path="/post/detail" element={<DetailPostWritePage />} />
+          <Route path="/post/:id/edit" element={<EditDetailPostPage />} />
           <Route path="/post/:id" element={<MatchingPostPage />} />
           <Route path="onboarding">
             <Route index element={<OnBoardingPage />} />
