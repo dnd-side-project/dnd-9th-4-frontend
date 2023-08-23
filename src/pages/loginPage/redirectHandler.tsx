@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import config from 'config';
 import { useNavigate } from 'react-router-dom';
+import { getJwtToken, getMemberId } from 'api/localStorage';
 
 function RedirectHandler() {
   const navigate = useNavigate();
@@ -21,15 +22,11 @@ function RedirectHandler() {
       .then((response) => {
         console.log('카카오 로그인 성공 ======>', response);
 
-        const storedMemberId = localStorage.getItem('memberId');
-        const storedJwtToken = localStorage.getItem('jwtToken');
-
-        console.log('localStorage -> memberId', storedMemberId);
-        console.log('localStorage -> jwtToken', storedJwtToken);
+        const storedMemberId = getMemberId();
+        const storedJwtToken = getJwtToken();
 
         // memberId
         const memberId = response.data['data']['memberId'];
-        console.log('post -> memberId', memberId);
 
         // 이미 storedJwtToken가 있고 storedMemberId가 memberId랑 같으면 온보딩 이동X
         if (storedJwtToken && Number(storedMemberId) === memberId) {
