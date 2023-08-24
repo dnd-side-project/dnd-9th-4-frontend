@@ -9,7 +9,6 @@ import {
   DropDowmSelect,
   TimeInput,
 } from 'components/matchingPage/matchingPostWritePageComponents';
-//import AddPhoto from 'assets/AddPhoto.svg';
 import { useRecoilState } from 'recoil';
 import { postWriteState } from 'recoil/postWrite';
 import BottomSheet from 'components/common/BottomSheet';
