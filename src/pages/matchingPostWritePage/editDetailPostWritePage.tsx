@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
-import { css } from '@emotion/react';
 import {
   NaviBarTitle,
   LableTitle,
@@ -9,6 +8,7 @@ import {
   DropDowmSelect,
   TimeInput,
 } from 'components/matchingPage/matchingPostWritePageComponents';
+//import AddPhoto from 'assets/AddPhoto.svg';
 import { useRecoilState } from 'recoil';
 import { postWriteState } from 'recoil/postWrite';
 import BottomSheet from 'components/common/BottomSheet';
@@ -22,31 +22,30 @@ import {
 import { matchingDetailWrtieStyles } from 'components/styles/matchingPostWriteStyles';
 import 'moment/locale/ko';
 import regionJsonData from 'data/region.json';
-import { hashTagData } from 'data/postWriteData';
 moment.locale('ko');
-import { useMutation } from 'react-query';
-import { postMatchingPostWrite } from 'api/matchingPostWritePageApi';
-import { MatchingModal } from 'components/matchingPage/matchingPostPageComponents';
-import { useNavigate } from 'react-router-dom';
 
-function datailPostWrtiePage() {
-  const navigate = useNavigate();
+const testData = {
+  age: '20대 초반',
+  content: '취미로 등산하는데 한라산 꼭 가보고 싶었어요!!',
+  gender: '여성',
+  id: 1,
+  memberId: 1,
+  region: '대전광역시 유성구',
+  runtime: '2023-09-12 09:00:00',
+  sport: 'HIKING',
+  status: 'COMPLETED',
+  tags: ['20대', '30대', '2030', '같이성장해요', '운동초보환영'],
+  title: '한라산 올라가실 분~',
+  writerAge: '30',
+  writerGender: 'MALE',
+  writerProfileImg:
+    'https://image.hmall.com/static/8/0/42/35/2135420804_0.jpg?RS=600x600&AR=0',
+  writerUsername: 'john_doe',
+  writtenDate: new Date('2023-08-23T12:04:36.183Z'),
+};
 
-  // API 통신
-  const { mutate } = useMutation(() => postMatchingPostWrite(postWrite), {
-    onSuccess: (data) => {
-      const postId = JSON.stringify(data.postId);
-      console.log('성공:', postId);
-      navigate(`/post/${postId}`);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
-
-  // 작성하기 모달
-  const [openWritePostModal, setOpenWritePostModal] = useState(false);
-
+// 게시물 수정
+function editDatailPostWrtiePage() {
   // recoil
   const [postWrite, setPostWrite] = useRecoilState(postWriteState);
 
@@ -69,42 +68,42 @@ function datailPostWrtiePage() {
   };
 
   const onClickSubmitButton = () => {
-    checkAndSetError(postWrite.title, setTitleError);
-    checkAndSetError(postWrite.content, setBodyError);
+    checkAndSetError(title, setTitleError);
+    checkAndSetError(body, setBodyError);
     checkAndSetError(day, setDayError);
     checkAndSetError(fullTime, setHourError);
     checkAndSetError(applyBigRegion, setRegionError);
 
     if (
-      postWrite.title !== '' &&
-      postWrite.content !== '' &&
-      postWrite.runtime != null &&
+      title !== '' &&
+      body !== '' &&
+      day != null &&
       fullTime != null &&
       applyBigRegion != null &&
       applySmalRegion != null
     ) {
-      console.log(postWrite);
       console.log('제출하기');
-      setOpenWritePostModal(true);
+      setPostWrite({
+        ...postWrite,
+        title: title,
+        content: body,
+        runtime: moment(day).format('YYYY년 MM월 DD일') + '' + fullTime,
+        region: applyBigRegion + '' + applySmalRegion,
+        tags: tagList,
+      });
     }
   };
 
-  const onClickWritePostModal = async () => {
-    setOpenWritePostModal(false);
-    mutate();
-  };
-
   // [제목]
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(testData.title);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setTitleError(false);
-    setPostWrite({ ...postWrite, title: event.target.value });
   };
 
   // [상세설명]
-  const [body, setBody] = useState('');
+  const [body, setBody] = useState(testData.content);
   const MAX_CHARACTERS = 300;
 
   const handleBodyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -112,14 +111,9 @@ function datailPostWrtiePage() {
 
     if (inputValue.length <= MAX_CHARACTERS) {
       setBody(inputValue);
-      setPostWrite({ ...postWrite, content: inputValue });
       setBodyError(false);
     } else {
       setBody(inputValue.slice(0, MAX_CHARACTERS - 1));
-      setPostWrite({
-        ...postWrite,
-        content: inputValue.slice(0, MAX_CHARACTERS - 1),
-      });
       setBodyError(true);
     }
   };
@@ -129,7 +123,7 @@ function datailPostWrtiePage() {
   const currDate = new Date();
   const currDateTime = moment(currDate).format('MM-DD');
   const [runtime, setRuntime] = useState(new Date()); // 달력 선택하는 값
-  const [day, setDay] = useState<Date | null>(null); // 선택된 날짜 값
+  const [day, setDay] = useState<Date | null>(new Date(testData.runtime)); // 선택된 날짜 값
 
   const onClickDay = (runtime: Date) => {
     setRuntime(runtime);
@@ -139,27 +133,24 @@ function datailPostWrtiePage() {
     setIsOpenDay(false);
     setDay(runtime);
     setDayError(false);
-    setPostWrite({
-      ...postWrite,
-      runtime: moment(runtime).format('YYYY-MM-DD'),
-    });
   };
 
   // [시간] - 시간
+  const dateObject = new Date(testData.runtime);
+  const dataHours = String(dateObject.getHours()).padStart(2, '0');
+  const DataMinutes = String(dateObject.getMinutes()).padStart(2, '0');
+
+  const formattedTime = `${dataHours}시 ${DataMinutes}분`;
+
   const [isOpenTime, setIsOpenTime] = useState(false);
   const [hour, setHour] = useState<string>('0');
-  const [fullTime, setFullTime] = useState<string | null>(null);
+  const [fullTime, setFullTime] = useState<string | null>(formattedTime);
 
   const onClickTimeApply = () => {
     setIsOpenTime(false);
     const formattedHour = hour?.padStart(2, '0');
-    const time = formattedHour + ':' + minute + ':00';
-    setFullTime(time);
+    setFullTime(formattedHour + '시 ' + minute + '분');
     setHourError(false);
-    setPostWrite({
-      ...postWrite,
-      runtime: postWrite.runtime + ' ' + time,
-    });
   };
 
   const onClickHour = (value: string) => {
@@ -180,10 +171,14 @@ function datailPostWrtiePage() {
 
   // [지역]
   const [isOpenRegion, setIsOpenRegion] = useState(false);
-  const [bigRegion, setBigRegion] = useState('서울특별시');
-  const [smallRegion, setSmallRegion] = useState('종로구');
-  const [applyBigRegion, setApplyBigRegion] = useState<string | null>(null);
-  const [applySmalRegion, setApplySamllRegion] = useState<string | null>(null);
+  const [bigRegion, setBigRegion] = useState(testData.region.split(' ')[0]);
+  const [smallRegion, setSmallRegion] = useState(testData.region.split(' ')[1]);
+  const [applyBigRegion, setApplyBigRegion] = useState<string | null>(
+    testData.region.split(' ')[0],
+  );
+  const [applySmalRegion, setApplySamllRegion] = useState<string | null>(
+    testData.region.split(' ')[1],
+  );
 
   const regionBigName = Object.keys(regionJsonData);
 
@@ -201,9 +196,24 @@ function datailPostWrtiePage() {
     setIsOpenRegion(false);
     setApplyBigRegion(bigRegion);
     setApplySamllRegion(smallRegion);
-    setPostWrite({ ...postWrite, region: bigRegion + ' ' + smallRegion });
   };
 
+  // [해시태그]
+  const hashTagData = [
+    '20대',
+    '30대',
+    '40대',
+    '50대',
+    '나이무관',
+    '운동하는직장인',
+    '오직운동만',
+    '운동고수',
+    '운동자극',
+    '운동끝나고치맥',
+    '운동초보환영',
+    '같이성장해요',
+    '서로도와요',
+  ];
   const [writeTag, setWriteTag] = useState('');
 
   const onChamgeWriteTag = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -217,59 +227,31 @@ function datailPostWrtiePage() {
     }
   };
 
-  const onhandleKeyPressTag = (
-    event: React.KeyboardEvent<HTMLInputElement>,
-  ) => {
-    if (event.key === 'Enter') {
-      setWriteTag('');
-      if (tagList.includes(writeTag) || writeTag == '') {
-        console.log('해시태그에 안들어감');
-      } else if (tagList.length < 5) {
-        setTagList([...tagList, writeTag]);
-        setPostWrite({ ...postWrite, tags: [...tagList, writeTag] });
-      }
-    }
-  };
-
   const onClickTagAdd = () => {
     setWriteTag('');
     if (tagList.includes(writeTag) || writeTag == '') {
       console.log('해시태그에 안들어감');
     } else if (tagList.length < 5) {
       setTagList([...tagList, writeTag]);
-      setPostWrite({ ...postWrite, tags: [...tagList, writeTag] });
     }
   };
 
-  const [tagList, setTagList] = useState<string[]>([]);
+  const [tagList, setTagList] = useState<string[]>(testData.tags);
 
   const onClickHashTag = (tag: string) => {
     if (tagList.includes(tag)) {
       setTagList(tagList.filter((item) => item !== tag));
-      setPostWrite({
-        ...postWrite,
-        tags: tagList.filter((item) => item !== tag),
-      });
     } else if (tagList.length < 5) {
       setTagList([...tagList, tag]);
-      setPostWrite({ ...postWrite, tags: [...tagList, tag] });
     }
   };
 
   const onClickRemoveTag = (tag: string) => {
     setTagList(tagList.filter((item) => item !== tag));
-    setPostWrite({
-      ...postWrite,
-      tags: tagList.filter((item) => item !== tag),
-    });
   };
 
   return (
-    <div
-      css={css({
-        paddingBottom: '130px',
-      })}
-    >
+    <div css={matchingDetailWrtieStyles.paddingBottom}>
       <NaviBarTitle title="상세설정" />
       <Horizontalline />
       <div css={matchingDetailWrtieStyles.container}>
@@ -348,7 +330,6 @@ function datailPostWrtiePage() {
               placeholder="태그를 작성해주세요"
               value={writeTag}
               onChange={onChamgeWriteTag}
-              onKeyDown={onhandleKeyPressTag}
               css={matchingDetailWrtieStyles.titleInput}
             />
             <span
@@ -434,11 +415,7 @@ function datailPostWrtiePage() {
       >
         <>
           <div css={matchingDetailWrtieStyles.bottomSheetTitle}>시간</div>
-          <div
-            css={css({
-              display: 'flex',
-            })}
-          >
+          <div css={matchingDetailWrtieStyles.flex}>
             <DropDowmSelect
               option={hour}
               optionTitle={`${hour}시`}
@@ -463,11 +440,7 @@ function datailPostWrtiePage() {
       >
         <>
           <div css={matchingDetailWrtieStyles.bottomSheetTitle}>지역</div>
-          <div
-            css={css({
-              display: 'flex',
-            })}
-          >
+          <div css={matchingDetailWrtieStyles.flex}>
             <DropDowmSelect
               option={bigRegion}
               optionTitle={bigRegion}
@@ -488,15 +461,8 @@ function datailPostWrtiePage() {
           <InitAndApplyButton onClickApply={onClickRegionApply} />
         </>
       </BottomSheet>
-      <MatchingModal
-        open={openWritePostModal}
-        onClickModalOk={onClickWritePostModal}
-        title="게시물이 작성되었습니다."
-        subTitle="뉴플메이트를 만나봐요."
-        buttonOne="buttonOne"
-      />
     </div>
   );
 }
 
-export default datailPostWrtiePage;
+export default editDatailPostWrtiePage;

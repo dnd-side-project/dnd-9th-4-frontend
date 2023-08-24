@@ -1,50 +1,171 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
-import { css } from '@emotion/react';
+import React, { useState, useEffect } from 'react';
 import { NaviBarTitle } from 'components/matchingPage/matchingPostWritePageComponents';
 import { EmptyRequestComponent } from 'components/matchingPage/matchingRequestListPageComponents';
 import { MatchingModal } from 'components/matchingPage/matchingPostPageComponents';
 import { matchingRequestStyles } from 'components/styles/matchingPageStyles';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import config from 'config';
+import { useMutation } from 'react-query';
 
-const testData = {
-  matchingRequest: [
-    {
-      memberId: 1,
-      username: 'jane_smith',
-      gender: 'FEMALE',
-      age: '25',
-      profileImg:
-        'https://cdn.pixabay.com/photo/2016/03/23/15/00/ice-cream-1274894_1280.jpg',
-      matchStatus: 'APPLYING',
-    },
-    {
-      memberId: 2,
-      username: 'jane_smith',
-      gender: 'FEMALE',
-      age: '25',
-      profileImg:
-        'https://cdn.pixabay.com/photo/2016/03/23/15/00/ice-cream-1274894_1280.jpg',
-      matchStatus: 'APPLYING',
-    },
-  ],
+type RequestListType = {
+  profileImg: string;
+  username: string;
+  age: number;
+  gender: string;
+  memberId: number;
+  matchStatus: string;
+};
+
+// const testData = {
+//   matchingRequest: [
+//     {
+//       memberId: 1,
+//       username: 'jane_smith',
+//       gender: 'FEMALE',
+//       age: '25',
+//       profileImg:
+//         'https://cdn.pixabay.com/photo/2016/03/23/15/00/ice-cream-1274894_1280.jpg',
+//       matchStatus: 'APPLYING',
+//     },
+//     {
+//       memberId: 2,
+//       username: 'jane_smith',
+//       gender: 'FEMALE',
+//       age: '25',
+//       profileImg:
+//         'https://cdn.pixabay.com/photo/2016/03/23/15/00/ice-cream-1274894_1280.jpg',
+//       matchStatus: 'APPLYING',
+//     },
+//   ],
+// };
+
+// 매칭 수락 api
+const postMatchingComfrim = async (
+  postId: string | undefined,
+  applicantId: number,
+) => {
+  const comfrim = {
+    postId: Number(postId),
+    applicantId: applicantId,
+  };
+  try {
+    const res = await axios.post(
+      `${config.backendUrl}/api/match/confirm`,
+      comfrim,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        },
+      },
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 매칭 거절 api
+const postMatchingRefuse = async (
+  postId: string | undefined,
+  applicantId: number,
+) => {
+  const refuse = {
+    postId: Number(postId),
+    applicantId: applicantId,
+  };
+  try {
+    const res = await axios.post(
+      `${config.backendUrl}/api/match/refuse`,
+      refuse,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        },
+      },
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 매칭 신청자 조회 api
+const getMatchingApplyMember = async (postId: string | undefined) => {
+  try {
+    const res = await axios.get(
+      `${config.backendUrl}/api/match/${Number(postId)}/all`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        },
+      },
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 function MatchingRequestListPage() {
+  const { id } = useParams();
+
   const [isOpen, setIsOpen] = useState(false);
   const [selectUser, setSelectUser] = useState<string | null>(null);
 
-  const onClickProfile = (id: number) => {
-    console.log(id, '회원 프로필 보기 클릭');
+  const [applyList, setApplyList] = useState<RequestListType[]>([]);
+
+  const { mutate: mutateMatchingMember } = useMutation(
+    () => getMatchingApplyMember(id),
+    {
+      onSuccess: (data) => {
+        setApplyList(data);
+      },
+      onError: (error) => console.log(error),
+    },
+  );
+
+  useEffect(() => {
+    mutateMatchingMember();
+  }, []);
+
+  const onClickProfile = (applicantId: number) => {
+    console.log(applicantId, '회원 프로필 보기 클릭');
   };
 
-  const onClickReject = (id: number) => {
-    console.log(id, '거절하기');
+  // 매칭 수락
+  const { mutate: mutateMatchingComfrim } = useMutation(
+    (applicantId: number) => postMatchingComfrim(id, applicantId),
+    {
+      onSuccess: (data) => {
+        console.log('매칭 수락 성공', data);
+      },
+      onError: (error) => console.log(error),
+    },
+  );
+
+  // 매칭 거절
+  const { mutate: mutateMatchingRefuse } = useMutation(
+    (applicantId: number) => postMatchingRefuse(id, applicantId),
+    {
+      onSuccess: (data) => {
+        console.log('매칭 거절 성공', data);
+      },
+      onError: (error) => console.log(error),
+    },
+  );
+
+  const onClickReject = (applicantId: number) => {
+    console.log(applicantId, '거절하기');
+    mutateMatchingRefuse(applicantId);
   };
 
-  const onClickAccept = (id: number, name: string) => {
-    console.log(id, '수락하기', name);
+  const onClickAccept = (applicantId: number, name: string) => {
+    console.log(applicantId, '수락하기', name);
     setSelectUser(name);
     setIsOpen(true);
+    mutateMatchingComfrim(applicantId);
   };
 
   const onClickClose = () => {
@@ -59,7 +180,7 @@ function MatchingRequestListPage() {
   return (
     <div>
       <NaviBarTitle title="매칭요청" />
-      {testData.matchingRequest.length == 0 ? (
+      {applyList.length == 0 ? (
         <EmptyRequestComponent />
       ) : (
         <div css={matchingRequestStyles.container}>
@@ -72,16 +193,13 @@ function MatchingRequestListPage() {
             </span>
           </div>
           <div>
-            {testData.matchingRequest.map((req) => (
-              <div
-                key={req.memberId}
-                css={matchingRequestStyles.requestContainer}
-              >
-                <div css={css({ display: 'flex', flexDirection: 'row' })}>
+            {applyList.map((req, index) => (
+              <div key={index} css={matchingRequestStyles.requestContainer}>
+                <div css={matchingRequestStyles.flexBox}>
                   <div css={matchingRequestStyles.profile}>
                     <img src={req.profileImg} />
                   </div>
-                  <div css={css({ marginLeft: '17px', paddingTop: '27.82px' })}>
+                  <div css={matchingRequestStyles.inforBox}>
                     <div>
                       <span css={matchingRequestStyles.username}>
                         {req.username}
@@ -103,17 +221,13 @@ function MatchingRequestListPage() {
                 </div>
                 <div css={matchingRequestStyles.button}>
                   <div
-                    css={css({
-                      flex: '1',
-                      background: 'var(--grey-02, #333B4F)',
-                      marginRight: '12px',
-                    })}
+                    css={matchingRequestStyles.rejectButton}
                     onClick={() => onClickReject(req.memberId)}
                   >
                     <span>거절하기</span>
                   </div>
                   <div
-                    css={css({ flex: '2', background: '#0066FF' })}
+                    css={matchingRequestStyles.applyButton}
                     onClick={() => onClickAccept(req.memberId, req.username)}
                   >
                     <span>수락하기</span>

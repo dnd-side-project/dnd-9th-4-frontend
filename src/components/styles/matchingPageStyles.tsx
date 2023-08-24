@@ -307,4 +307,21 @@ export const matchingRequestStyles = {
       },
     },
   }),
+  flexBox: css({
+    display: 'flex',
+    flexDirection: 'row',
+  }),
+  inforBox: css({
+    marginLeft: '17px',
+    paddingTop: '27.82px',
+  }),
+  rejectButton: css({
+    flex: '1',
+    background: 'var(--grey-02, #333B4F)',
+    marginRight: '12px',
+  }),
+  applyButton: css({
+    flex: '2',
+    background: '#0066FF',
+  }),
 };

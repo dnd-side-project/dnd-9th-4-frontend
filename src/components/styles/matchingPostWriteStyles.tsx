@@ -44,6 +44,12 @@ export const matchingPostWriteStyles = {
 };
 
 export const matchingDetailWrtieStyles = {
+  paddingBottom: css({
+    paddingBottom: '130px',
+  }),
+  flex: css({
+    display: 'flex',
+  }),
   container: css({
     display: 'flex',
     flexDirection: 'column',

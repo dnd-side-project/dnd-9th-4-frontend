@@ -1,5 +1,8 @@
 import { atom } from 'recoil';
 
+/*
+    매칭 모집글 작성
+*/
 interface postWriteData {
   memberId: number | null;
   sport: string | null;
@@ -9,10 +12,9 @@ interface postWriteData {
   region: string | null;
   gender: string | null;
   age: string | null;
-  runtime: string | null;
+  runtime: string | null | Date;
 }
 
-// 매칭 게시물 작성
 export const postWriteState = atom<postWriteData>({
   key: 'postWriteState',
   default: {
