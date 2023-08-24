@@ -3,7 +3,7 @@ export type RegionData = {
 };
 
 export type OnboardingProfile = {
-  // memberId: number | null;
+  kakaoId: number | null;
   userName: string | null;
   introduce: string | null;
   profileImg: string | null;
@@ -76,11 +76,11 @@ export type Message = {
 };
 
 export type MatchingSchedule = {
-  img: string;
-  state: 'RESERVED' | 'COMPLETED';
-  tag: string;
-  date: string;
+  id: number;
+  memberId: number;
+  profileImg: string;
   title: string;
-  location: string;
-  exercise: string;
+  region: string;
+  sport: string;
+  runtime: string;
 };
