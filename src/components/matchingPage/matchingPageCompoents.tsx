@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
 //import LocationPinIcon from 'assets/locationPin.svg';
 //import Sheet from 'react-modal-sheet';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { InitAndApplyButton } from 'components/common/commonComponents';
 import DownArrow from 'assets/matchingPageIcon/DownArrow.svg';
 import BottomSheet from 'components/common/BottomSheet';
@@ -14,6 +14,29 @@ import { Horizontalline } from 'components/common/commonComponents';
 import CheckBlue from 'assets/matchingPageIcon/CheckBlue.svg';
 import CheckGray from 'assets/matchingPageIcon/CheckGray.svg';
 import DownArrowGray from 'assets/matchingPageIcon/DownArrowGray.svg';
+import { matchingPageStyles } from 'components/styles/matchingPageStyles';
+import Search from 'assets/matchingPageIcon/Search.svg';
+
+/*
+  [매칭 상단]
+*/
+export function TopBar() {
+  const navigate = useNavigate();
+  return (
+    <div>
+      <div css={matchingPageStyles.displayFlex}>
+        <p css={matchingPageStyles.title}>뉴플메이트 모집글</p>
+        <div css={matchingPageStyles.searchIcon}>
+          <img
+            src={Search}
+            alt="Search Icon"
+            onClick={() => navigate('/matching/search')}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 interface RadioGroupData {
   title: string;

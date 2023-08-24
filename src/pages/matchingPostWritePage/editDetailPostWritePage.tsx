@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
-import { css } from '@emotion/react';
 import {
   NaviBarTitle,
   LableTitle,
@@ -22,7 +21,7 @@ import {
 } from 'components/common/commonComponents';
 import { matchingDetailWrtieStyles } from 'components/styles/matchingPostWriteStyles';
 import 'moment/locale/ko';
-import regionJsonData from 'pages/matchingPostWritePage/region.json';
+import regionJsonData from 'data/region.json';
 moment.locale('ko');
 
 const testData = {
@@ -252,11 +251,7 @@ function editDatailPostWrtiePage() {
   };
 
   return (
-    <div
-      css={css({
-        paddingBottom: '130px',
-      })}
-    >
+    <div css={matchingDetailWrtieStyles.paddingBottom}>
       <NaviBarTitle title="상세설정" />
       <Horizontalline />
       <div css={matchingDetailWrtieStyles.container}>
@@ -420,11 +415,7 @@ function editDatailPostWrtiePage() {
       >
         <>
           <div css={matchingDetailWrtieStyles.bottomSheetTitle}>시간</div>
-          <div
-            css={css({
-              display: 'flex',
-            })}
-          >
+          <div css={matchingDetailWrtieStyles.flex}>
             <DropDowmSelect
               option={hour}
               optionTitle={`${hour}시`}
@@ -449,11 +440,7 @@ function editDatailPostWrtiePage() {
       >
         <>
           <div css={matchingDetailWrtieStyles.bottomSheetTitle}>지역</div>
-          <div
-            css={css({
-              display: 'flex',
-            })}
-          >
+          <div css={matchingDetailWrtieStyles.flex}>
             <DropDowmSelect
               option={bigRegion}
               optionTitle={bigRegion}

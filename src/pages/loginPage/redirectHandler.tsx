@@ -28,17 +28,21 @@ function RedirectHandler() {
         // memberId
         const memberId = response.data['data']['memberId'];
 
+        // JWT Token
+        const jwtToken = response.headers['authorization'].substring(7);
+
         // 이미 storedJwtToken가 있고 storedMemberId가 memberId랑 같으면 온보딩 이동X
         if (storedJwtToken && Number(storedMemberId) === memberId) {
           console.log('이미 가입된 회원');
+
+          // token 값이 바뀔 수 있으니깐 다시 새로 저장
+          localStorage.setItem('jwtToken', jwtToken);
+
           navigate('/');
         } else {
           console.log('새로운 회원');
 
           localStorage.setItem('memberId', memberId);
-
-          // JWT Token
-          const jwtToken = response.headers['authorization'].substring(7);
           localStorage.setItem('jwtToken', jwtToken);
 
           navigate('/onboarding');

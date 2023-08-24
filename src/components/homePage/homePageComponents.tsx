@@ -256,7 +256,7 @@ export function SubTitleHeader(props: SubTitleHeaderData) {
 
 interface Profile {
   memberId: number;
-  nickname: string;
+  username: string;
   profileImg: string;
 }
 

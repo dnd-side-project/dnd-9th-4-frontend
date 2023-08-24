@@ -1,7 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
-import Search from 'assets/matchingPageIcon/Search.svg';
-//import Filter from 'assets/matchingPageIcon/Filter.svg';
 import PostWrite from 'assets/matchingPageIcon/PostWriteIcon.svg';
 import { ButtonNavigation } from 'components/common/commonComponents';
 import {
@@ -9,6 +7,7 @@ import {
   MatchingPostFiltering,
   FilterOption,
   SortFilter,
+  TopBar,
 } from 'components/matchingPage/matchingPageCompoents';
 import { MatchingPostList } from 'components/homePage/homePageComponents';
 import { matchingPageStyles } from 'components/styles/matchingPageStyles';
@@ -16,8 +15,6 @@ import { useNavigate } from 'react-router-dom';
 import 'pages/matchingPostWritePage/calendar.css';
 import BottomSheet from 'components/common/BottomSheet';
 import DownArrowGray from 'assets/matchingPageIcon/DownArrowGray.svg';
-// import config from 'config';
-// import axios from 'axios';
 
 // 매칭 모집글 테스트 데이터
 const mathcingPostsTestData = {
@@ -136,35 +133,10 @@ function MatchingPage() {
   const [isOpenTime, setOpenTime] = useState(false);
   const [sort, setSort] = useState('최신순');
 
-  // const getMatchingPostList = async () => {
-  //   try {
-  //     const res = await axios.get(`${config.backendUrl}/health`);
-  //     console.log(res);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   // 수행할 함수
-  //   getMatchingPostList();
-  // });
-
   return (
     <div>
       <div>
-        <div>
-          <div css={matchingPageStyles.displayFlex}>
-            <p css={matchingPageStyles.title}>뉴플메이트 모집글</p>
-            <div css={matchingPageStyles.searchIcon}>
-              <img
-                src={Search}
-                alt="Search Icon"
-                onClick={() => navigate('/matching/search')}
-              />
-            </div>
-          </div>
-        </div>
+        <TopBar />
         <MatchingPostBigCalendar />
         <div css={matchingPageStyles.filterContainer}>
           <FilterOption

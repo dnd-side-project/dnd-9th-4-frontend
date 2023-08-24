@@ -11,7 +11,7 @@ const OPTIONS: EmblaOptionsType = {
 
 interface Profile {
   memberId: number;
-  nickname: string;
+  username: string;
   profileImg: string;
 }
 
@@ -64,7 +64,7 @@ export function NewPleMateCarousel(props: NewPleMate) {
                   marginRight: '30%',
                 })}
               >
-                {profile.nickname}
+                {profile.username}
               </p>
             </div>
           ))}

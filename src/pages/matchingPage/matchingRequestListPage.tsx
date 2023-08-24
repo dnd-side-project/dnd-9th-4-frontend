@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
-import { css } from '@emotion/react';
 import { NaviBarTitle } from 'components/matchingPage/matchingPostWritePageComponents';
 import { EmptyRequestComponent } from 'components/matchingPage/matchingRequestListPageComponents';
 import { MatchingModal } from 'components/matchingPage/matchingPostPageComponents';
@@ -77,11 +76,11 @@ function MatchingRequestListPage() {
                 key={req.memberId}
                 css={matchingRequestStyles.requestContainer}
               >
-                <div css={css({ display: 'flex', flexDirection: 'row' })}>
+                <div css={matchingRequestStyles.flexBox}>
                   <div css={matchingRequestStyles.profile}>
                     <img src={req.profileImg} />
                   </div>
-                  <div css={css({ marginLeft: '17px', paddingTop: '27.82px' })}>
+                  <div css={matchingRequestStyles.inforBox}>
                     <div>
                       <span css={matchingRequestStyles.username}>
                         {req.username}
@@ -103,17 +102,13 @@ function MatchingRequestListPage() {
                 </div>
                 <div css={matchingRequestStyles.button}>
                   <div
-                    css={css({
-                      flex: '1',
-                      background: 'var(--grey-02, #333B4F)',
-                      marginRight: '12px',
-                    })}
+                    css={matchingRequestStyles.rejectButton}
                     onClick={() => onClickReject(req.memberId)}
                   >
                     <span>거절하기</span>
                   </div>
                   <div
-                    css={css({ flex: '2', background: '#0066FF' })}
+                    css={matchingRequestStyles.applyButton}
                     onClick={() => onClickAccept(req.memberId, req.username)}
                   >
                     <span>수락하기</span>

@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { css } from '@emotion/react';
 import {
   HomeTopScreen,
@@ -12,44 +12,50 @@ import {
   Horizontalline,
 } from 'components/common/commonComponents';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import {
+  getMatchingPostSimple,
+  getMatchingRecord,
+  getAroundMate,
+} from 'api/homePageApi';
 
 // 내 주변 뉴플메이트 테스트 데이터
 const profileTestData = {
   matelist: [
     {
       memberId: 1,
-      nickname: '아이스크림',
+      username: '아이스크림',
       profileImg:
         'https://cdn.pixabay.com/photo/2016/03/23/15/00/ice-cream-1274894_1280.jpg',
     },
     {
       memberId: 2,
-      nickname: '석촌호수',
+      username: '석촌호수',
       profileImg:
         'https://cdn.pixabay.com/photo/2016/11/02/14/32/lotte-world-tower-1791802_1280.jpg',
     },
     {
       memberId: 3,
-      nickname: '고양이',
+      username: '고양이',
       profileImg:
         'https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492_1280.jpg',
     },
     {
       memberId: 4,
-      nickname: '헬스짱',
+      username: '헬스짱',
       profileImg:
         'https://cdn.pixabay.com/photo/2022/08/19/18/56/gym-7397553_1280.jpg',
     },
     {
       memberId: 5,
-      nickname: '런닝이',
+      username: '런닝이',
       profileImg:
         'https://cdn.pixabay.com/photo/2016/07/09/05/20/runner-1505712_1280.jpg',
     },
   ],
 };
 
-// 새로운 매칭 모집글 테스트 데이터
+// 맞춤 추천 테스트 데이터
 const mathcingPostsTestData = {
   postList: [
     {
@@ -90,7 +96,8 @@ const MatchingScheduleTestData = {
   schduleList: [
     {
       id: 1,
-      dDay: 3,
+      memberId: 0,
+      dDay: 3, // 이거는 runtime이랑 new Date() 비교해서 구하기
       runTime: '8월 6일(토)',
       title: '같이 퇴근 후 헬스다닐 분 구해요',
       region: '서울특별시 강남구',
@@ -98,6 +105,7 @@ const MatchingScheduleTestData = {
     },
     {
       id: 2,
+      memberId: 0,
       dDay: 5,
       runTime: '8월 8일(월)',
       title: '싸이클 같이 타요!!!!!',
@@ -120,9 +128,18 @@ function HomePage() {
     console.log('이동');
   };
 
-  useEffect(() => {
-    // useEffect
-  }, []);
+  useQuery('matchingPosts', getMatchingPostSimple, {
+    onSuccess: (data) => console.log(data),
+    onError: (error) => console.error(error),
+  });
+  useQuery('aroundMates', getAroundMate, {
+    onSuccess: (data) => console.log(data),
+    onError: (error) => console.error(error),
+  });
+  useQuery('matchingRecord', getMatchingRecord, {
+    onSuccess: (data) => console.log(data),
+    onError: (error) => console.error(error),
+  });
 
   return (
     <div css={css({ marginInline: '16px', paddingBottom: '90px' })}>

@@ -6,7 +6,6 @@ import Kakao from 'assets/Kakao.svg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { LoginCarousel } from 'components/loginPage/loginPage';
-import { css } from '@emotion/react';
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -45,14 +44,7 @@ function LoginPage() {
 
   return (
     <div css={loginPageStyles.container}>
-      <div
-        css={css({
-          flex: 5,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        })}
-      >
+      <div css={loginPageStyles.carouselContainer}>
         <LoginCarousel />
       </div>
       <div css={loginPageStyles.loginButtonContainer}>

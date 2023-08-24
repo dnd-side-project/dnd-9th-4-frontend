@@ -22,10 +22,29 @@ import {
 } from 'components/common/commonComponents';
 import { matchingDetailWrtieStyles } from 'components/styles/matchingPostWriteStyles';
 import 'moment/locale/ko';
-import regionJsonData from 'pages/matchingPostWritePage/region.json';
+import regionJsonData from 'data/region.json';
+import { hashTagData } from 'data/postWriteData';
 moment.locale('ko');
+import { useMutation } from 'react-query';
+import { postMatchingPostWrite } from 'api/matchingPostWritePageApi';
+import { baseAxios } from 'api/baseAxios';
 
 function datailPostWrtiePage() {
+  // API 통신
+  baseAxios.interceptors.request.use(function (config) {
+    const token = localStorage.getItem('jwtToken');
+    config.headers.Authorization = 'Bearer ' + token;
+
+    return config;
+  });
+
+  const { mutate } = useMutation(() => postMatchingPostWrite(postWrite), {
+    onSuccess: (data) => {
+      console.log('성공', data);
+    },
+    onError: (error) => console.log('실패', error),
+  });
+
   // recoil
   const [postWrite, setPostWrite] = useRecoilState(postWriteState);
 
@@ -48,29 +67,22 @@ function datailPostWrtiePage() {
   };
 
   const onClickSubmitButton = () => {
-    checkAndSetError(title, setTitleError);
-    checkAndSetError(body, setBodyError);
+    checkAndSetError(postWrite.title, setTitleError);
+    checkAndSetError(postWrite.content, setBodyError);
     checkAndSetError(day, setDayError);
     checkAndSetError(fullTime, setHourError);
     checkAndSetError(applyBigRegion, setRegionError);
 
     if (
-      title !== '' &&
-      body !== '' &&
-      day != null &&
+      postWrite.title !== '' &&
+      postWrite.content !== '' &&
+      postWrite.runtime != null &&
       fullTime != null &&
       applyBigRegion != null &&
       applySmalRegion != null
     ) {
       console.log('제출하기');
-      setPostWrite({
-        ...postWrite,
-        title: title,
-        content: body,
-        runtime: moment(day).format('YYYY년 MM월 DD일') + '' + fullTime,
-        region: applyBigRegion + '' + applySmalRegion,
-        tags: tagList,
-      });
+      mutate();
     }
   };
 
@@ -80,6 +92,7 @@ function datailPostWrtiePage() {
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setTitleError(false);
+    setPostWrite({ ...postWrite, title: event.target.value });
   };
 
   // [상세설명]
@@ -91,9 +104,14 @@ function datailPostWrtiePage() {
 
     if (inputValue.length <= MAX_CHARACTERS) {
       setBody(inputValue);
+      setPostWrite({ ...postWrite, content: inputValue });
       setBodyError(false);
     } else {
       setBody(inputValue.slice(0, MAX_CHARACTERS - 1));
+      setPostWrite({
+        ...postWrite,
+        content: inputValue.slice(0, MAX_CHARACTERS - 1),
+      });
       setBodyError(true);
     }
   };
@@ -113,6 +131,10 @@ function datailPostWrtiePage() {
     setIsOpenDay(false);
     setDay(runtime);
     setDayError(false);
+    setPostWrite({
+      ...postWrite,
+      runtime: moment(runtime).format('YYYY년 MM월 DD일'),
+    });
   };
 
   // [시간] - 시간
@@ -123,8 +145,13 @@ function datailPostWrtiePage() {
   const onClickTimeApply = () => {
     setIsOpenTime(false);
     const formattedHour = hour?.padStart(2, '0');
-    setFullTime(formattedHour + '시 ' + minute + '분');
+    const time = formattedHour + '시 ' + minute + '분';
+    setFullTime(time);
     setHourError(false);
+    setPostWrite({
+      ...postWrite,
+      runtime: postWrite.runtime + ' ' + time,
+    });
   };
 
   const onClickHour = (value: string) => {
@@ -166,24 +193,9 @@ function datailPostWrtiePage() {
     setIsOpenRegion(false);
     setApplyBigRegion(bigRegion);
     setApplySamllRegion(smallRegion);
+    setPostWrite({ ...postWrite, region: bigRegion + ' ' + smallRegion });
   };
 
-  // [해시태그]
-  const hashTagData = [
-    '20대',
-    '30대',
-    '40대',
-    '50대',
-    '나이무관',
-    '운동하는직장인',
-    '오직운동만',
-    '운동고수',
-    '운동자극',
-    '운동끝나고치맥',
-    '운동초보환영',
-    '같이성장해요',
-    '서로도와요',
-  ];
   const [writeTag, setWriteTag] = useState('');
 
   const onChamgeWriteTag = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -197,12 +209,27 @@ function datailPostWrtiePage() {
     }
   };
 
+  const onhandleKeyPressTag = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (event.key === 'Enter') {
+      setWriteTag('');
+      if (tagList.includes(writeTag) || writeTag == '') {
+        console.log('해시태그에 안들어감');
+      } else if (tagList.length < 5) {
+        setTagList([...tagList, writeTag]);
+        setPostWrite({ ...postWrite, tags: [...tagList, writeTag] });
+      }
+    }
+  };
+
   const onClickTagAdd = () => {
     setWriteTag('');
     if (tagList.includes(writeTag) || writeTag == '') {
       console.log('해시태그에 안들어감');
     } else if (tagList.length < 5) {
       setTagList([...tagList, writeTag]);
+      setPostWrite({ ...postWrite, tags: [...tagList, writeTag] });
     }
   };
 
@@ -211,13 +238,22 @@ function datailPostWrtiePage() {
   const onClickHashTag = (tag: string) => {
     if (tagList.includes(tag)) {
       setTagList(tagList.filter((item) => item !== tag));
+      setPostWrite({
+        ...postWrite,
+        tags: tagList.filter((item) => item !== tag),
+      });
     } else if (tagList.length < 5) {
       setTagList([...tagList, tag]);
+      setPostWrite({ ...postWrite, tags: [...tagList, tag] });
     }
   };
 
   const onClickRemoveTag = (tag: string) => {
     setTagList(tagList.filter((item) => item !== tag));
+    setPostWrite({
+      ...postWrite,
+      tags: tagList.filter((item) => item !== tag),
+    });
   };
 
   return (
@@ -304,6 +340,7 @@ function datailPostWrtiePage() {
               placeholder="태그를 작성해주세요"
               value={writeTag}
               onChange={onChamgeWriteTag}
+              onKeyDown={onhandleKeyPressTag}
               css={matchingDetailWrtieStyles.titleInput}
             />
             <span
