@@ -1,6 +1,6 @@
 import { MypageProfile } from 'data/type';
 import { baseAxios } from './baseAxios';
-import { getJwtToken, getKakaoId } from './localStorage';
+import { getJwtToken } from './localStorage';
 
 /**
  * 프로필 조회
@@ -9,7 +9,7 @@ import { getJwtToken, getKakaoId } from './localStorage';
  */
 export const getMyProfile = async () => {
   const response = await baseAxios
-    .get(`/api/profile/${getKakaoId()}`, {
+    .get(`/api/profile/memberId`, {
       headers: {
         Authorization: `Bearer ${getJwtToken()}`,
       },
