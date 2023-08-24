@@ -92,20 +92,20 @@ interface FilterListData {
   sports: string[];
 }
 
-function MatchingPage() {
-  const getMatchingPostList = async () => {
-    try {
-      const res = await axios.get(`${config.backendUrl}/api/post`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-        },
-      });
-      return res.data;
-    } catch (error) {
-      throw new Error('Failed to fetch data');
-    }
-  };
+const getMatchingPostList = async () => {
+  try {
+    const res = await axios.get(`${config.backendUrl}/api/post`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    throw new Error('Failed to fetch data');
+  }
+};
 
+function MatchingPage() {
   // API 통신
   useQuery('matchingPostList', getMatchingPostList, {
     onSuccess: (data) => console.log(data),
