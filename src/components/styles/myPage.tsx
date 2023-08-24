@@ -482,3 +482,11 @@ export const withDrawButtonArea = css({
   alignItems: 'center',
   justifyContent: 'center',
 });
+
+export const editProfileBottomSheet = css({
+  fontSize: '16px',
+  fontWeight: 700,
+  lineHeight: '120%',
+  fontFamily: 'Pretendard',
+  color: '#000000',
+});

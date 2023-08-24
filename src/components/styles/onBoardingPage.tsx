@@ -161,7 +161,7 @@ export const selectRectangle = css({
   border: '1px solid #959DB1',
   padding: '11px 16px',
   fontFamily: 'Pretendard',
-  color: '#959DB1',
+  color: '#000000',
   fontSize: '16px',
   fontWeight: 500,
   justifyContent: 'flex-start',

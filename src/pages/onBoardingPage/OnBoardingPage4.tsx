@@ -69,14 +69,14 @@ const OnBoardingPage4 = () => {
               value={selectedRegion}
               items={regionKeys}
               setValue={handleRegionChange}
-            />{' '}
+            />
             <div style={{ width: '12px' }} />
             <DropDown
               placeHolder="군/구"
               value={selectedSubRegion}
               items={subRegionValues}
               setValue={setSelectedSubRegion}
-            />{' '}
+            />
           </div>
         </div>
         <NextButton

@@ -29,14 +29,14 @@ const ProfilePage = () => {
         first: '서울특별시',
         second: '강남구',
       },
-      interested: '헬스',
+      interested: ['헬스', '수영'],
       career: {
-        year: null,
+        year: '',
         month: '3개월',
       },
       mbti: 'ISTP',
     },
-    introduce: null,
+    introduce: '',
     interesting: ['체력 키우기', '다이어트'],
     mate: [
       '러닝',

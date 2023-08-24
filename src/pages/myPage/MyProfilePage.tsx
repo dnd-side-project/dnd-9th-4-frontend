@@ -38,17 +38,17 @@ const MyProfilePage = () => {
     gender: '여',
     userInfo: {
       region: {
-        first: '서울특별시',
-        second: '강남구',
+        first: '충청남도',
+        second: '천안시',
       },
-      interested: '헬스',
+      interested: ['헬스', '러닝'],
       career: {
-        year: null,
+        year: '',
         month: '3개월',
       },
       mbti: 'ISTP',
     },
-    introduce: null,
+    introduce: '',
     interesting: ['체력 키우기', '다이어트'],
     mate: [
       '러닝',
@@ -102,7 +102,7 @@ const MyProfilePage = () => {
         <div css={introduceBoxContainer}>
           <IntroduceBox
             content={
-              userProfile.introduce !== null
+              userProfile.introduce !== ''
                 ? userProfile.introduce
                 : '아직 소개글이 작성되지 않았어요.'
             }

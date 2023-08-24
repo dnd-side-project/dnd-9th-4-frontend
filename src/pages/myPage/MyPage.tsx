@@ -21,10 +21,10 @@ export type UserInfo = {
     first: string;
     second: string;
   };
-  interested: string;
+  interested: string[];
   career: {
-    year: string | null;
-    month: string | null;
+    year: string;
+    month: string;
   };
   mbti: string;
 };
@@ -41,7 +41,7 @@ export type UserProfile = {
   age: number;
   gender: string;
   userInfo: UserInfo;
-  introduce: string | null;
+  introduce: string;
   interesting: string[];
   mate: string[];
   review: Review;
