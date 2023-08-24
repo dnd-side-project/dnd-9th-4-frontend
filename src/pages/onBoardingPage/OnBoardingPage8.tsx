@@ -24,8 +24,17 @@ import { useMutation } from 'react-query';
 import { postOnboardingProfile } from 'api/onboardingPageApi';
 import { useRecoilValue } from 'recoil';
 import { onboardingProfileState } from 'recoil/onboardingProfileState';
+import { baseAxios } from 'api/baseAxios';
 const OnBoardingPage8 = () => {
   const onboardingProfile = useRecoilValue(onboardingProfileState);
+
+  baseAxios.interceptors.request.use(function (config) {
+    const token = localStorage.getItem('jwtToken');
+    config.headers.Authorization = 'Bearer ' + token;
+
+    return config;
+  });
+
   const { mutate } = useMutation(
     () => postOnboardingProfile(onboardingProfile),
     {
