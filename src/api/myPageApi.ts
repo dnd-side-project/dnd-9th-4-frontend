@@ -6,11 +6,11 @@ import { baseAxios } from './baseAxios';
  * @params 멤버 아이디
  * @returns MypageProfile
  */
-export const getProfile = async () => {
+export const getMyProfile = async () => {
   const response = await baseAxios
-    .get('/api/profile', {
-      params: {
-        memberId: localStorage.getItem('memberId'),
+    .get(`/api/profile/${localStorage.getItem('memberId')}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
       },
     })
     .then((response) => response.data);

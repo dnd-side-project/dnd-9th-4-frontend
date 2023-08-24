@@ -374,8 +374,8 @@ export const myArticleItemArea = css({
   '& .content': {
     width: '100%',
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
     '& .img': {
       borderRadius: '50%',
     },
@@ -490,3 +490,19 @@ export const editProfileBottomSheet = css({
   fontFamily: 'Pretendard',
   color: '#000000',
 });
+
+export const scheduleTag = (state: 'RESERVED' | 'COMPLETED') =>
+  css({
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    fontSize: '14px',
+    fontWeight: 600,
+    color: state === 'RESERVED' ? '#FF7246' : '#676F83',
+    '& .tag': {
+      padding: '4px 12px',
+      fontSize: '13px',
+      backgroundColor:
+        state === 'RESERVED' ? 'rgba(255, 135, 97, 0.1)' : '#E5E9EF',
+    },
+  });
