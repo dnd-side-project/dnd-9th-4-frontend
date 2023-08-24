@@ -1,5 +1,13 @@
 import { RegionData } from './type';
 
+export const sport: { [key: string]: string } = {
+  헬스: 'FITNESS',
+  러닝: 'RUNNING',
+  사이클: 'CYCLE',
+  등산: 'HIKING',
+  수영: 'SWIM',
+};
+
 export const regionList: { [key: string]: number } = {
   서울특별시: 0,
   부산광역시: 1,
