@@ -15,6 +15,8 @@ import Profile12 from 'assets/profile/img_profile_12.svg';
 import Profile13 from 'assets/profile/img_profile_13.svg';
 import Profile14 from 'assets/profile/img_profile_14.svg';
 
+export const day = ['일', '월', '화', '수', '목', '금', '토'];
+
 export const imageList = [
   ProfileEmpty,
   Profile1,

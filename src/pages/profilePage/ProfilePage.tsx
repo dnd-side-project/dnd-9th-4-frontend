@@ -13,14 +13,31 @@ import ProfileTabContent from 'components/profilePage/ProfileTabContent';
 import ArticleTabContent from 'components/profilePage/ArticleTabContent';
 import { Profile } from 'data/type';
 import { defaultProfile } from 'data/defaultValue';
+import { useParams } from 'react-router-dom';
+import { baseAxios } from 'api/baseAxios';
+import { useQuery } from 'react-query';
+import { getProfile } from 'api/myPageApi';
+import { imageList } from 'data/variable';
 
 const ProfilePage = () => {
-  const [value, setValue] = useState(0);
-  const handleChange = (event: SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+  const params = useParams();
+  const memberId = Number(params.id);
+  const [tabValue, setTabValue] = useState(0);
 
-  const userProfile: Profile = { ...defaultProfile };
+  baseAxios.interceptors.request.use(function (config) {
+    const token = localStorage.getItem('jwtToken');
+    config.headers.Authorization = 'Bearer ' + token;
+
+    return config;
+  });
+
+  const { data, isLoading, isError } = useQuery<Profile>('get-profile', () =>
+    getProfile(memberId),
+  );
+
+  const handleTabValueChange = (event: SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
 
   const tabStyle = {
     fontFamily: 'Pretendard',
@@ -35,43 +52,67 @@ const ProfilePage = () => {
   const tabs = [
     {
       label: '프로필',
-      children: <ProfileTabContent userProfile={userProfile} />,
+      children: (
+        <ProfileTabContent
+          userProfile={data !== undefined ? data : defaultProfile}
+        />
+      ),
     },
     {
       label: '모집글',
-      children: <ArticleTabContent />,
+      children: (
+        <ArticleTabContent articleList={data !== undefined ? data.posts : []} />
+      ),
     },
   ];
   return (
     <div css={[noPdddingContainer, profilePageContainer]}>
       <DarkPrevHeader text="프로필" />
-      <div css={profilePageTopContainer}>
-        <img src={userProfile.profileImg} width={80} height={80} />
-        <div className="name">{userProfile.username}</div>
-        <div className="basic">{`${userProfile.age} / ${userProfile.gender}`}</div>
-      </div>
-      <div css={profilePageTabBarContainer}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          variant="fullWidth"
-          TabIndicatorProps={{
-            style: { backgroundColor: '#FFFFFF', height: '4px' },
-          }}
-          sx={{ borderBottom: 0 }}
-        >
-          {tabs.map((tab, index) => (
-            <Tab key={index} disableRipple label={tab.label} sx={tabStyle} />
-          ))}
-        </Tabs>
-      </div>
-      <div css={profilePageTabContentContainer}>
-        {tabs.map((tab, index) => (
-          <div key={index} hidden={value !== index}>
-            {value === index && tab.children}
-          </div>
-        ))}
-      </div>
+      {isError && <div>에러가 발생하였습니다.</div>}
+      {isLoading ? (
+        <div>로딩 중...</div>
+      ) : (
+        data !== undefined && (
+          <>
+            <div css={profilePageTopContainer}>
+              <img
+                src={imageList[Number(data.profileImg)]}
+                width={80}
+                height={80}
+              />
+              <div className="name">{data.username}</div>
+              <div className="basic">{`${data.age} / ${data.gender}`}</div>
+            </div>
+            <div css={profilePageTabBarContainer}>
+              <Tabs
+                value={tabValue}
+                onChange={handleTabValueChange}
+                variant="fullWidth"
+                TabIndicatorProps={{
+                  style: { backgroundColor: '#FFFFFF', height: '4px' },
+                }}
+                sx={{ borderBottom: 0 }}
+              >
+                {tabs.map((tab, index) => (
+                  <Tab
+                    key={index}
+                    disableRipple
+                    label={tab.label}
+                    sx={tabStyle}
+                  />
+                ))}
+              </Tabs>
+            </div>
+            <div css={profilePageTabContentContainer}>
+              {tabs.map((tab, index) => (
+                <div key={index} hidden={tabValue !== index}>
+                  {tabValue === index && tab.children}
+                </div>
+              ))}
+            </div>
+          </>
+        )
+      )}
     </div>
   );
 };

@@ -76,15 +76,13 @@ const MyPage = () => {
   return (
     <div css={appContainer}>
       <div css={myPageContainer}>
-        <div css={myPageProfileContainer}>
+        <div css={myPageProfileContainer} onClick={() => onProfileClick()}>
           <div css={stackRow}>
             <img
               src={imageList[Number(userProfile.profileImg)]}
               style={{ width: '79px', height: '79px' }}
             />
-            <div css={myPageProfileTextArea} onClick={() => onProfileClick()}>
-              {userProfile.username}
-            </div>
+            <div css={myPageProfileTextArea}>{userProfile.username}</div>
           </div>
           <ArrowRight width={24} height={24} />
         </div>

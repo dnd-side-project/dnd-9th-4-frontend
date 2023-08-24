@@ -12,12 +12,23 @@ import React, { useState } from 'react';
 const SelectStyleContent = ({
   onUpdateSelectedStyles,
   onUpdateSelectedInterested,
+  defaultStyle,
+  defaultInterested,
 }: {
+  defaultStyle: string[];
+  defaultInterested: string[];
   onUpdateSelectedStyles: (styles: string[]) => void;
   onUpdateSelectedInterested: (interested: string[]) => void;
 }) => {
-  const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
-  const [selectedInterested, setSelectedInterested] = useState<string[]>([]);
+  console.log(
+    'DEFAULT STYLE : ',
+    defaultStyle,
+    ' DEFAULT INTERESTED : ',
+    defaultInterested,
+  );
+  const [selectedStyles, setSelectedStyles] = useState<string[]>(defaultStyle);
+  const [selectedInterested, setSelectedInterested] =
+    useState<string[]>(defaultInterested);
 
   const handleStyleClick = (style: string) => {
     let updateStyles;

@@ -37,6 +37,8 @@ const MyProfilePage = () => {
   const handleProfileEditClick = () => {
     navigate('/my/profile/edit', { state: { userProfile } });
   };
+  console.log('**********UserProfile.style : ', userProfile.exerciseStyles);
+  console.log('**********UserProfile.interested : ', userProfile.interests);
 
   return (
     <div css={appContainer}>
@@ -68,7 +70,12 @@ const MyProfilePage = () => {
           />
         </div>
         <div css={profileMateContainer}>
-          <MoreListItem text="운동스타일과 관심사" onClick={() => {}} />
+          <MoreListItem
+            text="운동스타일과 관심사"
+            onClick={() => {
+              navigate('/my/profile/edit/style', { state: { userProfile } });
+            }}
+          />
           <div css={profileMateContentArea}>
             {userProfile.exerciseStyles.map((tag, index) => (
               <BackgroundTag key={index} color="0, 116, 255" text={tag} />

@@ -1,10 +1,17 @@
-import { Message, MessageList, Profile, Review, UserInfo } from './type';
-import { sport, sportValue } from './variable';
+import {
+  Message,
+  MessageList,
+  OnboardingProfile,
+  Profile,
+  Review,
+  UserInfo,
+} from './type';
+import { sportValue } from './variable';
 
 export const MessageListToMessage = (prop: MessageList) => {
   const message: Message = {
     messageId: prop.messageId,
-    sendDate: prop.sendDate,
+    sentDate: prop.sendDate,
     content: prop.lastMessage,
     sender: 'RECEIVER',
   };
@@ -13,8 +20,8 @@ export const MessageListToMessage = (prop: MessageList) => {
 };
 
 export const ProfileToUserInfo = (prop: Profile) => {
-  console.log(prop.sport);
-  console.log(prop.sport.map((item) => sport[item]));
+  // console.log(prop.sport);
+  // console.log(prop.sport.map((item) => sport[item]));
   const userInfo: UserInfo = {
     region: {
       first: prop.region.split(' ')[0],
@@ -39,4 +46,25 @@ export const ProfileToReview = (prop: Profile) => {
   };
 
   return review;
+};
+
+export const ProfileToOnboardingProfile = (prop: Profile) => {
+  const onboarding: OnboardingProfile = {
+    userName: '',
+    introduce: prop.introduce,
+    profileImg: prop.profileImg,
+    sport: prop.sport,
+    exerciseStyles: prop.exerciseStyles,
+    interests: prop.interests,
+    region: prop.region,
+    gender: prop.gender,
+    mbti: prop.mbti,
+    periodEx: prop.periodEx,
+    wantedPersonality: prop.wantedPersonality,
+    wantedAge: prop.wantedAge,
+    wantedGender: prop.wantedGender,
+    wantedPeriodEx: prop.wantedPeriodEx,
+  };
+
+  return onboarding;
 };

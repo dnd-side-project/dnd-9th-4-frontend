@@ -56,6 +56,8 @@ const OnBoardingPage6 = () => {
           isEssential={false}
         />
         <SelectStyleContent
+          defaultInterested={[]}
+          defaultStyle={[]}
           onUpdateSelectedStyles={onUpdateSelectedStyles}
           onUpdateSelectedInterested={onUpdateSelectedInterested}
         />

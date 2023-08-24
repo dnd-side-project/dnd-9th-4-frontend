@@ -1,4 +1,4 @@
-import { Profile } from './type';
+import { MessageHistory, Profile } from './type';
 
 export const defaultProfile: Profile = {
   age: '',
@@ -21,4 +21,14 @@ export const defaultProfile: Profile = {
   wantedGender: '',
   wantedPeriodEx: '',
   wantedPersonality: '',
+};
+
+export const defaultMessageHistory: MessageHistory = {
+  myId: 0,
+  myUsername: '이름1',
+  myProfileImg: '1',
+  receiverId: 1,
+  receiverUsername: '이름2',
+  receiverProfileImg: '2',
+  messageResponses: [],
 };

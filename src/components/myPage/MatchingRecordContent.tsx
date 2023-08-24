@@ -49,7 +49,11 @@ const MatchingRecordContent: React.FC<TabBarProps> = ({ tabs }) => {
       </Tabs>
       <div css={matchingRecordContentArea}>
         {tabs.map((tab, index) => (
-          <div key={index} hidden={value !== index} className="content">
+          <div
+            key={index}
+            className="content"
+            style={{ display: value === index ? 'flex' : 'none' }}
+          >
             {value === index && tab.children}
           </div>
         ))}

@@ -30,13 +30,7 @@ export type Profile = {
   mbti: string;
   memberId: number;
   periodEx: string;
-  posts: {
-    postId: number;
-    region: string;
-    runtime: string;
-    sport: string;
-    title: string;
-  }[];
+  posts: MyPost[];
   profileId: number;
   profileImg: string;
   region: string;
@@ -81,7 +75,7 @@ export type PostConversation = {
 
 export type Message = {
   messageId: number;
-  sendDate: string;
+  sentDate: string;
   content: string;
   sender: 'ME' | 'RECEIVER';
 };
@@ -119,4 +113,17 @@ export type PostReview = {
   reviews: string[];
   score: number;
   targetId: number;
+};
+
+export type GetMatchingScheduleResponse = {
+  reservedSchedule: MatchingSchedule[];
+  completedSchedule: MatchingSchedule[];
+};
+
+export type MyPost = {
+  postId: number;
+  region: string;
+  runtime: string;
+  sport: string;
+  title: string;
 };

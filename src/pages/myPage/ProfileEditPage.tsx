@@ -248,7 +248,7 @@ const ProfileEditPage = () => {
             <div className="title">관심 운동</div>
             <div className="content">
               <SelectRectangle
-                text={userProfile.interests.join(', ')}
+                text={userProfile.sport.join(', ')}
                 onClick={() => {
                   setIsExOrMbti(true);
                   setIsOpen(true);
