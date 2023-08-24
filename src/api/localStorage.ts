@@ -7,3 +7,8 @@ export const getJwtToken = () => {
 export const getMemberId = () => {
   return localStorage.getItem('memberId');
 };
+
+// kakaoId 가져오기
+export const getKakaoId = () => {
+  return localStorage.getItem('kakaoId');
+};
