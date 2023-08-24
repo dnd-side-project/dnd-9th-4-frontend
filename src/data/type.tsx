@@ -3,21 +3,21 @@ export type RegionData = {
 };
 
 export type OnboardingProfile = {
-  kakaoId: number | null;
-  userName: string | null;
-  introduce: string | null;
-  profileImg: string | null;
+  kakaoId: number;
+  userName: string;
+  introduce: string;
+  profileImg: string;
   sport: string[];
   exerciseStyles: string[];
   interests: string[];
-  region: string | null;
-  gender: string | null;
-  mbti: string | null;
-  periodEx: string | null;
-  wantedPersonality: string | null;
-  wantedAge: string | null;
-  wantedGender: string | null;
-  wantedPeriodEx: string | null;
+  region: string;
+  gender: string;
+  mbti: string;
+  periodEx: string;
+  wantedPersonality: string;
+  wantedAge: string;
+  wantedGender: string;
+  wantedPeriodEx: string;
 };
 
 export type MypageProfile = {

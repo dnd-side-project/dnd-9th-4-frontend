@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import UnselectedTag from 'components/common/UnselectedTag';
 import { stackColumn, stackRow } from 'components/styles/common/common';
+import { sport } from 'data/variable';
 import React, { useState } from 'react';
 
 const InterestedExerciseArea = ({
@@ -29,35 +30,30 @@ const InterestedExerciseArea = ({
       <div css={stackRow}>
         <UnselectedTag
           text="헬스"
-          onClick={() => handleTagClick('헬스')}
-          isSelected={selectedTags.includes('헬스')}
+          onClick={() => handleTagClick(sport['헬스'])}
+          isSelected={selectedTags.includes(sport['헬스'])}
         />
         <UnselectedTag
           text="러닝"
-          onClick={() => handleTagClick('러닝')}
-          isSelected={selectedTags.includes('러닝')}
+          onClick={() => handleTagClick(sport['러닝'])}
+          isSelected={selectedTags.includes(sport['러닝'])}
         />
         <UnselectedTag
           text="수영"
-          onClick={() => handleTagClick('수영')}
-          isSelected={selectedTags.includes('수영')}
+          onClick={() => handleTagClick(sport['수영'])}
+          isSelected={selectedTags.includes(sport['수영'])}
         />
         <UnselectedTag
           text="등산"
-          onClick={() => handleTagClick('등산')}
-          isSelected={selectedTags.includes('등산')}
+          onClick={() => handleTagClick(sport['등산'])}
+          isSelected={selectedTags.includes(sport['등산'])}
         />
       </div>
       <div css={stackRow}>
         <UnselectedTag
-          text="싸이클"
-          onClick={() => handleTagClick('싸이클')}
-          isSelected={selectedTags.includes('싸이클')}
-        />
-        <UnselectedTag
-          text="기타"
-          onClick={() => handleTagClick('기타')}
-          isSelected={selectedTags.includes('기타')}
+          text="사이클"
+          onClick={() => handleTagClick(sport['사이클'])}
+          isSelected={selectedTags.includes(sport['사이클'])}
         />
       </div>
     </div>
