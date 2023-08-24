@@ -14,8 +14,8 @@ export const getMyProfile = async () => {
         Authorization: `Bearer ${getJwtToken()}`,
       },
     })
-    .then((response) => response.data);
-  return response.data as MypageProfile;
+    .then((response) => response);
+  return response;
 };
 
 export const postProfile = async (profile: MypageProfile) => {
