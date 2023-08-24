@@ -74,3 +74,13 @@ export type Message = {
   content: string;
   sender: 'ME' | 'RECEIVER';
 };
+
+export type MatchingSchedule = {
+  img: string;
+  state: 'RESERVED' | 'COMPLETED';
+  tag: string;
+  date: string;
+  title: string;
+  location: string;
+  exercise: string;
+};

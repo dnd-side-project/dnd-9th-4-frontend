@@ -5,10 +5,12 @@ import React, { useState } from 'react';
 
 const InterestedExerciseArea = ({
   onUpdateSelectedTags,
+  defaultTags = [],
 }: {
   onUpdateSelectedTags: (tags: string[]) => void;
+  defaultTags?: string[];
 }) => {
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>(defaultTags);
 
   const handleTagClick = (tag: string) => {
     let updateTags;

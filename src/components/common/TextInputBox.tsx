@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import TextField from '@mui/material/TextField';
 
 const TextInputBox = ({
-  defaultVal,
   rows,
   placeHolder,
+  inputValue,
+  setInputValue,
 }: {
-  defaultVal: string | undefined;
   rows: number | undefined;
   placeHolder: string | undefined;
+  inputValue: string;
+  setInputValue: (input: string) => void;
 }) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
   const inputBoxStyle = {
     fontSize: '16px',
     fontWeight: 500,
@@ -23,8 +28,9 @@ const TextInputBox = ({
       placeholder={placeHolder}
       rows={rows}
       multiline={rows !== undefined ? true : false}
-      defaultValue={defaultVal !== undefined ? defaultVal : ''}
       InputProps={{ style: inputBoxStyle }}
+      value={inputValue}
+      onChange={handleInputChange}
     />
   );
 };
