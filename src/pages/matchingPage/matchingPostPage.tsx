@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
 import { useParams } from 'react-router-dom';
 import PostLocation from 'assets/matchingPostIcon/PostLocation.svg';
@@ -14,6 +14,9 @@ import { matchingPostPageStyles } from 'components/styles/matchingPostPageStyles
 import { Horizontalline } from 'components/common/commonComponents';
 import BottomSheet from 'components/common/BottomSheet';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import axios from 'axios';
+import config from 'config';
 
 const testData = {
   age: '20대 초반',
@@ -35,13 +38,40 @@ const testData = {
   writtenDate: new Date('2023-08-23T12:04:36.183Z'),
 };
 
+const getMatchingPostDetail = async (postId: string | undefined) => {
+  try {
+    const res = await axios.get(`${config.backendUrl}/api/post/${postId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 function MatchingPostPage() {
   const navigate = useNavigate();
 
   const [recruiting, setRecruiting] = useState<boolean>(false);
   const { id } = useParams();
 
-  console.log(id, '번째 게시물');
+  // API 통신 - 모집글 게시물 가져오기
+  const [post, setPost] = useState([]);
+  const { data, isError } = useQuery('getMatchingPostDetail', () =>
+    getMatchingPostDetail(id),
+  );
+
+  useEffect(() => {
+    if (data) {
+      setPost(data);
+      console.log(post);
+      console.log(data);
+    } else if (isError) {
+      console.log(isError);
+    }
+  }, [data, id]);
 
   // 매칭 신청 모달
   const [openModal1, setOpenModal1] = useState(false);

@@ -24,24 +24,42 @@ import 'moment/locale/ko';
 import regionJsonData from 'data/region.json';
 import { hashTagData } from 'data/postWriteData';
 moment.locale('ko');
+import axios from 'axios';
+import config from 'config';
 import { useMutation } from 'react-query';
-import { postMatchingPostWrite } from 'api/matchingPostWritePageApi';
-import { baseAxios } from 'api/baseAxios';
+interface postWriteData {
+  memberId: number | null;
+  sport: string | null;
+  tags: string[];
+  title: string | null;
+  content: string | null;
+  region: string | null;
+  gender: string | null;
+  age: string | null;
+  runtime: string | null;
+}
+
+// API 통신
+export const postMatchingPostWrite = async (write: postWriteData) => {
+  try {
+    const res = await axios.post(`${config.backendUrl}/api/post`, write, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 function datailPostWrtiePage() {
   // API 통신
-  baseAxios.interceptors.request.use(function (config) {
-    const token = localStorage.getItem('jwtToken');
-    config.headers.Authorization = 'Bearer ' + token;
-
-    return config;
-  });
-
   const { mutate } = useMutation(() => postMatchingPostWrite(postWrite), {
     onSuccess: (data) => {
-      console.log('성공', data);
+      console.log('성공' + data);
     },
-    onError: (error) => console.log('실패', error),
+    onError: (error) => console.log(error),
   });
 
   // recoil
