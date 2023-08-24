@@ -4,11 +4,11 @@ import { ReactComponent as Region } from 'assets/icon/icon_location.svg';
 import { ReactComponent as Interested } from 'assets/icon/icon_exercise.svg';
 import { ReactComponent as Career } from 'assets/icon/icon_career.svg';
 import { ReactComponent as Person } from 'assets/icon/icon_person.svg';
-import { UserInfo } from '../../pages/myPage/MyPage';
 import {
   userInfoBoxContainer,
   userInfoBoxItem,
 } from 'components/styles/myPage';
+import { UserInfo } from 'data/type';
 
 const UserInfoBox = ({ userInfo }: { userInfo: UserInfo }) => {
   return (
@@ -25,7 +25,7 @@ const UserInfoBox = ({ userInfo }: { userInfo: UserInfo }) => {
           <Interested width={20} height={20} />
           <div className="text">관심 운동</div>
         </div>
-        <div className="right">{userInfo.interested.join(', ')}</div>
+        <div className="right">{userInfo.sports.join(', ')}</div>
       </div>
       <div css={userInfoBoxItem}>
         <div className="left">

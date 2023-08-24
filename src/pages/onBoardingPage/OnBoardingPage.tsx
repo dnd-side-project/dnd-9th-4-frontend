@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import NextButton from 'components/common/NextButton';
 import PrevHeader from 'components/common/PrevHeader';
-import ProfileEmpty from 'assets/profile/img_profile_empty.svg';
 import { appContainer } from 'components/styles/common/common';
 import {
   onBoardingBodyArea,
@@ -17,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { onboardingProfileState } from 'recoil/onboardingProfileState';
 import { getKakaoId } from 'api/localStorage';
+import { imageList } from 'data/variable';
 
 const OnBoardingPage = () => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const OnBoardingPage = () => {
       // memberId: 23,
       kakaoId: Number(kakaoId),
       userName: nickname,
-      profileImg: selectProfile,
+      profileImg: selectProfile.toString(),
     };
     setOnboardingProfile(updatedProfile);
     // console.log(updatedProfile);
@@ -42,7 +42,7 @@ const OnBoardingPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [nickname, setNickname] = useState('');
   const [isNicknameEntered, setIsNicknameEntered] = useState(false);
-  const [selectProfile, setSelectProfile] = useState(ProfileEmpty);
+  const [selectProfile, setSelectProfile] = useState(0);
 
   const handleNicknameChange = (nickname: string) => {
     setNickname(nickname);
@@ -59,7 +59,7 @@ const OnBoardingPage = () => {
           >{`반가워요!\n사진과 이름을 등록해주세요.`}</div>
           <img
             css={onBoardingProfileImg}
-            src={selectProfile}
+            src={imageList[selectProfile]}
             onClick={() => setIsOpen(true)}
           />
           <NicknameField onNicknameChange={handleNicknameChange} />
@@ -67,7 +67,7 @@ const OnBoardingPage = () => {
         </div>
         <NextButton
           text={'다음'}
-          isEnabled={isNicknameEntered && selectProfile !== ProfileEmpty}
+          isEnabled={isNicknameEntered && selectProfile !== 0}
           onEnabledClick={() => {
             handleProfileChange();
             navigate('/onboarding/1');

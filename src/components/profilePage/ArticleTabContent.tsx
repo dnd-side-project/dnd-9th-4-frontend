@@ -1,32 +1,30 @@
 /** @jsxImportSource @emotion/react */
-import Profile3 from 'assets/profile/img_profile_3.svg';
 import ArticleItem from 'components/myPage/ArticleItem';
+import EmptyArticle from 'components/myPage/EmptyArticle';
 import { profilePageArticleTabArea } from 'components/styles/common/profilePageStyles';
-import { ArticleListItem } from 'pages/myPage/MyArticlePage';
+import { MyPost } from 'data/type';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const ArticleTabContent = () => {
-  const uploadList: ArticleListItem[] = [
-    {
-      profileImg: Profile3,
-      title: '등산초보 같이 등산 가주세요',
-      where: '서울특별시 강남구',
-      when: '8.6(일)',
-      what: '헬스',
-    },
-    {
-      profileImg: Profile3,
-      title: '같이 헬스 다닐 분 구해요!',
-      where: '서울특별시 강남구',
-      when: '8.6(일)',
-      what: '헬스',
-    },
-  ];
+const ArticleTabContent = ({ articleList }: { articleList: MyPost[] }) => {
+  const navigate = useNavigate();
   return (
     <div css={profilePageArticleTabArea}>
-      {uploadList.map((article, index) => (
-        <ArticleItem key={index} article={article} divide={true} />
-      ))}
+      {articleList.length > 0 ? (
+        articleList.map((article, index) => (
+          <ArticleItem
+            imageView={false}
+            key={index}
+            article={article}
+            divide={true}
+            onClick={() => {
+              navigate(`/post/${article.postId}`);
+            }}
+          />
+        ))
+      ) : (
+        <EmptyArticle text="아직 등록된 게시글이 없어요!" />
+      )}
     </div>
   );
 };

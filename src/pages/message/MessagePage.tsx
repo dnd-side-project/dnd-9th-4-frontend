@@ -4,74 +4,67 @@ import {
   messagePageBodyArea,
   messagePageContainer,
 } from 'components/styles/messagePageStyles';
-import Profile5 from 'assets/profile/img_profile_5.svg';
-import Profile6 from 'assets/profile/img_profile_6.svg';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NextButton from 'components/common/NextButton';
 import MessageItem from 'components/messagePage/MessageItem';
 import { MessageHistory } from 'data/type';
 import { useNavigate, useParams } from 'react-router-dom';
+import { baseAxios } from 'api/baseAxios';
+import { useMutation } from 'react-query';
+import { postConversation } from 'api/messageApi';
+import { defaultMessageHistory } from 'data/defaultValue';
 
 const MessagePage = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const senderId = localStorage.getItem('memberId');
-  const receiverId = params.receiverId;
+  const receiverId = Number(params.receiverId);
+
+  const [messageHistory, setMessageHistory] = useState<MessageHistory>({
+    ...defaultMessageHistory,
+  });
+
+  baseAxios.interceptors.request.use(function (config) {
+    const token = localStorage.getItem('jwtToken');
+    config.headers.Authorization = 'Bearer ' + token;
+
+    return config;
+  });
+
+  const { mutate } = useMutation(() => postConversation(receiverId), {
+    onSuccess: (data: MessageHistory) => {
+      setMessageHistory(data);
+      console.log('POST CONVERSATION SUCCESS : ', data);
+    },
+    onError: (error) => console.log(error),
+  });
 
   const handleClick = () => {
     navigate(`/message/${receiverId}/write`);
   };
 
-  const list: MessageHistory = {
-    myId: senderId !== null ? Number(senderId) : 23,
-    myUsername: '가나다',
-    myProfileImg: Profile5,
-    receiverId: receiverId !== undefined ? Number(receiverId) : 0,
-    receiverUsername: '푸바오입니다',
-    receiverProfileImg: Profile6,
-    messageResponses: [
-      {
-        messageId: 1,
-        sendDate: '00/00 00:00',
-        content: '첫번째메세지입니다',
-        sender: 'ME',
-      },
-      {
-        messageId: 2,
-        sendDate: '00/00 00:00',
-        content: '두번째메세지입니다',
-        sender: 'RECEIVER',
-      },
-      {
-        messageId: 3,
-        sendDate: '00/00 00:00',
-        content: '세번째메세지입니다',
-        sender: 'ME',
-      },
-      {
-        messageId: 4,
-        sendDate: '00/00 00:00',
-        content: '네번째메세지입니다',
-        sender: 'RECEIVER',
-      },
-    ],
-  };
+  useEffect(() => {
+    mutate();
+  }, []);
+
   return (
     <div css={messagePageContainer}>
       <div style={{ margin: '0 16px 45px 16px' }}>
         <PrevHeader text="쪽지" />
       </div>
       <div css={messagePageBodyArea}>
-        {list.messageResponses.map((message, index) => (
+        {messageHistory.messageResponses.map((message, index) => (
           <MessageItem
+            receiverId={receiverId}
             messageItem={message}
             profileImg={
               message.sender === 'ME'
-                ? list.myProfileImg
-                : list.receiverProfileImg
+                ? messageHistory.myProfileImg
+                : messageHistory.receiverProfileImg
             }
             userName={
-              message.sender === 'ME' ? list.myUsername : list.receiverUsername
+              message.sender === 'ME'
+                ? messageHistory.myUsername
+                : messageHistory.receiverUsername
             }
             imgSize={52}
             key={index}

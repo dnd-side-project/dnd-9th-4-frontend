@@ -4,7 +4,6 @@ import { atom } from 'recoil';
 export const onboardingProfileState = atom<OnboardingProfile>({
   key: 'onboardingProfileState',
   default: {
-    kakaoId: 0,
     userName: '',
     introduce: '',
     profileImg: '',

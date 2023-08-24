@@ -133,6 +133,14 @@ export const matchingRecordContentContainer = css({
 
 export const matchingRecordContentArea = css({
   padding: '5px 6px',
+  display: 'flex',
+  width: '100%',
+  height: '100%',
+  '& .content': {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+  },
 });
 
 export const profileHeaderContainer = css({
@@ -498,11 +506,34 @@ export const scheduleTag = (state: 'RESERVED' | 'COMPLETED') =>
     alignItems: 'center',
     fontSize: '14px',
     fontWeight: 600,
+    marginBottom: '5px',
     color: state === 'RESERVED' ? '#FF7246' : '#676F83',
     '& .tag': {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '22px',
+      marginRight: '10px',
+      borderRadius: '20px',
       padding: '4px 12px',
       fontSize: '13px',
+      overflow: 'unset',
       backgroundColor:
         state === 'RESERVED' ? 'rgba(255, 135, 97, 0.1)' : '#E5E9EF',
     },
   });
+
+export const emptyScheduleStyle = css({
+  display: 'flex',
+  flexDirection: 'column',
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  '& .text': {
+    fontSize: '14px',
+    fontWeight: 700,
+    color: '#949494',
+    marginTop: '31px',
+    marginBottom: '6.5px',
+  },
+});

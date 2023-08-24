@@ -3,36 +3,35 @@ import { ReactComponent as Location } from 'assets/icon/icon_location.svg';
 import { ReactComponent as Exercise } from 'assets/icon/icon_exercise.svg';
 import React from 'react';
 import { myArticleItemArea } from 'components/styles/myPage';
-// import ScheduleTag from './ScheduleTag';
+import ScheduleTag from './ScheduleTag';
 import { MatchingSchedule } from 'data/type';
+import { imageList } from 'data/variable';
+import { useNavigate } from 'react-router-dom';
 
 const MatchingRecordItem = ({
+  state,
   article,
   divide,
 }: {
+  state: 'RESERVED' | 'COMPLETED';
   article: MatchingSchedule;
   divide: boolean;
 }) => {
-  // const runtimeConverter = () => {
-  //   const date: Date = new Date(article.runtime);
-  //   const today: Date = new Date();
-
-  // }
+  const navigate = useNavigate();
 
   return (
     <div css={myArticleItemArea}>
       <div className="content">
         <img
           className="img"
-          src={article.profileImg}
+          src={imageList[Number(article.profileImg)]}
           style={{ width: '52px', height: '52px' }}
+          onClick={() => {
+            navigate(`/profile/${article.memberId}`);
+          }}
         />
         <div className="text">
-          {/* <ScheduleTag
-            state={article.state}
-            tag={article.tag}
-            date={article.date}
-          /> */}
+          <ScheduleTag state={state} date={article.runtime} />
           <div className="title">{article.title}</div>
           <div className="info-area">
             <div className="info-item">

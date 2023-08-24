@@ -1,15 +1,10 @@
-import { OnboardingProfile } from 'data/type';
+import { PostReview } from 'data/type';
 import { baseAxios } from './baseAxios';
 import { getJwtToken } from './localStorage';
 
-/**
- * 프로필 조회
- * @params 멤버 아이디
- * @returns MypageProfile
- */
-export const getProfile = async (memberId: number) => {
+export const postReview = async (review: PostReview) => {
   const response = await baseAxios
-    .get(`/api/profile/${memberId}`, {
+    .post('/api/review', review, {
       headers: {
         Authorization: `Bearer ${getJwtToken()}`,
       },
@@ -19,14 +14,9 @@ export const getProfile = async (memberId: number) => {
   return response;
 };
 
-/**
- * 프로필 수정
- * @params 온보딩프로필
- * @returns 어쩌구
- */
-export const editProfile = async (editProfile: OnboardingProfile) => {
+export const getReview = async () => {
   const response = await baseAxios
-    .put('/api/profile', editProfile, {
+    .get('/api/review', {
       headers: {
         Authorization: `Bearer ${getJwtToken()}`,
       },
