@@ -16,19 +16,21 @@ import CheckNickname from 'components/onBoardingPage/CheckNickname';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { onboardingProfileState } from 'recoil/onboardingProfileState';
+import { getKakaoId } from 'api/localStorage';
 
 const OnBoardingPage = () => {
   const navigate = useNavigate();
   const [onboardingProfile, setOnboardingProfile] = useRecoilState(
     onboardingProfileState,
   );
-  const memberId = localStorage.getItem('memberId');
+  const kakaoId = getKakaoId();
   const handleProfileChange = () => {
-    console.log('ONBOARDING : ' + memberId);
+    console.log('ONBOARDING : ' + kakaoId);
     const updatedProfile = {
       ...onboardingProfile,
       // memberId: Number(memberId),
       // memberId: 23,
+      kakaoId: Number(kakaoId),
       userName: nickname,
       profileImg: selectProfile,
     };

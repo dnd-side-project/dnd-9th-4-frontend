@@ -22,7 +22,7 @@ function RedirectHandler() {
       .then((response) => {
         console.log('카카오 로그인 성공 ======>', response);
 
-        const storeKakaoId = getKakaoId();
+        const storedKakaoId = getKakaoId();
         const storedMemberId = getMemberId();
         const storedJwtToken = getJwtToken();
 
@@ -38,7 +38,7 @@ function RedirectHandler() {
         if (
           storedJwtToken &&
           Number(storedMemberId) === memberId &&
-          Number(storeKakaoId) === kakaoId
+          Number(storedKakaoId) === kakaoId
         ) {
           console.log('이미 가입된 회원');
 
