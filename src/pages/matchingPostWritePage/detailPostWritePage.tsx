@@ -24,43 +24,28 @@ import 'moment/locale/ko';
 import regionJsonData from 'data/region.json';
 import { hashTagData } from 'data/postWriteData';
 moment.locale('ko');
-import axios from 'axios';
-import config from 'config';
 import { useMutation } from 'react-query';
-interface postWriteData {
-  memberId: number | null;
-  sport: string | null;
-  tags: string[];
-  title: string | null;
-  content: string | null;
-  region: string | null;
-  gender: string | null;
-  age: string | null;
-  runtime: string | null;
-}
-
-// API 통신
-export const postMatchingPostWrite = async (write: postWriteData) => {
-  try {
-    const res = await axios.post(`${config.backendUrl}/api/post`, write, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      },
-    });
-    return res.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
+import { postMatchingPostWrite } from 'api/matchingPostWritePageApi';
+import { MatchingModal } from 'components/matchingPage/matchingPostPageComponents';
+import { useNavigate } from 'react-router-dom';
 
 function datailPostWrtiePage() {
+  const navigate = useNavigate();
+
   // API 통신
   const { mutate } = useMutation(() => postMatchingPostWrite(postWrite), {
     onSuccess: (data) => {
-      console.log('성공' + data);
+      const postId = JSON.stringify(data.postId);
+      console.log('성공:', postId);
+      navigate(`/post/${postId}`);
     },
-    onError: (error) => console.log(error),
+    onError: (error) => {
+      console.error(error);
+    },
   });
+
+  // 작성하기 모달
+  const [openWritePostModal, setOpenWritePostModal] = useState(false);
 
   // recoil
   const [postWrite, setPostWrite] = useRecoilState(postWriteState);
@@ -98,9 +83,15 @@ function datailPostWrtiePage() {
       applyBigRegion != null &&
       applySmalRegion != null
     ) {
+      console.log(postWrite);
       console.log('제출하기');
-      mutate();
+      setOpenWritePostModal(true);
     }
+  };
+
+  const onClickWritePostModal = async () => {
+    setOpenWritePostModal(false);
+    mutate();
   };
 
   // [제목]
@@ -150,7 +141,7 @@ function datailPostWrtiePage() {
     setDayError(false);
     setPostWrite({
       ...postWrite,
-      runtime: moment(runtime).format('YYYY년 MM월 DD일'),
+      runtime: moment(runtime).format('YYYY-MM-DD'),
     });
   };
 
@@ -162,7 +153,7 @@ function datailPostWrtiePage() {
   const onClickTimeApply = () => {
     setIsOpenTime(false);
     const formattedHour = hour?.padStart(2, '0');
-    const time = formattedHour + '시 ' + minute + '분';
+    const time = formattedHour + ':' + minute + ':00';
     setFullTime(time);
     setHourError(false);
     setPostWrite({
@@ -497,6 +488,13 @@ function datailPostWrtiePage() {
           <InitAndApplyButton onClickApply={onClickRegionApply} />
         </>
       </BottomSheet>
+      <MatchingModal
+        open={openWritePostModal}
+        onClickModalOk={onClickWritePostModal}
+        title="게시물이 작성되었습니다."
+        subTitle="뉴플메이트를 만나봐요."
+        buttonOne="buttonOne"
+      />
     </div>
   );
 }

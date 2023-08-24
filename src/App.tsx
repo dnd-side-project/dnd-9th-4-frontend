@@ -61,7 +61,7 @@ function App() {
           <Route path="/matching" element={<MatchingPage />} />
           <Route path="/matching/search" element={<SearchPage />} />
           <Route
-            path="/matching/request"
+            path="/post/:id/request"
             element={<MatchingRequestListPage />}
           />
           <Route path="/auth" element={<RedirectHandler />} />

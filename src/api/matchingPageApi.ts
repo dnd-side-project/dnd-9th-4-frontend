@@ -2,51 +2,63 @@
     매칭 게시물
 */
 
-import { baseAxios } from './baseAxios';
 import axios from 'axios';
-const backendUrl = 'https://dnd-newple-server.store';
+import config from 'config';
+import { getJwtToken } from './localStorage';
 
 /*
-    매칭 게시물 전체 조회
+    [매칭 게시물 전체 조회]
+    Method: GET
 */
 export const getMatchingPostList = async () => {
   try {
-    const res = await axios.get(`${backendUrl}/api/post`, {
+    const res = await axios.get(`${config.backendUrl}/api/post`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        Authorization: `Bearer ${getJwtToken()}`,
       },
     });
     return res.data;
   } catch (error) {
-    throw new Error('Failed to fetch data');
+    console.error(error);
   }
 };
 
 /*
-    매칭 모집글 조회(1개)
+    [매칭 모집글 조회 - 1개]
+    Method: GET
 */
-export const getMatchingPostDetail = async (postId: number) => {
-  const response = await baseAxios
-    .get(`/api/post/${postId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+export const getMatchingPostDetail = async (postId: string | undefined) => {
+  try {
+    const res = await axios.get(
+      `${config.backendUrl}/api/post/${Number(postId)}`,
+      {
+        headers: {
+          Authorization: `Bearer ${getJwtToken()}`,
+        },
       },
-    })
-    .then((response) => response.data);
-  return response.data;
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 /*
     매칭 게시물 삭제
-    Headers:	Authorization={액세스 토큰}
+    Method: Delete
 */
-export const deleteMatchingPost = async (postId: number) => {
-  const response = await baseAxios
-    .delete(`/api/post/${postId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+export const deleteMatchingPost = async (postId: string | undefined) => {
+  try {
+    const res = await axios.delete(
+      `${config.backendUrl}/api/post/${Number(postId)}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        },
       },
-    })
-    .then((response) => response.data);
-  return response.data;
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
 };

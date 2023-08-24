@@ -9,32 +9,32 @@ export const sportListData = {
   sportList: [
     {
       id: 1,
-      sport: '헬스',
+      sport: 'FITNESS',
       img: 헬스아이콘,
     },
     {
       id: 2,
-      sport: '러닝',
+      sport: 'RUNNING',
       img: 러닝아이콘,
     },
     {
       id: 3,
-      sport: '수영',
+      sport: 'SWIM',
       img: 수영아이콘,
     },
     {
       id: 4,
-      sport: '싸이클',
+      sport: 'CYCLE',
       img: 싸이클아이콘,
     },
     {
       id: 5,
-      sport: '등산',
+      sport: 'HIKING',
       img: 등산아이콘,
     },
     {
       id: 6,
-      sport: '기타',
+      sport: 'ETC',
       img: 기타아이콘,
     },
   ],

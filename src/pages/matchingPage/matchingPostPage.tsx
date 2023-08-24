@@ -14,37 +14,67 @@ import { matchingPostPageStyles } from 'components/styles/matchingPostPageStyles
 import { Horizontalline } from 'components/common/commonComponents';
 import BottomSheet from 'components/common/BottomSheet';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from 'react-query';
+//import { useQuery } from 'react-query';
 import axios from 'axios';
 import config from 'config';
+import { useMutation } from 'react-query';
+import { getMatchingPostDetail, deleteMatchingPost } from 'api/matchingPageApi';
+import { MatchingPostData } from 'data/type';
 
-const testData = {
-  age: '20대 초반',
-  content: '취미로 등산하는데 한라산 꼭 가보고 싶었어요!!',
-  gender: '여성',
-  id: 1,
-  memberId: 1,
-  region: '대전광역시 유성구',
-  runtime: '2023-09-12 13:00:00',
-  sport: 'HIKING',
-  status: 'COMPLETED',
-  tags: ['20대', '30대', '2030', '같이성장해요', '운동초보환영'],
-  title: '한라산 올라가실 분~',
-  writerAge: '30',
-  writerGender: 'MALE',
-  writerProfileImg:
-    'https://image.hmall.com/static/8/0/42/35/2135420804_0.jpg?RS=600x600&AR=0',
-  writerUsername: 'john_doe',
-  writtenDate: new Date('2023-08-23T12:04:36.183Z'),
+// 매칭 신청하기 api
+const postMatchingApply = async (
+  postId: string | undefined,
+  memberId: string | null,
+) => {
+  const apply = {
+    postId: Number(postId),
+    memberId: Number(memberId),
+  };
+  try {
+    const res = await axios.post(
+      `${config.backendUrl}/api/match/apply`,
+      apply,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        },
+      },
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-const getMatchingPostDetail = async (postId: string | undefined) => {
+// 매칭 취소하기 api
+const putMatchingCancel = async (postId: string | undefined) => {
   try {
-    const res = await axios.get(`${config.backendUrl}/api/post/${postId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+    const res = await axios.put(
+      `${config.backendUrl}/api/match/${Number(postId)}`,
+      // cancel,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        },
       },
-    });
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 매칭 여부 조회 api
+const getMatchingStatus = async (postId: string | undefined) => {
+  try {
+    const res = await axios.get(
+      `${config.backendUrl}/api/match/${Number(postId)}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        },
+      },
+    );
     return res.data;
   } catch (error) {
     console.error(error);
@@ -54,24 +84,38 @@ const getMatchingPostDetail = async (postId: string | undefined) => {
 function MatchingPostPage() {
   const navigate = useNavigate();
 
+  const [postContent, setPostContent] = useState<MatchingPostData | null>(null);
+
   const [recruiting, setRecruiting] = useState<boolean>(false);
   const { id } = useParams();
 
-  // API 통신 - 모집글 게시물 가져오기
-  const [post, setPost] = useState([]);
-  const { data, isError } = useQuery('getMatchingPostDetail', () =>
-    getMatchingPostDetail(id),
+  // 매칭 여부
+  const { mutate: mutateMatchingStatus } = useMutation(
+    () => getMatchingStatus(id),
+    {
+      onSuccess: (data) => {
+        console.log('매칭 여부 확인 성공', data);
+      },
+      onError: (error) => console.log(error),
+    },
+  );
+
+  // 모집글
+  const { mutate: mutateMatchingPost } = useMutation(
+    () => getMatchingPostDetail(id),
+    {
+      onSuccess: (data) => {
+        console.log('매칭 게시물 가져오기 성공', data);
+        setPostContent(data);
+      },
+      onError: (error) => console.log(error),
+    },
   );
 
   useEffect(() => {
-    if (data) {
-      setPost(data);
-      console.log(post);
-      console.log(data);
-    } else if (isError) {
-      console.log(isError);
-    }
-  }, [data, id]);
+    mutateMatchingStatus();
+    mutateMatchingPost();
+  }, []);
 
   // 매칭 신청 모달
   const [openModal1, setOpenModal1] = useState(false);
@@ -84,10 +128,21 @@ function MatchingPostPage() {
     setOpenModal1(false);
   };
 
+  const { mutate: mutateMatchingApply } = useMutation(
+    () => postMatchingApply(id, localStorage.getItem('memberId')),
+    {
+      onSuccess: (data) => {
+        console.log('매칭 신청 성공', data);
+      },
+      onError: (error) => console.log(error),
+    },
+  );
+
+  // 매칭 신청
   const onClickApplyMatching = () => {
-    console.log('매칭 신청');
     setOpenModal1(false);
     setRecruiting(true);
+    mutateMatchingApply(); // 매칭 신청
   };
 
   // 매칭 취소 모달
@@ -101,9 +156,22 @@ function MatchingPostPage() {
     setOpenCancelModal(false);
   };
 
+  // 매칭 취소
+  const { mutate: mutateMatchingCancel } = useMutation(
+    () => putMatchingCancel(id),
+    {
+      onSuccess: (data) => {
+        console.log('매칭 취소 성공', data);
+      },
+      onError: (error) => console.log(error),
+    },
+  );
+
+  // 매칭 취소
   const onClickCancleMatching = () => {
     setOpenCancelModal(false);
     setOpenCancelCheckModal(true);
+    mutateMatchingCancel(); // 매칭 취소
   };
 
   // 매칭 취소 확인 모달
@@ -117,57 +185,88 @@ function MatchingPostPage() {
   const [isMore, setIsMore] = useState(false);
   console.log(isMore);
 
+  // 게시물 삭제
+  const [openDeletePostModal, setOpenDeletePostModal] = useState(false);
+
+  const { mutate: mutateDeleteMatchingPost } = useMutation(
+    (postId: string | undefined) => deleteMatchingPost(postId),
+    {
+      onSuccess: (data) => {
+        console.log('게시물 삭제 성공', data);
+        navigate('/matching');
+      },
+      onError: (error) => console.log(error),
+    },
+  );
+
+  // 게시물 삭제
+  const onClickPostDelete = () => {
+    setOpenDeletePostModal(true);
+  };
+
+  const onClickDeletePostModal = () => {
+    mutateDeleteMatchingPost(id);
+  };
+
   return (
     <div>
-      <TopBanner id={Number(id)} onClickMoreButton={() => setIsMore(true)} />
-      <div css={matchingPostPageStyles.container}>
-        <div css={matchingPostPageStyles.profileContainer}>
-          <img
-            src={testData.writerProfileImg || undefined}
-            css={matchingPostPageStyles.profileImg}
-          />
-          <span css={matchingPostPageStyles.profileName}>
-            {testData.writerUsername}
-          </span>
-          <span css={matchingPostPageStyles.profileInfo}>
-            {testData.writerAge}/
-            {testData.writerGender === 'MALE' ? '남' : '여'}
-          </span>
-          <div css={matchingPostPageStyles.profileButton}>
-            <span>프로필보기</span>
+      <TopBanner
+        id={Number(id)}
+        onClickMoreButton={() => setIsMore(true)}
+        memberId={postContent == null ? null : postContent.memberId}
+      />
+      {postContent == null ? (
+        <div></div>
+      ) : (
+        <div css={matchingPostPageStyles.container}>
+          <div css={matchingPostPageStyles.profileContainer}>
+            <img
+              src={postContent.writerProfileImg || undefined}
+              css={matchingPostPageStyles.profileImg}
+            />
+            <span css={matchingPostPageStyles.profileName}>
+              {postContent.writerUsername}
+            </span>
+            <span css={matchingPostPageStyles.profileInfo}>
+              {postContent.writerAge}/
+              {postContent.writerGender === 'MALE' ? '남' : '여'}
+            </span>
+            <div css={matchingPostPageStyles.profileButton}>
+              <span>프로필보기</span>
+            </div>
           </div>
-        </div>
-        <div css={matchingPostPageStyles.recruit} />
-        <div
-          css={[
-            matchingPostPageStyles.recruitText,
-            { color: recruiting ? '#FF8761' : '#0074FF' },
-          ]}
-        >
-          {recruiting ? '수락대기중' : '모집중'}
-        </div>
-        <div css={matchingPostPageStyles.title}>{testData.title}</div>
-        <div css={matchingPostPageStyles.matchingInfo}>
+          <div css={matchingPostPageStyles.recruit} />
+          <div
+            css={[
+              matchingPostPageStyles.recruitText,
+              { color: recruiting ? '#FF8761' : '#0074FF' },
+            ]}
+          >
+            {recruiting ? '수락대기중' : '모집중'}
+          </div>
+          <div css={matchingPostPageStyles.title}>{postContent.title}</div>
+          <div css={matchingPostPageStyles.matchingInfo}>
+            <div>
+              <img src={PostLocation} />
+              <div>{postContent.region}</div>
+            </div>
+            <div>
+              <img src={PostTime} />
+              <div>{postContent.runtime}</div>
+            </div>
+            <div>
+              <img src={PostSport} />
+              <div>{postContent.sport}</div>
+            </div>
+          </div>
+          <Horizontalline margin="21px" />
+          <div css={matchingPostPageStyles.content}>{postContent.content}</div>
+          <Horizontalline margin="18px" />
           <div>
-            <img src={PostLocation} />
-            <div>{testData.region}</div>
-          </div>
-          <div>
-            <img src={PostTime} />
-            <div>{testData.runtime}</div>
-          </div>
-          <div>
-            <img src={PostSport} />
-            <div>{testData.sport}</div>
+            <PostHashTag title="운동태그" hashTag={postContent.tags} />
           </div>
         </div>
-        <Horizontalline margin="21px" />
-        <div css={matchingPostPageStyles.content}>{testData.content}</div>
-        <Horizontalline margin="18px" />
-        <div>
-          <PostHashTag title="운동태그" hashTag={testData.tags} />
-        </div>
-      </div>
+      )}
       <div css={matchingPostPageStyles.modalButtonContainer}>
         <div
           css={matchingPostPageStyles.modalButtonBox}
@@ -199,13 +298,25 @@ function MatchingPostPage() {
         subTitle="매칭 신청이 취소되었습니다."
         buttonOne="buttonOne"
       />
+      <MatchingModal // 매칭 취소 확인 모달
+        open={openDeletePostModal}
+        onClickModalOk={onClickDeletePostModal}
+        title="게시물이 삭제 되었습니다."
+        subTitle="게시물이 삭제 되었습니다."
+        buttonOne="buttonOne"
+      />
       <BottomSheet isOpen={isMore} onClose={() => setIsMore(false)}>
         <div css={matchingPostPageStyles.moreModal}>
           <div css={css({ color: '#2E7BEE' })} onClick={() => navigate(`edit`)}>
             수정하기
           </div>
           <Horizontalline color="#D1D3D7" />
-          <div css={css({ color: '#FF0000' })}>삭제하기</div>
+          <div
+            css={css({ color: '#FF0000' })}
+            onClick={() => onClickPostDelete()}
+          >
+            삭제하기
+          </div>
           <Horizontalline color="#D1D3D7" />
           <div css={css({ color: '#2E7BEE' })} onClick={() => setIsMore(false)}>
             취소

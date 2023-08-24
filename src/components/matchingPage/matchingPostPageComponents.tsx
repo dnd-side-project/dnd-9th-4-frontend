@@ -13,9 +13,11 @@ import 배너5 from 'assets/postBanner/배너5.png';
 import 배너6 from 'assets/postBanner/배너6.png';
 import 배너7 from 'assets/postBanner/배너7.png';
 import 배너8 from 'assets/postBanner/배너8.png';
+import { getMemberId } from 'api/localStorage';
 
 interface BannerData {
   id: number;
+  memberId: number | null;
   onClickMoreButton?: () => void;
 }
 
@@ -37,12 +39,16 @@ export function TopBanner(props: BannerData) {
       ]}
     >
       <div css={matchingPostPageStyles.bannerButton}>
-        <img src={PostBack} onClick={() => navigate(-1)} />
-        <img
-          src={PostMore}
-          css={css({ paddingBottom: '5px' })}
-          onClick={props.onClickMoreButton}
-        />
+        <img src={PostBack} onClick={() => navigate('/matching')} />
+        {props.memberId == getMemberId() ? (
+          <img
+            src={PostMore}
+            css={css({ paddingBottom: '5px' })}
+            onClick={props.onClickMoreButton}
+          />
+        ) : (
+          <div />
+        )}
       </div>
       <div css={matchingPostPageStyles.emptyButton}></div>
     </div>

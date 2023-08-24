@@ -3,24 +3,10 @@
 */
 
 import { baseAxios } from './baseAxios';
+import axios from 'axios';
+import config from 'config';
+import { getJwtToken } from './localStorage';
 
-/*
-    매칭 게시물 작성
-    {
-        "memberId":1,
-        "sport":"HIKING",
-        "tags": [
-            "운동",
-            "20대"
-        ],
-        "title": "한라산 올라가실 분~",
-        "content": "취미로 등산하는데 한라산 꼭 가보고 싶었어요!!",
-        "region" : "대전광역시 유성구",
-        "gender": "여성",
-        "age": "20대 초반",
-        "runtime":"2023-09-12 13:00:00"
-    }
-*/
 interface postWriteData {
   memberId: number | null;
   sport: string | null;
@@ -30,18 +16,20 @@ interface postWriteData {
   region: string | null;
   gender: string | null;
   age: string | null;
-  runtime: string | null;
+  runtime: string | null | Date;
 }
 
 export const postMatchingPostWrite = async (write: postWriteData) => {
-  const response = await baseAxios
-    .post('/api/post', write, {
+  try {
+    const res = await axios.post(`${config.backendUrl}/api/post`, write, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        Authorization: `Bearer ${getJwtToken()}`,
       },
-    })
-    .then((response) => response.data);
-  return response.data;
+    });
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 /*

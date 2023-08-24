@@ -23,6 +23,8 @@ function selectSportPage() {
       ...postWrite,
       sport: sport,
       memberId: Number(getMemberId()),
+      // gender: '여성',
+      // age: '20~29',
     });
     setTimeout(() => {
       navigate('/post/detail');

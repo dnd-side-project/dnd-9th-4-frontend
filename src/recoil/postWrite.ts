@@ -12,7 +12,7 @@ interface postWriteData {
   region: string | null;
   gender: string | null;
   age: string | null;
-  runtime: string | null;
+  runtime: string | null | Date;
 }
 
 export const postWriteState = atom<postWriteData>({
