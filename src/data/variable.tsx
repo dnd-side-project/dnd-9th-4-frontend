@@ -1,4 +1,37 @@
 import { RegionData } from './type';
+import ProfileEmpty from 'assets/profile/img_profile_empty.svg';
+import Profile1 from 'assets/profile/img_profile_1.svg';
+import Profile2 from 'assets/profile/img_profile_2.svg';
+import Profile3 from 'assets/profile/img_profile_3.svg';
+import Profile4 from 'assets/profile/img_profile_4.svg';
+import Profile5 from 'assets/profile/img_profile_5.svg';
+import Profile6 from 'assets/profile/img_profile_6.svg';
+import Profile7 from 'assets/profile/img_profile_7.svg';
+import Profile8 from 'assets/profile/img_profile_8.svg';
+import Profile9 from 'assets/profile/img_profile_9.svg';
+import Profile10 from 'assets/profile/img_profile_10.svg';
+import Profile11 from 'assets/profile/img_profile_11.svg';
+import Profile12 from 'assets/profile/img_profile_12.svg';
+import Profile13 from 'assets/profile/img_profile_13.svg';
+import Profile14 from 'assets/profile/img_profile_14.svg';
+
+export const imageList = [
+  ProfileEmpty,
+  Profile1,
+  Profile2,
+  Profile3,
+  Profile4,
+  Profile5,
+  Profile6,
+  Profile7,
+  Profile8,
+  Profile9,
+  Profile10,
+  Profile11,
+  Profile12,
+  Profile13,
+  Profile14,
+];
 
 export const sport: { [key: string]: string } = {
   헬스: 'FITNESS',
@@ -6,6 +39,14 @@ export const sport: { [key: string]: string } = {
   사이클: 'CYCLE',
   등산: 'HIKING',
   수영: 'SWIM',
+};
+
+export const sportValue: { [key: string]: string } = {
+  FITNESS: '헬스',
+  RUNNING: '러닝',
+  CYCLE: '사이클',
+  HIKING: '등산',
+  SWIM: '수영',
 };
 
 export const regionList: { [key: string]: number } = {

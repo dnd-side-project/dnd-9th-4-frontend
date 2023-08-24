@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { Review } from 'pages/myPage/MyPage';
 import React from 'react';
 import { ReactComponent as Rating } from 'assets/myPageIcon/img_review_rating.svg';
 import { ReactComponent as Unrating } from 'assets/myPageIcon/img_review_unrating.svg';
@@ -9,6 +8,7 @@ import {
   reviewBoxDivider,
   reviewBoxScoreArea,
 } from 'components/styles/myPage';
+import { Review } from 'data/type';
 
 const ReviewBox = ({ review }: { review: Review }) => {
   return (

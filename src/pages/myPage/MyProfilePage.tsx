@@ -6,9 +6,7 @@ import {
   bodyContainer,
   dividerContainer,
 } from 'components/styles/common/common';
-import React, { useEffect } from 'react';
-import { UserProfile } from './MyPage';
-import Profile1 from 'assets/profile/img_profile_1.svg';
+import React from 'react';
 import {
   introduceBoxContainer,
   myPageProfileDivider,
@@ -26,79 +24,18 @@ import IntroduceBox from 'components/myPage/IntroduceBox';
 import MoreListItem from 'components/myPage/MoreListItem';
 import BackgroundTag from 'components/common/BackgroundTag';
 import ReviewBox from 'components/myPage/ReviewBox';
-import { useNavigate } from 'react-router-dom';
-import { EditProfile } from './ProfileEditPage';
-import { baseAxios } from 'api/baseAxios';
-import { useMutation } from 'react-query';
-import { getMyProfile } from 'api/myPageApi';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Profile } from 'data/type';
+import { ProfileToReview, ProfileToUserInfo } from 'data/typeConverter';
+import { imageList } from 'data/variable';
 
 const MyProfilePage = () => {
   const navigate = useNavigate();
-
-  baseAxios.interceptors.request.use(function (config) {
-    const token = localStorage.getItem('jwtToken');
-    config.headers.Authorization = 'Bearer ' + token;
-
-    return config;
-  });
-
-  const { mutate } = useMutation(() => getMyProfile(), {
-    onSuccess: (data) => {
-      console.log('GET PROFILE SUCCESS : ' + data);
-    },
-    onError: (error) => console.log(error),
-  });
-
-  useEffect(() => {
-    mutate();
-  }, []);
-
-  const userProfile: UserProfile = {
-    name: '아메리카노',
-    img: Profile1,
-    age: 23,
-    gender: '여',
-    userInfo: {
-      region: {
-        first: '충청남도',
-        second: '천안시',
-      },
-      interested: ['헬스', '러닝'],
-      career: {
-        year: '',
-        month: '3개월',
-      },
-      mbti: 'ISTP',
-    },
-    introduce: '',
-    interesting: ['체력 키우기', '다이어트'],
-    mate: [
-      '러닝',
-      '같은 성별',
-      '나이 상관없어요',
-      '친화력 좋은',
-      '경력 상관없어요',
-    ],
-    review: {
-      score: 3.5,
-      count: 10,
-      content: [
-        '😄  대화가 잘 통해요',
-        '📧  응답이 빨라요',
-        '🕖 시간 약속을 잘 지켜요',
-      ],
-    },
-  };
+  const location = useLocation();
+  const userProfile: Profile = location.state.userProfile;
 
   const handleProfileEditClick = () => {
-    const editInfo: EditProfile = {
-      img: userProfile.img,
-      name: userProfile.name,
-      userInfo: userProfile.userInfo,
-      introduce: userProfile.introduce,
-    };
-
-    navigate('/my/profile/edit', { state: { editInfo } });
+    navigate('/my/profile/edit', { state: { userProfile } });
   };
 
   return (
@@ -107,11 +44,11 @@ const MyProfilePage = () => {
       <div css={bodyContainer}>
         <div css={profileHeaderContainer}>
           <img
-            src={userProfile.img}
+            src={imageList[Number(userProfile.profileImg)]}
             style={{ width: '79px', height: '79px' }}
           />
           <div css={profileHeaderTextArea}>
-            <div css={profileHeaderTextTitle}>{userProfile.name}</div>
+            <div css={profileHeaderTextTitle}>{userProfile.username}</div>
             <div>{`${userProfile.age} / ${userProfile.gender}`}</div>
           </div>
         </div>
@@ -119,7 +56,7 @@ const MyProfilePage = () => {
           프로필 수정
         </div>
         <div css={profileUserInfoContainer}>
-          <UserInfoBox userInfo={userProfile.userInfo} />
+          <UserInfoBox userInfo={ProfileToUserInfo(userProfile)} />
         </div>
         <div css={introduceBoxContainer}>
           <IntroduceBox
@@ -131,14 +68,30 @@ const MyProfilePage = () => {
           />
         </div>
         <div css={profileMateContainer}>
-          <MoreListItem text="선호하는 운동메이트" onClick={() => {}} />
+          <MoreListItem text="운동스타일과 관심사" onClick={() => {}} />
           <div css={profileMateContentArea}>
-            {userProfile.mate.map((tag, index) => (
-              <BackgroundTag key={index} color="255, 135, 97" text={tag} />
-            ))}
-            {userProfile.interesting.map((tag, index) => (
+            {userProfile.exerciseStyles.map((tag, index) => (
               <BackgroundTag key={index} color="0, 116, 255" text={tag} />
             ))}
+            {userProfile.interests.map((tag, index) => (
+              <BackgroundTag key={index} color="0, 116, 255" text={tag} />
+            ))}
+          </div>
+          <MoreListItem text="선호하는 운동메이트" onClick={() => {}} />
+          <div css={profileMateContentArea}>
+            <BackgroundTag color="255, 135, 97" text={userProfile.wantedAge} />
+            <BackgroundTag
+              color="255, 135, 97"
+              text={userProfile.wantedGender}
+            />
+            <BackgroundTag
+              color="255, 135, 97"
+              text={userProfile.wantedPeriodEx}
+            />
+            <BackgroundTag
+              color="255, 135, 97"
+              text={userProfile.wantedPersonality}
+            />
           </div>
         </div>
         <div css={dividerContainer}>
@@ -147,7 +100,7 @@ const MyProfilePage = () => {
         <div css={profileReviewContainer}>
           <MoreListItem text="운동후기" onClick={() => {}} />
           <div css={reviewBoxContainer}>
-            <ReviewBox review={userProfile.review} />
+            <ReviewBox review={ProfileToReview(userProfile)} />
           </div>
         </div>
       </div>

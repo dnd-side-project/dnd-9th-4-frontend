@@ -1,27 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import Gallery from 'assets/profile/img_gallery.svg';
-import Profile1 from 'assets/profile/img_profile_1.svg';
-import Profile2 from 'assets/profile/img_profile_2.svg';
-import Profile3 from 'assets/profile/img_profile_3.svg';
-import Profile4 from 'assets/profile/img_profile_4.svg';
-import Profile5 from 'assets/profile/img_profile_5.svg';
-import Profile6 from 'assets/profile/img_profile_6.svg';
-import Profile7 from 'assets/profile/img_profile_7.svg';
-import Profile8 from 'assets/profile/img_profile_8.svg';
-import Profile9 from 'assets/profile/img_profile_9.svg';
-import Profile10 from 'assets/profile/img_profile_10.svg';
-import Profile11 from 'assets/profile/img_profile_11.svg';
-import Profile12 from 'assets/profile/img_profile_12.svg';
-import Profile13 from 'assets/profile/img_profile_13.svg';
-import Profile14 from 'assets/profile/img_profile_14.svg';
 import { EmblaCarousel } from 'components/common/EmblaCarousel';
 import { EmblaOptionsType } from 'embla-carousel-react';
 import { selectProfileListSlider } from 'components/styles/onBoardingPage';
+import { useEffect } from 'react';
+import { imageList } from 'data/variable';
 
 const SelectProfileList = ({
   setSelectProfile,
 }: {
-  setSelectProfile: (profile: string) => void;
+  setSelectProfile: (profile: number) => void;
 }) => {
   const OPTIONS: EmblaOptionsType = {
     align: 'center',
@@ -29,47 +16,51 @@ const SelectProfileList = ({
     containScroll: 'trimSnaps',
   };
 
+  useEffect(() => {
+    console.log(imageList[0]);
+  }, []);
+
   const slides1 = [
     <div css={selectProfileListSlider}>
       <img
-        src={Gallery}
+        src={imageList[1]}
         style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Gallery)}
+        onClick={() => setSelectProfile(1)}
       />
       <img
-        src={Profile1}
+        src={imageList[2]}
         style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Profile1)}
+        onClick={() => setSelectProfile(2)}
       />
       <img
-        src={Profile2}
+        src={imageList[3]}
         style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Profile2)}
+        onClick={() => setSelectProfile(3)}
       />
       <img
-        src={Profile3}
+        src={imageList[4]}
         style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Profile3)}
+        onClick={() => setSelectProfile(4)}
       />
       <img
-        src={Profile4}
+        src={imageList[5]}
         style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Profile4)}
+        onClick={() => setSelectProfile(5)}
       />
       <img
-        src={Profile5}
+        src={imageList[6]}
         style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Profile5)}
+        onClick={() => setSelectProfile(6)}
       />
       <img
-        src={Profile6}
+        src={imageList[7]}
         style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Profile6)}
+        onClick={() => setSelectProfile(7)}
       />
       <img
-        src={Profile7}
+        src={imageList[8]}
         style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Profile7)}
+        onClick={() => setSelectProfile(8)}
       />
     </div>,
   ];
@@ -77,39 +68,34 @@ const SelectProfileList = ({
   const slides2 = [
     <div css={selectProfileListSlider}>
       <img
-        src={Profile8}
+        src={imageList[9]}
         style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Profile8)}
+        onClick={() => setSelectProfile(9)}
       />
       <img
-        src={Profile9}
+        src={imageList[10]}
         style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Profile9)}
+        onClick={() => setSelectProfile(10)}
       />
       <img
-        src={Profile10}
+        src={imageList[11]}
         style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Profile10)}
+        onClick={() => setSelectProfile(11)}
       />
       <img
-        src={Profile11}
+        src={imageList[12]}
         style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Profile11)}
+        onClick={() => setSelectProfile(12)}
       />
       <img
-        src={Profile12}
+        src={imageList[13]}
         style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Profile12)}
+        onClick={() => setSelectProfile(13)}
       />
       <img
-        src={Profile13}
+        src={imageList[14]}
         style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Profile13)}
-      />
-      <img
-        src={Profile14}
-        style={{ width: '52px', height: '52px' }}
-        onClick={() => setSelectProfile(Profile14)}
+        onClick={() => setSelectProfile(14)}
       />
     </div>,
   ];

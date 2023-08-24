@@ -3,7 +3,7 @@ export type RegionData = {
 };
 
 export type OnboardingProfile = {
-  kakaoId: number;
+  // kakaoId: number; 안보내도 되는 것 같음
   userName: string;
   introduce: string;
   profileImg: string;
@@ -20,33 +20,33 @@ export type OnboardingProfile = {
   wantedPeriodEx: string;
 };
 
-export type MypageProfile = {
-  age: string | null;
+export type Profile = {
+  age: string;
   exerciseStyles: string[];
-  gender: string | null;
-  gpa: string | null;
-  interests: string[] | null;
-  introduce: string | null;
-  mbti: string | null;
-  memberId: number | null;
-  periodEx: string | null;
+  gender: string;
+  gpa: string;
+  interests: string[];
+  introduce: string;
+  mbti: string;
+  memberId: number;
+  periodEx: string;
   posts: {
-    postId: number | null;
-    region: string | null;
-    runtime: string | null;
-    sport: string | null;
-    title: string | null;
+    postId: number;
+    region: string;
+    runtime: string;
+    sport: string;
+    title: string;
   }[];
-  profileId: number | null;
-  profileImg: string | null;
-  region: string | null;
+  profileId: number;
+  profileImg: string;
+  region: string;
   reviews: string[];
   sport: string[];
-  username: string | null;
-  wantedAge: string | null;
-  wantedGender: string | null;
-  wantedPeriodEx: string | null;
-  wantedPersonality: string | null;
+  username: string;
+  wantedAge: string;
+  wantedGender: string;
+  wantedPeriodEx: string;
+  wantedPersonality: string;
 };
 
 export type MessageList = {
@@ -68,6 +68,17 @@ export type MessageHistory = {
   messageResponses: Message[];
 };
 
+export type SendMessage = {
+  content: string;
+  receiverId: number;
+  senderId: number;
+};
+
+export type PostConversation = {
+  memberId: number;
+  receiverId: number;
+};
+
 export type Message = {
   messageId: number;
   sendDate: string;
@@ -83,4 +94,29 @@ export type MatchingSchedule = {
   region: string;
   sport: string;
   runtime: string;
+};
+
+export type UserInfo = {
+  region: {
+    first: string;
+    second: string;
+  };
+  sports: string[];
+  career: {
+    year: string;
+    month: string;
+  };
+  mbti: string;
+};
+
+export type Review = {
+  score: number;
+  count: number;
+  content: string[];
+};
+
+export type PostReview = {
+  reviews: string[];
+  score: number;
+  targetId: number;
 };

@@ -1,4 +1,6 @@
 /** @jsxImportSource @emotion/react */
+import { baseAxios } from 'api/baseAxios';
+import { editProfile } from 'api/myPageApi';
 import BottomSheet from 'components/common/BottomSheet';
 import DropDown from 'components/common/DropDown';
 import Label from 'components/common/Label';
@@ -24,43 +26,45 @@ import {
   healthLabel,
   onBoardingBodyArea,
 } from 'components/styles/onBoardingPage';
-import { regionData, regionList } from 'data/variable';
+import { Profile, OnboardingProfile } from 'data/type';
+import { imageList, regionData, regionList } from 'data/variable';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { UserInfo } from './MyPage';
-
-export type EditProfile = {
-  img: string;
-  name: string;
-  userInfo: UserInfo;
-  introduce: string;
-};
+import { useMutation } from 'react-query';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ProfileEditPage = () => {
+  baseAxios.interceptors.request.use(function (config) {
+    const token = localStorage.getItem('jwtToken');
+    config.headers.Authorization = 'Bearer ' + token;
+
+    return config;
+  });
+
+  const navigate = useNavigate();
   const location = useLocation();
-  const editInfo: EditProfile = location.state.editInfo;
-  const [nickname, setNickname] = useState(editInfo.name);
-  const [introduce, setIntroduce] = useState(editInfo.introduce);
+  const userProfile: Profile = location.state.userProfile;
+  const [nickname, setNickname] = useState(userProfile.username);
+  const [introduce, setIntroduce] = useState(userProfile.introduce);
   const [isOpen, setIsOpen] = useState(false);
   const [isExOrMbti, setIsExOrMbti] = useState(true);
   const [selectedTags, setSelectedTags] = useState<string[]>(
-    editInfo.userInfo.interested,
+    userProfile.interests,
   );
 
   const [selectedRegion, setSelectRegion] = useState(
-    editInfo.userInfo.region.first,
+    userProfile.region.split(' ')[0],
   );
   const [selectedSubRegion, setSelectedSubRegion] = useState(
-    editInfo.userInfo.region.second,
+    userProfile.region.split(' ')[1],
   );
   const [subRegionValues, setSubRegionValues] = useState<string[]>(
-    Object.values(regionData[regionList[editInfo.userInfo.region.first]])[0],
+    Object.values(regionData[regionList[userProfile.region.split(' ')[0]]])[0],
   );
 
-  const [year, setYear] = useState(editInfo.userInfo.career.year);
-  const [month, setMonth] = useState(editInfo.userInfo.career.month);
+  const [year, setYear] = useState(userProfile.periodEx.split(' ')[0]);
+  const [month, setMonth] = useState(userProfile.periodEx.split(' ')[1]);
 
-  const defaultMbti = editInfo.userInfo.mbti.split('');
+  const defaultMbti = userProfile.mbti.split('');
   const [isEorI, setIsEorI] = useState(defaultMbti[0]);
   const [isNorS, setIsNorS] = useState(defaultMbti[1]);
   const [isForT, setIsForT] = useState(defaultMbti[2]);
@@ -77,6 +81,37 @@ const ProfileEditPage = () => {
     const targetObject = regionData[regionList[region]];
     setSubRegionValues(targetObject[region]);
     setSelectedSubRegion(targetObject[region][0]);
+  };
+
+  const { mutate } = useMutation(
+    (edit: OnboardingProfile) => editProfile(edit),
+    {
+      onSuccess: (data) => {
+        console.log('EDIT PROFILE SUCCESS : ', data);
+      },
+      onError: (error) => console.log(error),
+    },
+  );
+
+  const handleEditButtonClick = () => {
+    const editProfile: OnboardingProfile = {
+      userName: nickname,
+      region: `${selectedRegion} ${selectedSubRegion}`,
+      sport: selectedTags,
+      periodEx: `${year} ${month}`,
+      mbti: isEorI + isNorS + isForT + isPorJ,
+      introduce: introduce,
+      exerciseStyles: userProfile.exerciseStyles,
+      gender: userProfile.gender,
+      interests: userProfile.interests,
+      profileImg: userProfile.profileImg,
+      wantedAge: userProfile.wantedAge,
+      wantedGender: userProfile.wantedGender,
+      wantedPeriodEx: userProfile.wantedPeriodEx,
+      wantedPersonality: userProfile.wantedPersonality,
+    };
+
+    mutate(editProfile);
   };
 
   const yearItem = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
@@ -138,7 +173,7 @@ const ProfileEditPage = () => {
           }
           onEnabledClick={() => {
             setIsOpen(false);
-            editInfo.userInfo.mbti = isEorI + isNorS + isForT + isPorJ;
+            userProfile.mbti = isEorI + isNorS + isForT + isPorJ;
             // console.log(isEorI + isNorS + isForT + isPorJ);
           }}
         />
@@ -161,7 +196,7 @@ const ProfileEditPage = () => {
           text="선택하기"
           isEnabled={selectedTags.length > 0}
           onEnabledClick={() => {
-            editInfo.userInfo.interested = selectedTags;
+            userProfile.sport = selectedTags;
             setIsOpen(false);
           }}
         />
@@ -175,7 +210,10 @@ const ProfileEditPage = () => {
         <PrevHeader text="프로필 수정" />
         <div css={bodyContainer}>
           <div css={editProfileHeaderContainer}>
-            <img src={editInfo.img} style={{ width: '87px', height: '87px' }} />
+            <img
+              src={imageList[Number(userProfile.profileImg)]}
+              style={{ width: '87px', height: '87px' }}
+            />
             <div css={editProfileHeaderTextArea}>
               <div>닉네임</div>
               <div css={editProfileHeaderInputArea}>
@@ -210,7 +248,7 @@ const ProfileEditPage = () => {
             <div className="title">관심 운동</div>
             <div className="content">
               <SelectRectangle
-                text={editInfo.userInfo.interested.join(', ')}
+                text={userProfile.interests.join(', ')}
                 onClick={() => {
                   setIsExOrMbti(true);
                   setIsOpen(true);
@@ -240,7 +278,7 @@ const ProfileEditPage = () => {
             <div className="title">MBTI</div>
             <div className="content">
               <SelectRectangle
-                text={editInfo.userInfo.mbti}
+                text={userProfile.mbti}
                 onClick={() => {
                   setIsExOrMbti(false);
                   setIsOpen(true);
@@ -264,7 +302,10 @@ const ProfileEditPage = () => {
         <NextButton
           text="수정하기"
           isEnabled={true}
-          onEnabledClick={() => {}}
+          onEnabledClick={() => {
+            handleEditButtonClick();
+            navigate(-1);
+          }}
         />
       </div>
       <BottomSheet isOpen={isOpen} onClose={() => setIsOpen(false)}>

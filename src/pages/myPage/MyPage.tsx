@@ -7,52 +7,50 @@ import {
   myPageProfileContainer,
   myPageProfileTextArea,
 } from 'components/styles/myPage';
-import Profile1 from 'assets/profile/img_profile_1.svg';
 import { ReactComponent as ArrowRight } from 'assets/icon/icon_arrow_right.svg';
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { ButtonNavigation } from 'components/common/commonComponents';
 import MoreListItem from 'components/myPage/MoreListItem';
 import { Modal } from '@mui/material';
 import LogoutModalArea from 'components/myPage/LogoutModalArea';
 import { useNavigate } from 'react-router-dom';
-
-export type UserInfo = {
-  region: {
-    first: string;
-    second: string;
-  };
-  interested: string[];
-  career: {
-    year: string;
-    month: string;
-  };
-  mbti: string;
-};
-
-export type Review = {
-  score: number;
-  count: number;
-  content: string[];
-};
-
-export type UserProfile = {
-  name: string;
-  img: string;
-  age: number;
-  gender: string;
-  userInfo: UserInfo;
-  introduce: string;
-  interesting: string[];
-  mate: string[];
-  review: Review;
-};
+import { Profile } from 'data/type';
+import { baseAxios } from 'api/baseAxios';
+import { defaultProfile } from 'data/defaultValue';
+import { useMutation } from 'react-query';
+import { getProfile } from 'api/myPageApi';
+import { imageList } from 'data/variable';
+import { getMemberId } from 'api/localStorage';
 
 const MyPage = () => {
+  const memberId = Number(getMemberId());
   const navigate = useNavigate();
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+  const [userProfile, setUserProfile] = useState<Profile>({
+    ...defaultProfile,
+  });
+
+  baseAxios.interceptors.request.use(function (config) {
+    const token = localStorage.getItem('jwtToken');
+    config.headers.Authorization = 'Bearer ' + token;
+
+    return config;
+  });
+
+  const { mutate } = useMutation(() => getProfile(memberId), {
+    onSuccess: (data: Profile) => {
+      setUserProfile(data);
+      console.log('GET PROFILE SUCCESS : ', userProfile);
+    },
+    onError: (error) => console.log(error),
+  });
+
+  useEffect(() => {
+    mutate();
+  }, []);
 
   const onProfileClick = () => {
-    navigate('/my/profile');
+    navigate('/my/profile', { state: { userProfile } });
   };
 
   const onMyUploadClick = () => {
@@ -67,18 +65,25 @@ const MyPage = () => {
     navigate('/my/withdraw');
   };
 
-  useEffect(() => {
-    localStorage.setItem('memberId', '36');
-  }, []);
+  const Bar = React.forwardRef<HTMLSpanElement, { children: ReactNode }>(
+    (props, ref) => (
+      <span {...props} ref={ref}>
+        {props.children}
+      </span>
+    ),
+  );
 
   return (
     <div css={appContainer}>
       <div css={myPageContainer}>
         <div css={myPageProfileContainer}>
           <div css={stackRow}>
-            <img src={Profile1} style={{ width: '79px', height: '79px' }} />
+            <img
+              src={imageList[Number(userProfile.profileImg)]}
+              style={{ width: '79px', height: '79px' }}
+            />
             <div css={myPageProfileTextArea} onClick={() => onProfileClick()}>
-              푸바오님
+              {userProfile.username}
             </div>
           </div>
           <ArrowRight width={24} height={24} />
@@ -117,7 +122,9 @@ const MyPage = () => {
           setIsLogoutOpen(false);
         }}
       >
-        <LogoutModalArea />
+        <Bar>
+          <LogoutModalArea />
+        </Bar>
       </Modal>
       <ButtonNavigation />
     </div>
