@@ -3,19 +3,23 @@
 */
 
 import { baseAxios } from './baseAxios';
+import axios from 'axios';
+const backendUrl = 'https://dnd-newple-server.store';
 
 /*
     매칭 게시물 전체 조회
 */
 export const getMatchingPostList = async () => {
-  const response = await baseAxios
-    .get('/api/post', {
+  try {
+    const res = await axios.get(`${backendUrl}/api/post`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
       },
-    })
-    .then((response) => response.data);
-  return response.data;
+    });
+    return res.data;
+  } catch (error) {
+    throw new Error('Failed to fetch data');
+  }
 };
 
 /*

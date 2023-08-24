@@ -12,12 +12,12 @@ import {
   Horizontalline,
 } from 'components/common/commonComponents';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from 'react-query';
-import {
-  getMatchingPostSimple,
-  getMatchingRecord,
-  getAroundMate,
-} from 'api/homePageApi';
+// import { useQuery } from 'react-query';
+// import {
+//   getMatchingPostSimple,
+//   getMatchingRecord,
+//   getAroundMate,
+// } from 'api/homePageApi';
 
 // 내 주변 뉴플메이트 테스트 데이터
 const profileTestData = {
@@ -128,18 +128,18 @@ function HomePage() {
     console.log('이동');
   };
 
-  useQuery('matchingPosts', getMatchingPostSimple, {
-    onSuccess: (data) => console.log(data),
-    onError: (error) => console.error(error),
-  });
-  useQuery('aroundMates', getAroundMate, {
-    onSuccess: (data) => console.log(data),
-    onError: (error) => console.error(error),
-  });
-  useQuery('matchingRecord', getMatchingRecord, {
-    onSuccess: (data) => console.log(data),
-    onError: (error) => console.error(error),
-  });
+  // useQuery('matchingPosts', getMatchingPostSimple, {
+  //   onSuccess: (data) => console.log(data),
+  //   onError: (error) => console.error(error),
+  // });
+  // useQuery('aroundMates', getAroundMate, {
+  //   onSuccess: (data) => console.log(data),
+  //   onError: (error) => console.error(error),
+  // });
+  // useQuery('matchingRecord', getMatchingRecord, {
+  //   onSuccess: (data) => console.log(data),
+  //   onError: (error) => console.error(error),
+  // });
 
   return (
     <div css={css({ marginInline: '16px', paddingBottom: '90px' })}>

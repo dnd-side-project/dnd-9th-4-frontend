@@ -2,21 +2,20 @@
     HomePage
 */
 
-import { baseAxios } from './baseAxios';
+import axios from 'axios';
+import config from 'config';
 
 /*
     [매칭 게시물 3개]
     Method: GET
 */
 export const getMatchingPostSimple = async () => {
-  const response = await baseAxios
-    .get('/api/post/simple', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      },
-    })
-    .then((response) => response.data);
-  return response.data;
+  try {
+    const res = await axios.get(`${config.backendUrl}/api/post/simple`);
+    return res.data;
+  } catch (error) {
+    throw new Error('Failed to fetch data');
+  }
 };
 
 /*
@@ -27,14 +26,12 @@ export const getMatchingPostSimple = async () => {
     }
 */
 export const getMatchingRecord = async () => {
-  const response = await baseAxios
-    .get('/api/match/week', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      },
-    })
-    .then((response) => response.data);
-  return response.data;
+  try {
+    const res = await axios.get(`${config.backendUrl}/api/match/week`);
+    return res.data;
+  } catch (error) {
+    throw new Error('Failed to fetch data');
+  }
 };
 
 /*
@@ -45,12 +42,10 @@ export const getMatchingRecord = async () => {
     }
 */
 export const getAroundMate = async () => {
-  const response = await baseAxios
-    .get('/api/profile/around', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      },
-    })
-    .then((response) => response.data);
-  return response.data;
+  try {
+    const res = await axios.get(`${config.backendUrl}/api/profile/around`);
+    return res.data;
+  } catch (error) {
+    throw new Error('Failed to fetch data');
+  }
 };
