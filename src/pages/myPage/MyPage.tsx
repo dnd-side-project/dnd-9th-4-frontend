@@ -9,7 +9,7 @@ import {
 } from 'components/styles/myPage';
 import Profile1 from 'assets/profile/img_profile_1.svg';
 import { ReactComponent as ArrowRight } from 'assets/icon/icon_arrow_right.svg';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ButtonNavigation } from 'components/common/commonComponents';
 import MoreListItem from 'components/myPage/MoreListItem';
 import { Modal } from '@mui/material';
@@ -21,10 +21,10 @@ export type UserInfo = {
     first: string;
     second: string;
   };
-  interested: string;
+  interested: string[];
   career: {
-    year: string | null;
-    month: string | null;
+    year: string;
+    month: string;
   };
   mbti: string;
 };
@@ -41,7 +41,7 @@ export type UserProfile = {
   age: number;
   gender: string;
   userInfo: UserInfo;
-  introduce: string | null;
+  introduce: string;
   interesting: string[];
   mate: string[];
   review: Review;
@@ -67,6 +67,10 @@ const MyPage = () => {
     navigate('/my/withdraw');
   };
 
+  useEffect(() => {
+    localStorage.setItem('memberId', '36');
+  }, []);
+
   return (
     <div css={appContainer}>
       <div css={myPageContainer}>
@@ -88,7 +92,7 @@ const MyPage = () => {
             }}
           />
           <MoreListItem
-            text="매칭 기록"
+            text="매칭 일정"
             onClick={() => {
               onMatchingRecordClick();
             }}

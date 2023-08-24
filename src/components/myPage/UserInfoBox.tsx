@@ -25,7 +25,7 @@ const UserInfoBox = ({ userInfo }: { userInfo: UserInfo }) => {
           <Interested width={20} height={20} />
           <div className="text">관심 운동</div>
         </div>
-        <div className="right">{userInfo.interested}</div>
+        <div className="right">{userInfo.interested.join(', ')}</div>
       </div>
       <div css={userInfoBoxItem}>
         <div className="left">

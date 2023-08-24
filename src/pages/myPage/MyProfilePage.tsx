@@ -6,7 +6,7 @@ import {
   bodyContainer,
   dividerContainer,
 } from 'components/styles/common/common';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { UserProfile } from './MyPage';
 import Profile1 from 'assets/profile/img_profile_1.svg';
 import {
@@ -28,9 +28,31 @@ import BackgroundTag from 'components/common/BackgroundTag';
 import ReviewBox from 'components/myPage/ReviewBox';
 import { useNavigate } from 'react-router-dom';
 import { EditProfile } from './ProfileEditPage';
+import { baseAxios } from 'api/baseAxios';
+import { useMutation } from 'react-query';
+import { getMyProfile } from 'api/myPageApi';
 
 const MyProfilePage = () => {
   const navigate = useNavigate();
+
+  baseAxios.interceptors.request.use(function (config) {
+    const token = localStorage.getItem('jwtToken');
+    config.headers.Authorization = 'Bearer ' + token;
+
+    return config;
+  });
+
+  const { mutate } = useMutation(() => getMyProfile(), {
+    onSuccess: (data) => {
+      console.log('GET PROFILE SUCCESS : ' + data);
+    },
+    onError: (error) => console.log(error),
+  });
+
+  useEffect(() => {
+    mutate();
+  }, []);
+
   const userProfile: UserProfile = {
     name: '아메리카노',
     img: Profile1,
@@ -38,17 +60,17 @@ const MyProfilePage = () => {
     gender: '여',
     userInfo: {
       region: {
-        first: '서울특별시',
-        second: '강남구',
+        first: '충청남도',
+        second: '천안시',
       },
-      interested: '헬스',
+      interested: ['헬스', '러닝'],
       career: {
-        year: null,
+        year: '',
         month: '3개월',
       },
       mbti: 'ISTP',
     },
-    introduce: null,
+    introduce: '',
     interesting: ['체력 키우기', '다이어트'],
     mate: [
       '러닝',
@@ -102,7 +124,7 @@ const MyProfilePage = () => {
         <div css={introduceBoxContainer}>
           <IntroduceBox
             content={
-              userProfile.introduce !== null
+              userProfile.introduce !== ''
                 ? userProfile.introduce
                 : '아직 소개글이 작성되지 않았어요.'
             }
