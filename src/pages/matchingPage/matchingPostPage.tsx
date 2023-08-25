@@ -24,6 +24,7 @@ import { getMemberId } from 'api/localStorage';
 import { postMatchingApply } from 'api/matchingApplyApi';
 import { useRecoilState } from 'recoil';
 import { postEditState } from 'recoil/postEdit';
+import { imageList } from 'data/variable';
 
 // 매칭 취소하기 api
 const putMatchingCancel = async (postId: string | undefined) => {
@@ -85,12 +86,15 @@ function MatchingPostPage() {
   const [recruiting, setRecruiting] = useState<boolean>(false);
   const { id } = useParams();
 
+  const [isMatching, setIsMatching] = useState(null);
+
   // 매칭 여부
   const { mutate: mutateMatchingStatus } = useMutation(
     () => getMatchingStatus(id),
     {
       onSuccess: (data) => {
         console.log('매칭 여부 확인 성공', data);
+        setIsMatching(data.status);
       },
       onError: (error) => console.log(error),
     },
@@ -217,7 +221,7 @@ function MatchingPostPage() {
         <div css={matchingPostPageStyles.container}>
           <div css={matchingPostPageStyles.profileContainer}>
             <img
-              src={postContent.writerProfileImg || undefined}
+              src={imageList[Number(postContent.writerProfileImg)] || undefined}
               css={matchingPostPageStyles.profileImg}
             />
             <span css={matchingPostPageStyles.profileName}>
@@ -238,10 +242,15 @@ function MatchingPostPage() {
           <div
             css={[
               matchingPostPageStyles.recruitText,
-              { color: recruiting ? '#FF8761' : '#0074FF' },
+              {
+                color:
+                  recruiting || isMatching == 'APPLYING'
+                    ? '#FF8761'
+                    : '#0074FF',
+              },
             ]}
           >
-            {recruiting ? '수락대기중' : '모집중'}
+            {recruiting || isMatching == 'APPLYING' ? '수락대기중' : '모집중'}
           </div>
           <div css={matchingPostPageStyles.title}>{postContent.title}</div>
           <div css={matchingPostPageStyles.matchingInfo}>
@@ -279,10 +288,16 @@ function MatchingPostPage() {
         ) : (
           <div
             css={matchingPostPageStyles.modalButtonBox}
-            onClick={recruiting ? onClickCancelModal : onClickModalOepn}
+            onClick={
+              recruiting || isMatching == 'APPLYING'
+                ? onClickCancelModal
+                : onClickModalOepn
+            }
           >
             <span css={matchingPostPageStyles.modalButtonText}>
-              {recruiting ? '매칭 취소하기' : '매칭 신청하기'}
+              {recruiting || isMatching == 'APPLYING'
+                ? '매칭 취소하기'
+                : '매칭 신청하기'}
             </span>
           </div>
         )}

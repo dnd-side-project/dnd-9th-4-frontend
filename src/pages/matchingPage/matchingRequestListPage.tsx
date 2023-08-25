@@ -12,6 +12,7 @@ import {
   getMatchingApplyMember,
 } from 'api/matchingApplyApi';
 import { useNavigate } from 'react-router-dom';
+import { imageList } from 'data/variable';
 
 type RequestListType = {
   profileImg: string;
@@ -52,6 +53,7 @@ function MatchingRequestListPage() {
 
   const onClickProfile = (applicantId: number) => {
     console.log(applicantId, '회원 프로필 보기 클릭');
+    navigate(`/profile/${applicantId}`);
   };
 
   // 매칭 수락
@@ -76,8 +78,9 @@ function MatchingRequestListPage() {
     },
   );
 
-  const onClickReject = (applicantId: number) => {
+  const onClickReject = (applicantId: number, name: string) => {
     console.log(applicantId, '거절하기');
+    setSelectUser(name);
     setIsOpen2(true);
     mutateMatchingRefuse(applicantId);
   };
@@ -121,7 +124,7 @@ function MatchingRequestListPage() {
               <div key={index} css={matchingRequestStyles.requestContainer}>
                 <div css={matchingRequestStyles.flexBox}>
                   <div css={matchingRequestStyles.profile}>
-                    <img src={req.profileImg} />
+                    <img src={imageList[Number(req.profileImg)]} />
                   </div>
                   <div css={matchingRequestStyles.inforBox}>
                     <div>
@@ -151,7 +154,7 @@ function MatchingRequestListPage() {
                   ) : (
                     <div
                       css={matchingRequestStyles.rejectButton}
-                      onClick={() => onClickReject(req.memberId)}
+                      onClick={() => onClickReject(req.memberId, req.username)}
                     >
                       <span>거절하기</span>
                     </div>

@@ -1,8 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
-//import LocationPinIcon from 'assets/locationPin.svg';
-//import Sheet from 'react-modal-sheet';
 import { useNavigate } from 'react-router-dom';
 import { InitAndApplyButton } from 'components/common/commonComponents';
 import DownArrow from 'assets/matchingPageIcon/DownArrow.svg';
@@ -16,6 +14,8 @@ import CheckGray from 'assets/matchingPageIcon/CheckGray.svg';
 import DownArrowGray from 'assets/matchingPageIcon/DownArrowGray.svg';
 import { matchingPageStyles } from 'components/styles/matchingPageStyles';
 import Search from 'assets/matchingPageIcon/Search.svg';
+import { useRecoilState } from 'recoil';
+import { DateState } from 'recoil/postDate';
 
 /*
   [매칭 상단]
@@ -393,6 +393,8 @@ interface weekdays {
     [주간 + 월간 달력]
 */
 export function MatchingPostBigCalendar() {
+  const [DateDate, setDateDate] = useRecoilState(DateState);
+
   const [weekday, setWeekday] = useState<weekdays[]>([]);
   const [yearMonth, setYearMonth] = useState<string>('');
   const [date, setDate] = useState<number>(1);
@@ -426,6 +428,15 @@ export function MatchingPostBigCalendar() {
   const onClickApplyCalender = () => {
     setIsOpenDay(false);
     setDay(runtime);
+    const YYDate = runtime.getFullYear().toString();
+    const MMDate = (runtime.getMonth() + 1).toString().padStart(2, '0');
+    const DDDate = runtime.getDate().toString().padStart(2, '0');
+    setDateDate({
+      YY: YYDate,
+      MM: MMDate,
+      DD: DDDate,
+      runtime: YYDate + '-' + MMDate + '-' + DDDate,
+    });
   };
 
   // 큰 달력 초기화
@@ -438,6 +449,12 @@ export function MatchingPostBigCalendar() {
   const onClickDate = (date: number) => {
     console.log(date);
     setDate(date);
+    const DDDate = date.toString().padStart(2, '0');
+    setDateDate({
+      ...DateDate,
+      DD: date.toString().padStart(2, '0'),
+      runtime: DateDate.YY + '-' + DateDate.MM + '-' + DDDate,
+    });
   };
 
   return (

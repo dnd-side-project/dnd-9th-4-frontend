@@ -4,6 +4,7 @@ import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
 import { css } from '@emotion/react';
 import 'components/homePage/newPleMate.css';
 import { useNavigate } from 'react-router-dom';
+import { imageList } from 'data/variable';
 
 const OPTIONS: EmblaOptionsType = {
   dragFree: true,
@@ -48,7 +49,7 @@ export function NewPleMateCarousel(props: NewPleMate) {
             >
               <img
                 className="embla1__slide__img"
-                src={profile.profileImg}
+                src={imageList[Number(profile.profileImg)]}
                 alt="Your alt text"
               />
               <p

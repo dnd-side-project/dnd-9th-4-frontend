@@ -10,7 +10,7 @@ import MingcuteRightLine from 'assets/mingcute_right-line.svg';
 import EmptySchedule from 'assets/homePage/EmptySchedule.svg';
 import { NewPleMateCarousel } from 'components/homePage/NewPleMateCarousel';
 import { MatchingScheduleCarousel } from 'components/homePage/MatchingScheduleCarousel';
-
+import { imageList } from 'data/variable';
 interface HomeTopScreenData {
   nickname: string;
   text: string;
@@ -67,7 +67,7 @@ interface MatchingPost {
   region: string;
   time: string;
   runtime: string;
-  image: string;
+  writerProfileImg: string;
 }
 
 interface MatchingPostListData {
@@ -121,7 +121,7 @@ export function MatchingPostList(props: MatchingPostListData) {
                 })}
               >
                 <img
-                  src={post.image}
+                  src={imageList[Number(post.writerProfileImg)]}
                   style={{ width: '100%', height: '100%', borderRadius: '50%' }}
                 />
               </div>
