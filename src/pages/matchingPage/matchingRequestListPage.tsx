@@ -33,6 +33,7 @@ function MatchingRequestListPage() {
   const [isOpen3, SetIsOpen3] = useState(false);
 
   const [selectUser, setSelectUser] = useState<string | null>(null);
+  const [selectId, setSelectId] = useState<number | null>(null);
 
   const [applyList, setApplyList] = useState<RequestListType[]>([]);
 
@@ -81,6 +82,7 @@ function MatchingRequestListPage() {
   const onClickReject = (applicantId: number, name: string) => {
     console.log(applicantId, '거절하기');
     setSelectUser(name);
+    setSelectId(applicantId);
     setIsOpen2(true);
     mutateMatchingRefuse(applicantId);
   };
@@ -93,6 +95,7 @@ function MatchingRequestListPage() {
   const onClickAccept = (applicantId: number, name: string) => {
     console.log(applicantId, '수락하기', name);
     setSelectUser(name);
+    setSelectId(applicantId);
     setIsOpen(true);
     mutateMatchingComfrim(applicantId);
   };
@@ -188,7 +191,7 @@ function MatchingRequestListPage() {
         />
         <MatchingModal // 매칭 수락 후
           open={isOpen3}
-          onClickModalOk={() => navigate('/message')}
+          onClickModalOk={() => navigate(`/message/${selectId}/write`)}
           title={'매칭이 완료 되었어요!'}
           title2="쪽지로 자세한 일정을 정해볼까요?"
           subTitle=""
