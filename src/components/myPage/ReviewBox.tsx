@@ -11,6 +11,11 @@ import {
 import { Review } from 'data/type';
 
 const ReviewBox = ({ review }: { review: Review }) => {
+  const maxReview = () => {
+    const max = review.content.slice(0, Math.min(3, review.content.length));
+
+    return max;
+  };
   return (
     <div css={reviewBoxArea}>
       <div css={reviewBoxScoreArea(review.score)}>
@@ -25,7 +30,7 @@ const ReviewBox = ({ review }: { review: Review }) => {
       </div>
       <div css={reviewBoxDivider} />
       <div css={reviewBoxContentArea}>
-        {review.content.map((content, index) => (
+        {maxReview().map((content, index) => (
           <div key={index}>{content}</div>
         ))}
       </div>

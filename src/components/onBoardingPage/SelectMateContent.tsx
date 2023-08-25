@@ -5,18 +5,28 @@ import {
   subQuestion,
   subQuestionHeader,
 } from 'components/styles/onBoardingPage';
-import { mate } from 'pages/onBoardingPage/OnBoardingPage7';
+import { Mate } from 'data/type';
 import React, { useEffect, useState } from 'react';
 
 const SelectMateContent = ({
   onUpdateMateInfo,
+  defaultMateInfo,
 }: {
-  onUpdateMateInfo: (mateInfo: mate) => void;
+  onUpdateMateInfo: (mateInfo: Mate) => void;
+  defaultMateInfo?: Mate;
 }) => {
-  const [mateGender, setMateGender] = useState('');
-  const [mateAge, setMateAge] = useState('');
-  const [mateCharacter, setMateCharacter] = useState('');
-  const [mateCareer, setMateCareer] = useState('');
+  const [mateGender, setMateGender] = useState(
+    defaultMateInfo !== undefined ? defaultMateInfo.gender : '',
+  );
+  const [mateAge, setMateAge] = useState(
+    defaultMateInfo !== undefined ? defaultMateInfo.age : '',
+  );
+  const [mateCharacter, setMateCharacter] = useState(
+    defaultMateInfo !== undefined ? defaultMateInfo.character : '',
+  );
+  const [mateCareer, setMateCareer] = useState(
+    defaultMateInfo !== undefined ? defaultMateInfo.career : '',
+  );
 
   useEffect(() => {
     onUpdateMateInfo({

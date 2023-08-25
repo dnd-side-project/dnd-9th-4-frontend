@@ -4,7 +4,7 @@ import { atom } from 'recoil';
 export const onboardingProfileState = atom<OnboardingProfile>({
   key: 'onboardingProfileState',
   default: {
-    userName: '',
+    username: '',
     introduce: '',
     profileImg: '',
     sport: [],

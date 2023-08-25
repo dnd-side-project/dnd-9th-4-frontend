@@ -39,7 +39,7 @@ const OnBoardingPage8 = () => {
     () => postOnboardingProfile(onboardingProfile),
     {
       onSuccess: (data) => {
-        console.log(onboardingProfile.userName + ':성공' + data);
+        console.log(onboardingProfile.username + ':성공' + data);
       },
       onError: (error) => console.log(error),
     },

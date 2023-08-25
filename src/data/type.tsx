@@ -4,7 +4,7 @@ export type RegionData = {
 
 export type OnboardingProfile = {
   // kakaoId: number; 안보내도 되는 것 같음
-  userName: string;
+  username: string;
   introduce: string;
   profileImg: string;
   sport: string[];
@@ -126,4 +126,11 @@ export type MyPost = {
   runtime: string;
   sport: string;
   title: string;
+};
+
+export type Mate = {
+  gender: string;
+  age: string;
+  character: string;
+  career: string;
 };

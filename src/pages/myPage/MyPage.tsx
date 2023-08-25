@@ -22,6 +22,14 @@ import { getProfile } from 'api/myPageApi';
 import { imageList } from 'data/variable';
 import { getMemberId } from 'api/localStorage';
 
+export const Bar = React.forwardRef<HTMLSpanElement, { children: ReactNode }>(
+  (props, ref) => (
+    <span {...props} ref={ref}>
+      {props.children}
+    </span>
+  ),
+);
+
 const MyPage = () => {
   const memberId = Number(getMemberId());
   const navigate = useNavigate();
@@ -64,14 +72,6 @@ const MyPage = () => {
   const onWithDrawClick = () => {
     navigate('/my/withdraw');
   };
-
-  const Bar = React.forwardRef<HTMLSpanElement, { children: ReactNode }>(
-    (props, ref) => (
-      <span {...props} ref={ref}>
-        {props.children}
-      </span>
-    ),
-  );
 
   return (
     <div css={appContainer}>
@@ -121,7 +121,11 @@ const MyPage = () => {
         }}
       >
         <Bar>
-          <LogoutModalArea />
+          <LogoutModalArea
+            clickClose={() => {
+              setIsLogoutOpen(false);
+            }}
+          />
         </Bar>
       </Modal>
       <ButtonNavigation />

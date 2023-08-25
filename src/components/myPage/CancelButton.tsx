@@ -1,8 +1,8 @@
 import React from 'react';
 import ContinueButton from './ContinueButton';
 
-const CancelButton = () => {
-  return <ContinueButton text="취소" bgColor="#202123" onClick={() => {}} />;
+const CancelButton = ({ onClick }: { onClick: () => void }) => {
+  return <ContinueButton text="취소" bgColor="#202123" onClick={onClick} />;
 };
 
 export default CancelButton;

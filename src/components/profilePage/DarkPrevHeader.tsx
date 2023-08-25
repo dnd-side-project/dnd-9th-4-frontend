@@ -11,7 +11,7 @@ const DarkPrevHeader = ({ text }: { text: string }) => {
     <div css={darkPrevHeader}>
       <ArrowLeftWhite onClick={() => navigate(-1)} />
       <div>{text}</div>
-      <More />
+      <More style={{ opacity: '0%' }} />
     </div>
   );
 };

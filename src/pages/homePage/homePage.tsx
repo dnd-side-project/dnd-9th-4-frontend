@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect } from 'react';
+// import React, { useEffect } from 'react';
+import React from 'react';
 import { css } from '@emotion/react';
 import {
   HomeTopScreen,
@@ -120,14 +121,14 @@ function HomePage() {
     console.log('이동');
   };
 
-  // 로컬테스트용 localStorage
-  useEffect(() => {
-    localStorage.setItem(
-      'jwtToken',
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTc4OTIzNjUxIiwicm9sZSI6Im1lbWJlciIsImlzcyI6Im5ld3BsZSIsImlhdCI6MTY5Mjg1NzE3OSwiZXhwIjoxNjkzNDYxOTc5fQ.jDKmIU8qVlD86i1_HFxmUEFi2VBDMPs1PBkz2BfDeWc',
-    );
-    localStorage.setItem('memberId', '36');
-  }, []);
+  // // 로컬테스트용 localStorage
+  // useEffect(() => {
+  //   localStorage.setItem(
+  //     'jwtToken',
+  //     'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTc4OTIzNjUxIiwicm9sZSI6Im1lbWJlciIsImlzcyI6Im5ld3BsZSIsImlhdCI6MTY5Mjg1NzE3OSwiZXhwIjoxNjkzNDYxOTc5fQ.jDKmIU8qVlD86i1_HFxmUEFi2VBDMPs1PBkz2BfDeWc',
+  //   );
+  //   localStorage.setItem('memberId', '36');
+  // }, []);
 
   return (
     <div css={css({ marginInline: '16px', paddingBottom: '90px' })}>

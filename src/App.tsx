@@ -35,6 +35,8 @@ import ProfilePage from 'pages/profilePage/ProfilePage';
 import WriteReviewPage from 'pages/profilePage/WriteReviewPage';
 import OnBoardingPage8 from 'pages/onBoardingPage/OnBoardingPage8';
 import EditStyleInterestedPage from 'pages/myPage/EditStyleInterestedPage';
+import EditMatePage from 'pages/myPage/EditMatePage';
+import ReviewDetailPage from 'pages/myPage/ReviewDetailPage';
 // import { getJwtToken, getMemberId } from 'api/localStorage';
 
 function App() {
@@ -92,13 +94,16 @@ function App() {
               <Route index element={<MyProfilePage />} />
               <Route path="edit" element={<ProfileEditPage />} />
               <Route path="edit/style" element={<EditStyleInterestedPage />} />
+              <Route path="edit/mate" element={<EditMatePage />} />
+              <Route path="review" element={<ReviewDetailPage />} />
             </Route>
             <Route path="upload" element={<MyArticlePage />} />
             <Route path="record" element={<MatchingRecordPage />} />
             <Route path="withdraw" element={<WithdrawPage />} />
           </Route>
           <Route path="/profile/:id" element={<ProfilePage />} />
-          <Route path="/profile/:id/review" element={<WriteReviewPage />} />
+          <Route path="/review/:id" element={<ReviewDetailPage />} />
+          <Route path="/review/:id/send" element={<WriteReviewPage />} />
         </Routes>
       </Router>
     </>

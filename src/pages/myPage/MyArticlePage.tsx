@@ -10,6 +10,7 @@ import { useQuery } from 'react-query';
 import { getMyArticle } from 'api/articleApi';
 import { MyPost } from 'data/type';
 import EmptyArticle from 'components/myPage/EmptyArticle';
+import ErrorComponent from 'components/common/ErrorComponent';
 
 const MyArticlePage = () => {
   const navigate = useNavigate();
@@ -30,10 +31,11 @@ const MyArticlePage = () => {
       <PrevHeader text="내가 작성한 글" />
       <div css={bodyContainer}>
         <div css={myArticleTopDivider} />
-        {isError && <div>에러가 발생했습니다.</div>}
-        {isLoading ? (
+        {isError ? (
+          <ErrorComponent />
+        ) : isLoading ? (
           <div>로딩 중...</div>
-        ) : data.length > 0 ? (
+        ) : data !== undefined && data.length > 0 ? (
           data.map((article: MyPost, index: number) => (
             <ArticleItem
               article={article}

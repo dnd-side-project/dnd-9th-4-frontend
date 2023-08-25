@@ -50,7 +50,7 @@ export const ProfileToReview = (prop: Profile) => {
 
 export const ProfileToOnboardingProfile = (prop: Profile) => {
   const onboarding: OnboardingProfile = {
-    userName: '',
+    username: '',
     introduce: prop.introduce,
     profileImg: prop.profileImg,
     sport: prop.sport,

@@ -31,7 +31,7 @@ const OnBoardingPage = () => {
       // memberId: Number(memberId),
       // memberId: 23,
       kakaoId: Number(kakaoId),
-      userName: nickname,
+      username: nickname,
       profileImg: selectProfile.toString(),
     };
     setOnboardingProfile(updatedProfile);

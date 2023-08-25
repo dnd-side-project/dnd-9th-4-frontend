@@ -27,7 +27,13 @@ import {
   onBoardingBodyArea,
 } from 'components/styles/onBoardingPage';
 import { Profile, OnboardingProfile } from 'data/type';
-import { imageList, regionData, regionList } from 'data/variable';
+import {
+  imageList,
+  regionData,
+  regionList,
+  sport,
+  sportValue,
+} from 'data/variable';
 import React, { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -48,7 +54,7 @@ const ProfileEditPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isExOrMbti, setIsExOrMbti] = useState(true);
   const [selectedTags, setSelectedTags] = useState<string[]>(
-    userProfile.interests,
+    userProfile.sport.map((item) => sportValue[item]),
   );
 
   const [selectedRegion, setSelectRegion] = useState(
@@ -95,9 +101,9 @@ const ProfileEditPage = () => {
 
   const handleEditButtonClick = () => {
     const editProfile: OnboardingProfile = {
-      userName: nickname,
+      username: nickname,
       region: `${selectedRegion} ${selectedSubRegion}`,
-      sport: selectedTags,
+      sport: selectedTags.map((item) => sport[item]),
       periodEx: `${year} ${month}`,
       mbti: isEorI + isNorS + isForT + isPorJ,
       introduce: introduce,
@@ -110,6 +116,7 @@ const ProfileEditPage = () => {
       wantedPeriodEx: userProfile.wantedPeriodEx,
       wantedPersonality: userProfile.wantedPersonality,
     };
+    console.log(editProfile);
 
     mutate(editProfile);
   };
@@ -248,7 +255,7 @@ const ProfileEditPage = () => {
             <div className="title">관심 운동</div>
             <div className="content">
               <SelectRectangle
-                text={userProfile.sport.join(', ')}
+                text={selectedTags.join(', ')}
                 onClick={() => {
                   setIsExOrMbti(true);
                   setIsOpen(true);
