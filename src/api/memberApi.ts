@@ -1,15 +1,11 @@
 import { baseAxios } from './baseAxios';
 import { getJwtToken } from './localStorage';
 
-export const postReview = async (
-  review: string[],
-  score: number,
-  targetId: number,
-) => {
+export const postLogout = async () => {
   const response = await baseAxios
     .post(
-      '/api/review',
-      { reviews: review, score: score, targetId: targetId },
+      '/api/logout',
+      {},
       {
         headers: {
           Authorization: `Bearer ${getJwtToken()}`,
@@ -21,9 +17,9 @@ export const postReview = async (
   return response;
 };
 
-export const getReview = async () => {
+export const deleteMember = async () => {
   const response = await baseAxios
-    .get('/api/review', {
+    .delete('/api/logout', {
       headers: {
         Authorization: `Bearer ${getJwtToken()}`,
       },

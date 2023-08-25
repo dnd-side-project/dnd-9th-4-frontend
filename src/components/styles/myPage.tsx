@@ -210,14 +210,23 @@ export const introduceBoxTextTitle = css({
   marginBottom: '19px',
 });
 
-export const profileMateContainer = css({
-  marginTop: '41px',
+export const profileStyleContainer = css({
+  marginTop: '31px',
   width: '100%',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  marginBottom: '34px',
+  marginBottom: '40px',
+});
+
+export const profileMateContainer = css({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginBottom: '31px',
 });
 
 export const profileMateContentArea = css({
@@ -379,7 +388,7 @@ export const myArticleItemArea = css({
   display: 'flex',
   flexDirection: 'column',
 
-  '& .content': {
+  '& .matching-content': {
     width: '100%',
     display: 'flex',
     alignItems: 'flex-start',
@@ -529,11 +538,73 @@ export const emptyScheduleStyle = css({
   flex: 1,
   justifyContent: 'center',
   alignItems: 'center',
+  whiteSpace: 'pre-wrap',
+  textAlign: 'center',
   '& .text': {
     fontSize: '14px',
     fontWeight: 700,
     color: '#949494',
     marginTop: '31px',
     marginBottom: '6.5px',
+    lineHeight: '150%',
+  },
+});
+
+export const detailReviewPageStyle = css({
+  display: 'flex',
+  flexDirection: 'column',
+  '& .title': {
+    width: '100%',
+    marginTop: '40px',
+    fontWeight: 600,
+    marginBottom: '24.64px',
+  },
+  '& .review-list': {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'start',
+  },
+});
+
+export const reviewContentStyle = css({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  width: '100%',
+  color: '#676F83',
+  '& .content': {
+    width: 'auto',
+  },
+  '& .count': {
+    display: 'flex',
+    fontSize: '18px',
+    fontWeight: 600,
+    color: '#333B4F',
+    marginRight: '9px',
+    '& .text': {
+      marginLeft: '9.62px',
+    },
+  },
+});
+
+export const sendRevieBtnStyle = css({
+  display: 'flex',
+  width: '100%',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginTop: '18.4px',
+  '& .send-btn': {
+    borderRadius: '4px',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#0074FF',
+    color: '#FFFFFF',
+    fontSize: '14px',
+    fontWeight: 700,
+    height: '36.5px',
   },
 });

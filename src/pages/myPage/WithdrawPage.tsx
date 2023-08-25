@@ -9,8 +9,35 @@ import {
   withDrawButtonArea,
   withDrawContentArea,
 } from 'components/styles/myPage';
+import { baseAxios } from 'api/baseAxios';
+import { useMutation } from 'react-query';
+import { deleteMember } from 'api/memberApi';
+import { useNavigate } from 'react-router-dom';
 
 const WithdrawPage = () => {
+  const navigate = useNavigate();
+
+  baseAxios.interceptors.request.use(function (config) {
+    const token = localStorage.getItem('jwtToken');
+    config.headers.Authorization = 'Bearer ' + token;
+
+    return config;
+  });
+
+  const { mutate } = useMutation(() => deleteMember(), {
+    onSuccess: (data) => {
+      console.log('DELETE MEMBER SUCCESS : ', data);
+    },
+    onError: (error) => console.log(error),
+  });
+
+  const handleWithDrawClick = () => {
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('memberId');
+    localStorage.removeItem('kakaoId');
+    mutate();
+  };
+
   return (
     <div css={appContainer}>
       <PrevHeader text="회원탈퇴" />
@@ -20,9 +47,20 @@ const WithdrawPage = () => {
         <Withdraw className="img" />
       </div>
       <div css={withDrawButtonArea}>
-        <CancelButton />
+        <CancelButton
+          onClick={() => {
+            navigate(-1);
+          }}
+        />
         <div style={{ width: '12px' }} />
-        <ContinueButton text="탈퇴하기" bgColor="#FF4C47" onClick={() => {}} />
+        <ContinueButton
+          text="탈퇴하기"
+          bgColor="#FF4C47"
+          onClick={() => {
+            handleWithDrawClick();
+            navigate('/login');
+          }}
+        />
       </div>
     </div>
   );

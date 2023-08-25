@@ -14,6 +14,7 @@ const TextInputBox = ({
 }) => {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
+    console.log(event.target.value);
   };
   const inputBoxStyle = {
     fontSize: '16px',

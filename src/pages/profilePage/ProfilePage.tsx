@@ -18,6 +18,7 @@ import { baseAxios } from 'api/baseAxios';
 import { useQuery } from 'react-query';
 import { getProfile } from 'api/myPageApi';
 import { imageList } from 'data/variable';
+import ErrorComponent from 'components/common/ErrorComponent';
 
 const ProfilePage = () => {
   const params = useParams();
@@ -68,7 +69,7 @@ const ProfilePage = () => {
   return (
     <div css={[noPdddingContainer, profilePageContainer]}>
       <DarkPrevHeader text="프로필" />
-      {isError && <div>에러가 발생하였습니다.</div>}
+      {isError && <ErrorComponent />}
       {isLoading ? (
         <div>로딩 중...</div>
       ) : (

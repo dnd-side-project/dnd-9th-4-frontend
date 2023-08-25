@@ -17,6 +17,7 @@ import {
   profileMateContainer,
   profileMateContentArea,
   profileReviewContainer,
+  profileStyleContainer,
   profileUserInfoContainer,
   reviewBoxContainer,
 } from 'components/styles/myPage';
@@ -69,7 +70,7 @@ const MyProfilePage = () => {
             }
           />
         </div>
-        <div css={profileMateContainer}>
+        <div css={profileStyleContainer}>
           <MoreListItem
             text="운동스타일과 관심사"
             onClick={() => {
@@ -84,6 +85,8 @@ const MyProfilePage = () => {
               <BackgroundTag key={index} color="0, 116, 255" text={tag} />
             ))}
           </div>
+        </div>
+        <div css={profileMateContainer}>
           <MoreListItem text="선호하는 운동메이트" onClick={() => {}} />
           <div css={profileMateContentArea}>
             <BackgroundTag color="255, 135, 97" text={userProfile.wantedAge} />
@@ -105,7 +108,14 @@ const MyProfilePage = () => {
           <div css={myPageProfileDivider} />
         </div>
         <div css={profileReviewContainer}>
-          <MoreListItem text="운동후기" onClick={() => {}} />
+          <MoreListItem
+            text="운동후기"
+            onClick={() => {
+              navigate('/my/profile/review', {
+                state: { reviews: userProfile.reviews },
+              });
+            }}
+          />
           <div css={reviewBoxContainer}>
             <ReviewBox review={ProfileToReview(userProfile)} />
           </div>

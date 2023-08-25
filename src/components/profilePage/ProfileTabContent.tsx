@@ -7,8 +7,11 @@ import BackgroundTag from 'components/common/BackgroundTag';
 import MoreListItem from 'components/myPage/MoreListItem';
 import { Profile } from 'data/type';
 import { ProfileToReview, ProfileToUserInfo } from 'data/typeConverter';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileTabContent = ({ userProfile }: { userProfile: Profile }) => {
+  const navigate = useNavigate();
+
   return (
     <div css={profilePageProfileTabArea}>
       <div className="user-info">
@@ -17,7 +20,7 @@ const ProfileTabContent = ({ userProfile }: { userProfile: Profile }) => {
       <div className="introduce">
         <IntroduceBox
           content={
-            userProfile.introduce !== null
+            userProfile.introduce !== ''
               ? userProfile.introduce
               : '아직 소개글이 작성되지 않았어요.'
           }
@@ -50,7 +53,14 @@ const ProfileTabContent = ({ userProfile }: { userProfile: Profile }) => {
       <div className="divider" />
       <div className="review">
         <div className="title">
-          <MoreListItem text="운동후기" onClick={() => {}} />
+          <MoreListItem
+            text="운동후기"
+            onClick={() => {
+              navigate(`/review/${userProfile.memberId}`, {
+                state: { reviews: userProfile.reviews },
+              });
+            }}
+          />
         </div>
         <ReviewBox review={ProfileToReview(userProfile)} />
       </div>

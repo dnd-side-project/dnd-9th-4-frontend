@@ -9,24 +9,18 @@ import {
   onBoardingBodyArea,
   skipStyle,
 } from 'components/styles/onBoardingPage';
+import { Mate } from 'data/type';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { onboardingProfileState } from 'recoil/onboardingProfileState';
-
-export type mate = {
-  gender: string;
-  age: string;
-  character: string;
-  career: string;
-};
 
 const OnBoardingPage7 = () => {
   const navigate = useNavigate();
   const [onboardingProfile, setOnboardingProfile] = useRecoilState(
     onboardingProfileState,
   );
-  const [mateInfo, setMateInfo] = useState<mate>({
+  const [mateInfo, setMateInfo] = useState<Mate>({
     gender: '',
     age: '',
     character: '',

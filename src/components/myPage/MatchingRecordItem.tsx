@@ -5,8 +5,9 @@ import React from 'react';
 import { myArticleItemArea } from 'components/styles/myPage';
 import ScheduleTag from './ScheduleTag';
 import { MatchingSchedule } from 'data/type';
-import { imageList } from 'data/variable';
+import { imageList, sportValue } from 'data/variable';
 import { useNavigate } from 'react-router-dom';
+import SendReviewButton from './SendReviewButton';
 
 const MatchingRecordItem = ({
   state,
@@ -21,7 +22,7 @@ const MatchingRecordItem = ({
 
   return (
     <div css={myArticleItemArea}>
-      <div className="content">
+      <div className="matching-content">
         <img
           className="img"
           src={imageList[Number(article.profileImg)]}
@@ -40,11 +41,27 @@ const MatchingRecordItem = ({
             </div>
             <div className="info-item">
               <Exercise width={17} height={17} />
-              <div className="item-text">{article.sport}</div>
+              <div className="item-text">{sportValue[article.sport]}</div>
             </div>
           </div>
         </div>
       </div>
+      {state === 'COMPLETED' && (
+        <div>
+          <SendReviewButton
+            text="운동 후기 보내기"
+            onClick={() => {
+              navigate(`/review/${article.memberId}/send`, {
+                state: {
+                  userName: '이름입니다',
+                  profileIdx: article.profileImg,
+                  targetId: article.memberId,
+                },
+              });
+            }}
+          />
+        </div>
+      )}
       {divide && <div className="divider" />}
     </div>
   );

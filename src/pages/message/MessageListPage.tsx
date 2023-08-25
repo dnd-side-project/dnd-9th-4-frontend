@@ -14,6 +14,7 @@ import { baseAxios } from 'api/baseAxios';
 import { useQuery } from 'react-query';
 import { getMessageList } from 'api/messageApi';
 import EmptySchedule from 'components/myPage/EmptySchedule';
+import ErrorComponent from 'components/common/ErrorComponent';
 
 const MessageListPage = () => {
   const navigate = useNavigate();
@@ -37,10 +38,11 @@ const MessageListPage = () => {
     <div css={messagePageContainer}>
       <div css={messagePageHeaderArea}>쪽지함</div>
       <div css={messagePageBodyArea}>
-        {isError && <div>에러가 발생했습니다.</div>}
-        {isLoading ? (
+        {isError ? (
+          <ErrorComponent />
+        ) : isLoading ? (
           <div>로딩 중...</div>
-        ) : data.length > 0 ? (
+        ) : data !== undefined && data.length > 0 ? (
           data.map((message: MessageList, index: number) => (
             <MessageItem
               receiverId={message.receiverId}
