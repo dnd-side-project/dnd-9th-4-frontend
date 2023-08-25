@@ -26,7 +26,9 @@ const MessageItem = ({
 }) => {
   const navigate = useNavigate();
   const dateFormat = (date: string) => {
+    // console.log(date);
     const target = new Date(date);
+    // console.log(target);
     // const year = target.getFullYear().toString().slice(-2);
     const month = ('0' + (target.getMonth() + 1)).slice(-2);
     const day = ('0' + (target.getDate() + 1)).slice(-2);

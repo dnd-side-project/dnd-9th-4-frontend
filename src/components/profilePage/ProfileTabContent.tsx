@@ -20,7 +20,7 @@ const ProfileTabContent = ({ userProfile }: { userProfile: Profile }) => {
       <div className="introduce">
         <IntroduceBox
           content={
-            userProfile.introduce !== ''
+            userProfile.introduce !== '' && userProfile.introduce !== null
               ? userProfile.introduce
               : '아직 소개글이 작성되지 않았어요.'
           }
@@ -36,6 +36,8 @@ const ProfileTabContent = ({ userProfile }: { userProfile: Profile }) => {
             <BackgroundTag key={index} color="0, 116, 255" text={tag} />
           ))}
         </div>
+      </div>
+      <div className="mate">
         <div className="title">선호하는 운동 메이트</div>
         <div className="tags">
           <BackgroundTag color="255, 135, 97" text={userProfile.wantedAge} />

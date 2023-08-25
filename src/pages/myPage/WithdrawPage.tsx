@@ -13,18 +13,21 @@ import { baseAxios } from 'api/baseAxios';
 import { useMutation } from 'react-query';
 import { deleteMember } from 'api/memberApi';
 import { useNavigate } from 'react-router-dom';
+import { getJwtToken, getMemberId } from 'api/localStorage';
 
 const WithdrawPage = () => {
   const navigate = useNavigate();
+  const memberId = getMemberId();
 
   baseAxios.interceptors.request.use(function (config) {
-    const token = localStorage.getItem('jwtToken');
+    const token = getJwtToken();
+    console.log('탈퇴 시도 토큰 ', token);
     config.headers.Authorization = 'Bearer ' + token;
 
     return config;
   });
 
-  const { mutate } = useMutation(() => deleteMember(), {
+  const { mutate } = useMutation(() => deleteMember(Number(memberId)), {
     onSuccess: (data) => {
       console.log('DELETE MEMBER SUCCESS : ', data);
     },

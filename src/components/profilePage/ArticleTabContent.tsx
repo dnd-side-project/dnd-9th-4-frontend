@@ -6,13 +6,20 @@ import { MyPost } from 'data/type';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const ArticleTabContent = ({ articleList }: { articleList: MyPost[] }) => {
+const ArticleTabContent = ({
+  profileImg,
+  articleList,
+}: {
+  profileImg: string;
+  articleList: MyPost[];
+}) => {
   const navigate = useNavigate();
   return (
     <div css={profilePageArticleTabArea}>
       {articleList.length > 0 ? (
         articleList.map((article, index) => (
           <ArticleItem
+            profileImg={Number(profileImg)}
             imageView={false}
             key={index}
             article={article}

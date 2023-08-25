@@ -62,7 +62,10 @@ const ProfilePage = () => {
     {
       label: '모집글',
       children: (
-        <ArticleTabContent articleList={data !== undefined ? data.posts : []} />
+        <ArticleTabContent
+          profileImg={data !== undefined ? data.profileImg : '1'}
+          articleList={data !== undefined ? data.posts : []}
+        />
       ),
     },
   ];
