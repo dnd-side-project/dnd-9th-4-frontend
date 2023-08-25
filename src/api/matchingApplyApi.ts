@@ -4,37 +4,53 @@
 
 import { baseAxios } from './baseAxios';
 import axios from 'axios';
+import config from 'config';
+import { getJwtToken } from './localStorage';
 const backendUrl = 'https://dnd-newple-server.store';
+
+/*
+    [매칭 여부 조회]
+*/
+export const getMatchingStatus = async (postId: number) => {
+  const response = await baseAxios
+    .get(`/api/match/${postId}`, {
+      headers: {
+        Authorization: `Bearer ${getJwtToken()}`,
+      },
+    })
+    .then((response) => response.data);
+  return response.data;
+};
+
 /*
     [매칭 신청]
-    Headers:	Authorization={액세스 토큰}
-    {
-        "postId":1,
-        "memberId":1
-    }
 */
-interface matchingApply {
-  postId: number;
-  memberId: number;
-}
-export const postMatchingApply = async (apply: matchingApply) => {
+export const postMatchingApply = async (
+  postId: string | undefined,
+  memberId: string | null,
+) => {
+  const apply = {
+    postId: Number(postId),
+    memberId: Number(memberId),
+  };
   try {
-    const res = await axios.post(`${backendUrl}/api/match/apply`, apply, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+    const res = await axios.post(
+      `${config.backendUrl}/api/match/apply`,
+      apply,
+      {
+        headers: {
+          Authorization: `Bearer ${getJwtToken()}`,
+        },
       },
-    });
+    );
     return res.data;
   } catch (error) {
-    throw new Error('Failed to fetch data');
+    console.error(error);
   }
 };
 
 /*
     [매칭 취소]
-    {
-		    "memberId":1
-    }
 */
 interface matchingCancel {
   memberId: number;
@@ -55,82 +71,77 @@ export const putMatchingCancel = async (
   }
 };
 
+// 글 작성자
+
 /*
     [매칭 거절]
-    Headers:	Authorization={액세스 토큰}
-    {
-        "postId":1,
-        "applicantId":2,
-    }
 */
-interface matchingRefuseAndComfirm {
-  postId: number;
-  applicantId: number;
-}
-export const postMatchingRefuse = async (refuse: matchingRefuseAndComfirm) => {
+export const postMatchingRefuse = async (
+  postId: string | undefined,
+  applicantId: number,
+) => {
+  const refuse = {
+    postId: Number(postId),
+    applicantId: applicantId,
+  };
   try {
-    const res = await axios.post(`${backendUrl}/api/match/refuse`, refuse, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+    const res = await axios.post(
+      `${config.backendUrl}/api/match/refuse`,
+      refuse,
+      {
+        headers: {
+          Authorization: `Bearer ${getJwtToken()}`,
+        },
       },
-    });
+    );
     return res.data;
   } catch (error) {
-    throw new Error('Failed to fetch data');
+    console.error(error);
   }
 };
 
 /*
     매칭 승인
-    Headers:	Authorization={액세스 토큰}
-    {
-        "postId":1,
-        "applicantId":2,
-    }
 */
-export const postMatchingComfirm = async (
-  comfirm: matchingRefuseAndComfirm,
+export const postMatchingComfrim = async (
+  postId: string | undefined,
+  applicantId: number,
 ) => {
+  const comfrim = {
+    postId: Number(postId),
+    applicantId: applicantId,
+  };
   try {
-    const res = await axios.post(`${backendUrl}/api/match/comfirm`, comfirm, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+    const res = await axios.post(
+      `${config.backendUrl}/api/match/confirm`,
+      comfrim,
+      {
+        headers: {
+          Authorization: `Bearer ${getJwtToken()}`,
+        },
       },
-    });
+    );
     return res.data;
   } catch (error) {
-    throw new Error('Failed to fetch data');
+    console.error(error);
   }
 };
 
 /*
     [매칭 신청자 조회]
-    Headers:	Authorization={액세스 토큰}
 */
-export const getMatchingMember = async (postId: number) => {
-  const response = await baseAxios
-    .get(`/api/match/${postId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+export const getMatchingApplyMember = async (postId: string | undefined) => {
+  try {
+    const res = await axios.get(
+      `${config.backendUrl}/api/match/${Number(postId)}/all`,
+      {
+        headers: {
+          Authorization: `Bearer ${getJwtToken()}`,
+        },
       },
-    })
-    .then((response) => response.data);
-  return response.data;
-};
-
-/*
-    [매칭 여부 조회]
-    {
-		    "memberId":2
-    }
-*/
-export const getMatchingStatus = async (postId: number) => {
-  const response = await baseAxios
-    .get(`/api/match/${postId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      },
-    })
-    .then((response) => response.data);
-  return response.data;
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
 };

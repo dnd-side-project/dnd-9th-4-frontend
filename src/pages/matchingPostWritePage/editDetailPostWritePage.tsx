@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
+import { css } from '@emotion/react';
 import {
   NaviBarTitle,
   LableTitle,
@@ -8,9 +9,6 @@ import {
   DropDowmSelect,
   TimeInput,
 } from 'components/matchingPage/matchingPostWritePageComponents';
-//import AddPhoto from 'assets/AddPhoto.svg';
-import { useRecoilState } from 'recoil';
-import { postWriteState } from 'recoil/postWrite';
 import BottomSheet from 'components/common/BottomSheet';
 import Calendar from 'react-calendar';
 import 'pages/matchingPostWritePage/calendar.css';
@@ -22,162 +20,146 @@ import {
 import { matchingDetailWrtieStyles } from 'components/styles/matchingPostWriteStyles';
 import 'moment/locale/ko';
 import regionJsonData from 'data/region.json';
+import { hashTagData } from 'data/postWriteData';
 moment.locale('ko');
+import { useRecoilState } from 'recoil';
+import { postEditState } from 'recoil/postEdit';
+import { MatchingModal } from 'components/matchingPage/matchingPostPageComponents';
+import { useMutation } from 'react-query';
+import { useNavigate, useParams } from 'react-router-dom';
+import { putMatchingPostEdit } from 'api/matchingPostWritePageApi';
 
-const testData = {
-  age: '20대 초반',
-  content: '취미로 등산하는데 한라산 꼭 가보고 싶었어요!!',
-  gender: '여성',
-  id: 1,
-  memberId: 1,
-  region: '대전광역시 유성구',
-  runtime: '2023-09-12 09:00:00',
-  sport: 'HIKING',
-  status: 'COMPLETED',
-  tags: ['20대', '30대', '2030', '같이성장해요', '운동초보환영'],
-  title: '한라산 올라가실 분~',
-  writerAge: '30',
-  writerGender: 'MALE',
-  writerProfileImg:
-    'https://image.hmall.com/static/8/0/42/35/2135420804_0.jpg?RS=600x600&AR=0',
-  writerUsername: 'john_doe',
-  writtenDate: new Date('2023-08-23T12:04:36.183Z'),
-};
+// const testData = {
+//   age: '20대 초반',
+//   content: '취미로 등산하는데 한라산 꼭 가보고 싶었어요!!',
+//   gender: '여성',
+//   id: 1,
+//   memberId: 1,
+//   region: '대전광역시 유성구',
+//   runtime: '2023-09-12 09:00:00',
+//   sport: 'HIKING',
+//   status: 'COMPLETED',
+//   tags: ['20대', '30대', '2030', '같이성장해요', '운동초보환영'],
+//   title: '한라산 올라가실 분~',
+//   writerAge: '30',
+//   writerGender: 'MALE',
+//   writerProfileImg:
+//     'https://image.hmall.com/static/8/0/42/35/2135420804_0.jpg?RS=600x600&AR=0',
+//   writerUsername: 'john_doe',
+//   writtenDate: new Date('2023-08-23T12:04:36.183Z'),
+// };
 
 // 게시물 수정
+
 function editDatailPostWrtiePage() {
-  // recoil
-  const [postWrite, setPostWrite] = useRecoilState(postWriteState);
+  const navigate = useNavigate();
+  const { id } = useParams();
 
-  // 작성하기 버튼
-  const [titleError, setTitleError] = useState(false);
-  const [bodyError, setBodyError] = useState(false);
-  const [dayError, setDayError] = useState(false);
-  const [hourError, setHourError] = useState(false);
-  const [regionError, setRegionError] = useState(false);
+  // API 통신
+  const { mutate } = useMutation(() => putMatchingPostEdit(editPost, id), {
+    onSuccess: (data) => {
+      console.log('성공:', data);
+      navigate(`/post/${id}`);
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
 
-  const checkAndSetError = (
-    value: string | null | Date,
-    setErrorFunction: React.Dispatch<React.SetStateAction<boolean>>,
-  ) => {
-    if (value == null || value === '') {
-      setErrorFunction(true);
-    } else {
-      setErrorFunction(false);
-    }
-  };
+  // 수정
+  const [openWritePostModal, setOpenWritePostModal] = useState(false);
 
   const onClickSubmitButton = () => {
-    checkAndSetError(title, setTitleError);
-    checkAndSetError(body, setBodyError);
-    checkAndSetError(day, setDayError);
-    checkAndSetError(fullTime, setHourError);
-    checkAndSetError(applyBigRegion, setRegionError);
-
-    if (
-      title !== '' &&
-      body !== '' &&
-      day != null &&
-      fullTime != null &&
-      applyBigRegion != null &&
-      applySmalRegion != null
-    ) {
-      console.log('제출하기');
-      setPostWrite({
-        ...postWrite,
-        title: title,
-        content: body,
-        runtime: moment(day).format('YYYY년 MM월 DD일') + '' + fullTime,
-        region: applyBigRegion + '' + applySmalRegion,
-        tags: tagList,
-      });
-    }
+    setOpenWritePostModal(true);
   };
 
-  // [제목]
-  const [title, setTitle] = useState(testData.title);
+  const onClickWritePostModal = async () => {
+    setOpenWritePostModal(false);
+    mutate();
+  };
 
+  // 수정할 게시물 내용
+  const [editPost, setEditPost] = useRecoilState(postEditState);
+
+  // 제목
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    setTitleError(false);
+    setEditPost({ ...editPost, title: event.target.value });
   };
 
-  // [상세설명]
-  const [body, setBody] = useState(testData.content);
+  // 내용
   const MAX_CHARACTERS = 300;
-
   const handleBodyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = event.target.value;
 
     if (inputValue.length <= MAX_CHARACTERS) {
-      setBody(inputValue);
-      setBodyError(false);
+      setEditPost({ ...editPost, content: inputValue });
     } else {
-      setBody(inputValue.slice(0, MAX_CHARACTERS - 1));
-      setBodyError(true);
+      setEditPost({
+        ...editPost,
+        content: inputValue.slice(0, MAX_CHARACTERS - 1),
+      });
     }
   };
 
-  // [일시]
+  // 일시 - 2023-09-12 13:00:00
   const [isOpenDay, setIsOpenDay] = useState(false);
   const currDate = new Date();
   const currDateTime = moment(currDate).format('MM-DD');
-  const [runtime, setRuntime] = useState(new Date()); // 달력 선택하는 값
-  const [day, setDay] = useState<Date | null>(new Date(testData.runtime)); // 선택된 날짜 값
+  const dateString = editPost.runtime ?? new Date(); // 작성된 날짜 Date
+  const [runtime, setRuntime] = useState(new Date(dateString));
 
   const onClickDay = (runtime: Date) => {
     setRuntime(runtime);
   };
 
   const onClickApply = () => {
+    const YYMMDD =
+      moment(runtime).format('YYYY-MM-DD') +
+      ' ' +
+      editPost.runtime?.split(' ')[1];
     setIsOpenDay(false);
-    setDay(runtime);
-    setDayError(false);
+    setEditPost({
+      ...editPost,
+      runtime: YYMMDD,
+    });
   };
 
-  // [시간] - 시간
-  const dateObject = new Date(testData.runtime);
-  const dataHours = String(dateObject.getHours()).padStart(2, '0');
-  const DataMinutes = String(dateObject.getMinutes()).padStart(2, '0');
-
-  const formattedTime = `${dataHours}시 ${DataMinutes}분`;
-
+  // 시간
   const [isOpenTime, setIsOpenTime] = useState(false);
-  const [hour, setHour] = useState<string>('0');
-  const [fullTime, setFullTime] = useState<string | null>(formattedTime);
+  const parts = editPost.runtime
+    ? editPost.runtime.split(' ')[1].split(':')
+    : '';
 
-  const onClickTimeApply = () => {
-    setIsOpenTime(false);
-    const formattedHour = hour?.padStart(2, '0');
-    setFullTime(formattedHour + '시 ' + minute + '분');
-    setHourError(false);
-  };
+  const [hour, setHour] = useState(parts[0]);
+  const [minute, setMinute] = useState(parts[1]);
 
   const onClickHour = (value: string) => {
     setHour(value);
   };
 
-  const data = Array.from({ length: 24 }, (_, index) => index);
-  const HourData = data.map((number) => number.toString());
-
-  // [시간] - 분
-  const [minute, setMinute] = useState<string>('00');
-
   const onClickMinute = (value: string) => {
     setMinute(value);
   };
 
+  const onClickTimeApply = () => {
+    setIsOpenTime(false);
+    const HHMMSS =
+      editPost.runtime?.split(' ')[0] + ' ' + hour + ':' + minute + ':00';
+    setEditPost({
+      ...editPost,
+      runtime: HHMMSS,
+    });
+  };
+
+  const data = Array.from({ length: 24 }, (_, index) => index);
+  const HourData = data.map((number) => number.toString());
   const MinuteData = ['00', '10', '20', '30', '40', '50'];
 
-  // [지역]
+  // 지역
   const [isOpenRegion, setIsOpenRegion] = useState(false);
-  const [bigRegion, setBigRegion] = useState(testData.region.split(' ')[0]);
-  const [smallRegion, setSmallRegion] = useState(testData.region.split(' ')[1]);
-  const [applyBigRegion, setApplyBigRegion] = useState<string | null>(
-    testData.region.split(' ')[0],
-  );
-  const [applySmalRegion, setApplySamllRegion] = useState<string | null>(
-    testData.region.split(' ')[1],
+  const [bigRegion, setBigRegion] = useState(editPost.region?.split(' ')[0]);
+  const [smallRegion, setSmallRegion] = useState(
+    editPost.region?.split(' ')[1],
   );
 
   const regionBigName = Object.keys(regionJsonData);
@@ -185,7 +167,6 @@ function editDatailPostWrtiePage() {
   const onClickBigRegion = (value: string) => {
     setBigRegion(value);
     setSmallRegion(regionJsonData[value as keyof typeof regionJsonData][0]);
-    setRegionError(false);
   };
 
   const onClickSmallRegion = (value: string) => {
@@ -194,27 +175,15 @@ function editDatailPostWrtiePage() {
 
   const onClickRegionApply = () => {
     setIsOpenRegion(false);
-    setApplyBigRegion(bigRegion);
-    setApplySamllRegion(smallRegion);
+    setEditPost({
+      ...editPost,
+      region: bigRegion + ' ' + smallRegion,
+    });
   };
 
-  // [해시태그]
-  const hashTagData = [
-    '20대',
-    '30대',
-    '40대',
-    '50대',
-    '나이무관',
-    '운동하는직장인',
-    '오직운동만',
-    '운동고수',
-    '운동자극',
-    '운동끝나고치맥',
-    '운동초보환영',
-    '같이성장해요',
-    '서로도와요',
-  ];
+  // 태그
   const [writeTag, setWriteTag] = useState('');
+  const [tagList, setTagList] = useState<string[]>(editPost.tags ?? []);
 
   const onChamgeWriteTag = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
@@ -227,31 +196,68 @@ function editDatailPostWrtiePage() {
     }
   };
 
+  const onhandleKeyPressTag = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (event.key === 'Enter') {
+      setWriteTag('');
+      if (
+        editPost.tags != undefined
+          ? editPost.tags.includes(writeTag) || writeTag == ''
+          : []
+      ) {
+        setWriteTag('');
+      } else if (editPost.tags != undefined ? editPost.tags.length < 5 : []) {
+        // 해시 태그 넣음
+        setTagList([...tagList, writeTag]);
+        setEditPost({
+          ...editPost,
+          tags: [...tagList, writeTag],
+        });
+      }
+    }
+  };
+
   const onClickTagAdd = () => {
     setWriteTag('');
     if (tagList.includes(writeTag) || writeTag == '') {
       console.log('해시태그에 안들어감');
     } else if (tagList.length < 5) {
       setTagList([...tagList, writeTag]);
+      setEditPost({
+        ...editPost,
+        tags: [...tagList, writeTag],
+      });
     }
   };
-
-  const [tagList, setTagList] = useState<string[]>(testData.tags);
 
   const onClickHashTag = (tag: string) => {
     if (tagList.includes(tag)) {
       setTagList(tagList.filter((item) => item !== tag));
+      setEditPost({
+        ...editPost,
+        tags: tagList.filter((item) => item !== tag),
+      });
     } else if (tagList.length < 5) {
       setTagList([...tagList, tag]);
+      setEditPost({ ...editPost, tags: [...tagList, tag] });
     }
   };
 
   const onClickRemoveTag = (tag: string) => {
     setTagList(tagList.filter((item) => item !== tag));
+    setEditPost({
+      ...editPost,
+      tags: tagList.filter((item) => item !== tag),
+    });
   };
 
   return (
-    <div css={matchingDetailWrtieStyles.paddingBottom}>
+    <div
+      css={css({
+        paddingBottom: '130px',
+      })}
+    >
       <NaviBarTitle title="상세설정" />
       <Horizontalline />
       <div css={matchingDetailWrtieStyles.container}>
@@ -259,18 +265,16 @@ function editDatailPostWrtiePage() {
           label="제목"
           name="title"
           placeholder="제목을 입력해주세요."
-          value={title}
+          value={editPost.title ?? ''}
           onChangeInput={handleTitleChange}
-          error={titleError}
           maxLength={null}
         />
         <InputComponents
           label="상세설명을 작성해주세요"
           name="body"
           placeholder="파트너 매칭에 올릴 게시글 내용을 작성해주세요."
-          value={body}
+          value={editPost.content ?? ''}
           onChangeTextArea={handleBodyChange}
-          error={bodyError}
           maxLength={MAX_CHARACTERS}
         />
         <div>
@@ -278,21 +282,15 @@ function editDatailPostWrtiePage() {
           <div css={matchingDetailWrtieStyles.runTimeInput}>
             <TimeInput
               name="date"
-              value={
-                day == null
-                  ? moment(currDate).format('YYYY.MM.DD ddd')
-                  : moment(day).format('YYYY.MM.DD ddd')
-              }
+              value={moment(runtime).format('YYYY-MM-DD')}
+              option={editPost.runtime ? editPost.runtime.split(' ')[0] : ''}
               margin="15px"
-              option={day}
-              optionError={dayError}
               setIsOpen={() => setIsOpenDay(true)}
             />
             <TimeInput
               name="time"
-              value={fullTime == null ? '00시 00분' : fullTime}
-              option={fullTime}
-              optionError={hourError}
+              value={editPost.runtime ? editPost.runtime.split(' ')[1] : ''}
+              option={editPost.runtime ? editPost.runtime.split(' ')[1] : ''}
               setIsOpen={() => setIsOpenTime(true)}
             />
           </div>
@@ -302,17 +300,15 @@ function editDatailPostWrtiePage() {
           <div css={matchingDetailWrtieStyles.runTimeInput}>
             <TimeInput
               name="regionBig"
-              value={applyBigRegion != null ? applyBigRegion : '서울특별시'}
+              value={bigRegion ?? ''}
               margin="15px"
-              option={applyBigRegion}
-              optionError={regionError}
+              option={bigRegion}
               setIsOpen={() => setIsOpenRegion(true)}
             />
             <TimeInput
               name="regionSmall"
-              value={applySmalRegion != null ? applySmalRegion : '종로구'}
-              option={applySmalRegion}
-              optionError={regionError}
+              value={smallRegion ?? ''}
+              option={smallRegion}
               setIsOpen={() => setIsOpenRegion(true)}
             />
           </div>
@@ -330,6 +326,7 @@ function editDatailPostWrtiePage() {
               placeholder="태그를 작성해주세요"
               value={writeTag}
               onChange={onChamgeWriteTag}
+              onKeyDown={onhandleKeyPressTag}
               css={matchingDetailWrtieStyles.titleInput}
             />
             <span
@@ -382,14 +379,13 @@ function editDatailPostWrtiePage() {
         </div>
       </div>
       <BottomButton
-        title="모집글 등록하기"
+        title="모집글 수정하기"
         onClickButton={onClickSubmitButton}
       />
       <BottomSheet
         isOpen={isOpenDay}
         onClose={() => {
           setIsOpenDay(false);
-          setRuntime(day == null ? currDate : day);
         }}
       >
         <>
@@ -415,7 +411,11 @@ function editDatailPostWrtiePage() {
       >
         <>
           <div css={matchingDetailWrtieStyles.bottomSheetTitle}>시간</div>
-          <div css={matchingDetailWrtieStyles.flex}>
+          <div
+            css={css({
+              display: 'flex',
+            })}
+          >
             <DropDowmSelect
               option={hour}
               optionTitle={`${hour}시`}
@@ -440,16 +440,20 @@ function editDatailPostWrtiePage() {
       >
         <>
           <div css={matchingDetailWrtieStyles.bottomSheetTitle}>지역</div>
-          <div css={matchingDetailWrtieStyles.flex}>
+          <div
+            css={css({
+              display: 'flex',
+            })}
+          >
             <DropDowmSelect
-              option={bigRegion}
-              optionTitle={bigRegion}
+              option={bigRegion ?? ''}
+              optionTitle={bigRegion ?? ''}
               itemList={regionBigName}
               onClick={onClickBigRegion}
             />
             <DropDowmSelect
-              option={smallRegion}
-              optionTitle={smallRegion}
+              option={smallRegion ?? ''}
+              optionTitle={smallRegion ?? ''}
               itemList={
                 bigRegion == null
                   ? regionJsonData.서울특별시
@@ -461,6 +465,13 @@ function editDatailPostWrtiePage() {
           <InitAndApplyButton onClickApply={onClickRegionApply} />
         </>
       </BottomSheet>
+      <MatchingModal
+        open={openWritePostModal}
+        onClickModalOk={onClickWritePostModal}
+        title="게시물이 수정되었습니다."
+        subTitle="뉴플메이트를 만나봐요."
+        buttonOne="buttonOne"
+      />
     </div>
   );
 }

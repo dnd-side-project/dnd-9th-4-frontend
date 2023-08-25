@@ -20,31 +20,10 @@ import config from 'config';
 import { useMutation } from 'react-query';
 import { getMatchingPostDetail, deleteMatchingPost } from 'api/matchingPageApi';
 import { MatchingPostData } from 'data/type';
-
-// 매칭 신청하기 api
-const postMatchingApply = async (
-  postId: string | undefined,
-  memberId: string | null,
-) => {
-  const apply = {
-    postId: Number(postId),
-    memberId: Number(memberId),
-  };
-  try {
-    const res = await axios.post(
-      `${config.backendUrl}/api/match/apply`,
-      apply,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-        },
-      },
-    );
-    return res.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
+import { getMemberId } from 'api/localStorage';
+import { postMatchingApply } from 'api/matchingApplyApi';
+import { useRecoilState } from 'recoil';
+import { postEditState } from 'recoil/postEdit';
 
 // 매칭 취소하기 api
 const putMatchingCancel = async (postId: string | undefined) => {
@@ -83,6 +62,23 @@ const getMatchingStatus = async (postId: string | undefined) => {
 
 function MatchingPostPage() {
   const navigate = useNavigate();
+
+  const [editPost, setEditPost] = useRecoilState(postEditState);
+
+  const onClickEditButton = () => {
+    navigate(`edit`);
+    console.log(editPost);
+    setEditPost({
+      sport: postContent?.sport,
+      tags: postContent?.tags,
+      title: postContent?.title,
+      content: postContent?.content,
+      region: postContent?.region,
+      gender: postContent?.gender,
+      age: postContent?.age,
+      runtime: postContent?.runtime,
+    });
+  };
 
   const [postContent, setPostContent] = useState<MatchingPostData | null>(null);
 
@@ -231,7 +227,10 @@ function MatchingPostPage() {
               {postContent.writerAge}/
               {postContent.writerGender === 'MALE' ? '남' : '여'}
             </span>
-            <div css={matchingPostPageStyles.profileButton}>
+            <div
+              css={matchingPostPageStyles.profileButton}
+              onClick={() => navigate(`/profile/${postContent.memberId}`)}
+            >
               <span>프로필보기</span>
             </div>
           </div>
@@ -268,14 +267,25 @@ function MatchingPostPage() {
         </div>
       )}
       <div css={matchingPostPageStyles.modalButtonContainer}>
-        <div
-          css={matchingPostPageStyles.modalButtonBox}
-          onClick={recruiting ? onClickCancelModal : onClickModalOepn}
-        >
-          <span css={matchingPostPageStyles.modalButtonText}>
-            {recruiting ? '매칭 취소하기' : '매칭 신청하기'}
-          </span>
-        </div>
+        {postContent?.memberId == Number(getMemberId()) ? (
+          <div
+            css={matchingPostPageStyles.modalButtonBox}
+            onClick={() => navigate(`request`)}
+          >
+            <span css={matchingPostPageStyles.modalButtonText}>
+              매칭 요청 확인
+            </span>
+          </div>
+        ) : (
+          <div
+            css={matchingPostPageStyles.modalButtonBox}
+            onClick={recruiting ? onClickCancelModal : onClickModalOepn}
+          >
+            <span css={matchingPostPageStyles.modalButtonText}>
+              {recruiting ? '매칭 취소하기' : '매칭 신청하기'}
+            </span>
+          </div>
+        )}
       </div>
       <MatchingModal // 매칭 신청 모달
         open={openModal1}
@@ -307,7 +317,7 @@ function MatchingPostPage() {
       />
       <BottomSheet isOpen={isMore} onClose={() => setIsMore(false)}>
         <div css={matchingPostPageStyles.moreModal}>
-          <div css={css({ color: '#2E7BEE' })} onClick={() => navigate(`edit`)}>
+          <div css={css({ color: '#2E7BEE' })} onClick={onClickEditButton}>
             수정하기
           </div>
           <Horizontalline color="#D1D3D7" />

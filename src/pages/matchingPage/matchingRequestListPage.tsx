@@ -5,9 +5,13 @@ import { EmptyRequestComponent } from 'components/matchingPage/matchingRequestLi
 import { MatchingModal } from 'components/matchingPage/matchingPostPageComponents';
 import { matchingRequestStyles } from 'components/styles/matchingPageStyles';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import config from 'config';
 import { useMutation } from 'react-query';
+import {
+  postMatchingRefuse,
+  postMatchingComfrim,
+  getMatchingApplyMember,
+} from 'api/matchingApplyApi';
+import { useNavigate } from 'react-router-dom';
 
 type RequestListType = {
   profileImg: string;
@@ -18,100 +22,15 @@ type RequestListType = {
   matchStatus: string;
 };
 
-// const testData = {
-//   matchingRequest: [
-//     {
-//       memberId: 1,
-//       username: 'jane_smith',
-//       gender: 'FEMALE',
-//       age: '25',
-//       profileImg:
-//         'https://cdn.pixabay.com/photo/2016/03/23/15/00/ice-cream-1274894_1280.jpg',
-//       matchStatus: 'APPLYING',
-//     },
-//     {
-//       memberId: 2,
-//       username: 'jane_smith',
-//       gender: 'FEMALE',
-//       age: '25',
-//       profileImg:
-//         'https://cdn.pixabay.com/photo/2016/03/23/15/00/ice-cream-1274894_1280.jpg',
-//       matchStatus: 'APPLYING',
-//     },
-//   ],
-// };
-
-// 매칭 수락 api
-const postMatchingComfrim = async (
-  postId: string | undefined,
-  applicantId: number,
-) => {
-  const comfrim = {
-    postId: Number(postId),
-    applicantId: applicantId,
-  };
-  try {
-    const res = await axios.post(
-      `${config.backendUrl}/api/match/confirm`,
-      comfrim,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-        },
-      },
-    );
-    return res.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-// 매칭 거절 api
-const postMatchingRefuse = async (
-  postId: string | undefined,
-  applicantId: number,
-) => {
-  const refuse = {
-    postId: Number(postId),
-    applicantId: applicantId,
-  };
-  try {
-    const res = await axios.post(
-      `${config.backendUrl}/api/match/refuse`,
-      refuse,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-        },
-      },
-    );
-    return res.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-// 매칭 신청자 조회 api
-const getMatchingApplyMember = async (postId: string | undefined) => {
-  try {
-    const res = await axios.get(
-      `${config.backendUrl}/api/match/${Number(postId)}/all`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-        },
-      },
-    );
-    return res.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 function MatchingRequestListPage() {
+  const navigate = useNavigate();
+
   const { id } = useParams();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen2, setIsOpen2] = useState(false);
+  const [isOpen3, SetIsOpen3] = useState(false);
+
   const [selectUser, setSelectUser] = useState<string | null>(null);
 
   const [applyList, setApplyList] = useState<RequestListType[]>([]);
@@ -121,6 +40,7 @@ function MatchingRequestListPage() {
     {
       onSuccess: (data) => {
         setApplyList(data);
+        console.log(data);
       },
       onError: (error) => console.log(error),
     },
@@ -158,7 +78,13 @@ function MatchingRequestListPage() {
 
   const onClickReject = (applicantId: number) => {
     console.log(applicantId, '거절하기');
+    setIsOpen2(true);
     mutateMatchingRefuse(applicantId);
+  };
+
+  const onClickCancle = () => {
+    mutateMatchingMember();
+    setIsOpen2(false);
   };
 
   const onClickAccept = (applicantId: number, name: string) => {
@@ -168,12 +94,10 @@ function MatchingRequestListPage() {
     mutateMatchingComfrim(applicantId);
   };
 
-  const onClickClose = () => {
-    setIsOpen(false);
-  };
-
   const onClickOK = () => {
     setIsOpen(false);
+    SetIsOpen3(true);
+    mutateMatchingMember();
     console.log('수락');
   };
 
@@ -220,18 +144,30 @@ function MatchingRequestListPage() {
                   </div>
                 </div>
                 <div css={matchingRequestStyles.button}>
-                  <div
-                    css={matchingRequestStyles.rejectButton}
-                    onClick={() => onClickReject(req.memberId)}
-                  >
-                    <span>거절하기</span>
-                  </div>
-                  <div
-                    css={matchingRequestStyles.applyButton}
-                    onClick={() => onClickAccept(req.memberId, req.username)}
-                  >
-                    <span>수락하기</span>
-                  </div>
+                  {req.matchStatus === 'REJECTED' ? (
+                    <div css={matchingRequestStyles.rejectButton2}>
+                      <span>요청 거절 됨</span>
+                    </div>
+                  ) : (
+                    <div
+                      css={matchingRequestStyles.rejectButton}
+                      onClick={() => onClickReject(req.memberId)}
+                    >
+                      <span>거절하기</span>
+                    </div>
+                  )}
+                  {req.matchStatus === 'MATCHED' ? (
+                    <div css={matchingRequestStyles.applyButton2}>
+                      <span>요청 승인 됨</span>
+                    </div>
+                  ) : (
+                    <div
+                      css={matchingRequestStyles.applyButton}
+                      onClick={() => onClickAccept(req.memberId, req.username)}
+                    >
+                      <span>수락하기</span>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -241,11 +177,27 @@ function MatchingRequestListPage() {
       <div>
         <MatchingModal // 매칭 수락 모달
           open={isOpen}
-          onClickModalClose={onClickClose}
           onClickModalOk={onClickOK}
           title={`${selectUser}님의 매칭 요청을`}
-          title2="수락하시겠습니까?"
+          title2="수락하였습니다."
           subTitle=""
+          buttonOne="yes"
+        />
+        <MatchingModal // 매칭 수락 후
+          open={isOpen3}
+          onClickModalOk={() => navigate('/message')}
+          title={'매칭이 완료 되었어요!'}
+          title2="쪽지로 자세한 일정을 정해볼까요?"
+          subTitle=""
+          buttonOne="yes"
+        />
+        <MatchingModal // 매칭 거절 모달
+          open={isOpen2}
+          onClickModalOk={onClickCancle}
+          title={`${selectUser}님의 매칭 요청을`}
+          title2="거절하였습니다."
+          subTitle=""
+          buttonOne="yes"
         />
       </div>
     </div>

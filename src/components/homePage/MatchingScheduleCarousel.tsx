@@ -14,7 +14,7 @@ const OPTIONS: EmblaOptionsType = {
 interface scheduleData {
   id: number;
   dDay: number;
-  runTime: string;
+  runtime: string;
   title: string;
   region: string;
   sport: string;
@@ -24,6 +24,21 @@ interface MatchingScheduleData {
   onClickArrow?: () => void;
   scheduleDataList: scheduleData[];
 }
+
+const calculateDday = (targetDate: string) => {
+  const targetDateTime = new Date(targetDate).getTime();
+  const today = new Date();
+  const todayTime = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
+  ).getTime();
+
+  const timeDiff = targetDateTime - todayTime;
+  const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+  return daysDiff;
+};
 
 /*
       [나의 매칭 일정 캐서셀]
@@ -43,106 +58,115 @@ export function MatchingScheduleCarousel(props: MatchingScheduleData) {
             display: '-webkit-box',
           })}
         >
-          {props.scheduleDataList.map((sch) => (
-            <div
-              className="embla2__slide"
-              key={sch.id}
-              onClick={() => onClickSchedule(sch.id)}
-            >
-              <div css={css({ display: 'flex' })}>
-                <div
-                  css={css({
-                    display: 'flex',
-                    padding: '4px 12px',
-                    gap: '8px',
-                    flexShrink: 0,
-                    background: '#FFF1ED',
-                    borderRadius: '19.35px',
-                    alignItems: 'center',
-                  })}
-                >
+          {props.scheduleDataList.map((sch) => {
+            const dday = calculateDday(sch.runtime);
+            const ddayText =
+              dday === 0
+                ? 'D-day'
+                : dday > 0
+                ? `D-${dday}`
+                : `D+${Math.abs(dday)}`;
+            return (
+              <div
+                className="embla2__slide"
+                key={sch.id}
+                onClick={() => onClickSchedule(sch.id)}
+              >
+                <div css={css({ display: 'flex' })}>
                   <div
                     css={css({
-                      color: '#FF8761',
+                      display: 'flex',
+                      padding: '4px 12px',
+                      gap: '8px',
+                      flexShrink: 0,
+                      background: '#FFF1ED',
+                      borderRadius: '19.35px',
+                      alignItems: 'center',
+                    })}
+                  >
+                    <div
+                      css={css({
+                        color: '#FF8761',
+                        fontFamily: 'Pretendard',
+                        fontSize: '13px',
+                        fontStyle: 'normal',
+                        fontWeight: 600,
+                        lineHeight: '150%', // 문자열 형태로 표기
+                        letterSpacing: '-0.247px',
+                      })}
+                    >
+                      {ddayText}
+                    </div>
+                  </div>
+                  <div
+                    css={css({
+                      padding: '4px 12px',
+                      color: '#FF7246',
                       fontFamily: 'Pretendard',
-                      fontSize: '13px',
+                      fontSize: '14px',
                       fontStyle: 'normal',
                       fontWeight: 600,
                       lineHeight: '150%', // 문자열 형태로 표기
-                      letterSpacing: '-0.247px',
+                      letterSpacing: '-0.266px',
                     })}
                   >
-                    D-{sch.dDay}
+                    {sch.runtime.split(' ')[0]}
                   </div>
                 </div>
                 <div
                   css={css({
-                    padding: '4px 12px',
-                    color: '#FF7246',
+                    color: '#3A3A3A',
                     fontFamily: 'Pretendard',
-                    fontSize: '14px',
+                    fontSize: '16px',
                     fontStyle: 'normal',
                     fontWeight: 600,
                     lineHeight: '150%', // 문자열 형태로 표기
-                    letterSpacing: '-0.266px',
+                    letterSpacing: '-0.304px',
+                    marginTop: '12px',
+                    marginBottom: '3px',
                   })}
                 >
-                  {sch.runTime}
+                  {sch.title}
                 </div>
-              </div>
-              <div
-                css={css({
-                  color: '#3A3A3A',
-                  fontFamily: 'Pretendard',
-                  fontSize: '16px',
-                  fontStyle: 'normal',
-                  fontWeight: 600,
-                  lineHeight: '150%', // 문자열 형태로 표기
-                  letterSpacing: '-0.304px',
-                  marginTop: '12px',
-                  marginBottom: '3px',
-                })}
-              >
-                {sch.title}
-              </div>
-              <div
-                css={css({
-                  display: 'flex',
-                  flexDirection: 'row',
-                  '& > div': {
+                <div
+                  css={css({
                     display: 'flex',
-                    ' > img': {
-                      marginTop: '1.5px',
-                      width: '17px',
-                      height: '17px',
+                    flexDirection: 'row',
+                    '& > div': {
+                      display: 'flex',
+                      ' > img': {
+                        marginTop: '1.5px',
+                        width: '17px',
+                        height: '17px',
+                      },
+                      ' > p': {
+                        marginTop: '0px',
+                        marginBottom: '0px',
+                        marginLeft: '1px',
+                        marginRight: '7px',
+                        color: '#676F83',
+                        fontFamily: 'Pretendard',
+                        fontSize: '13px',
+                        fontStyle: 'normal',
+                        fontWeight: 500,
+                        lineHeight: '150%' /* 21px */,
+                        letterSpacing: '-0.247px',
+                      },
                     },
-                    ' > p': {
-                      marginTop: '0px',
-                      marginBottom: '0px',
-                      marginLeft: '1px',
-                      marginRight: '7px',
-                      color: '#676F83',
-                      fontFamily: 'Pretendard',
-                      fontSize: '13px',
-                      fontStyle: 'normal',
-                      fontWeight: 500,
-                      lineHeight: '150%' /* 21px */,
-                      letterSpacing: '-0.247px',
-                    },
-                  },
-                })}
-              >
-                <div>
-                  <img src={LocationPinIcon} />
-                  <p>{sch.region}</p>
-                </div>
-                <div>
-                  <img src={Exercise} />
-                  <p>{sch.sport}</p>
+                  })}
+                >
+                  <div>
+                    <img src={LocationPinIcon} />
+                    <p>{sch.region}</p>
+                  </div>
+                  <div>
+                    <img src={Exercise} />
+                    <p>{sch.sport}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

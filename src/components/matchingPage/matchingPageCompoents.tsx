@@ -577,7 +577,7 @@ export function SortFilter(props: SortFilterData) {
       <div css={css({ display: 'flex', flexDirection: 'column' })}>
         <RadioGroup
           title=""
-          options={['최신순', '가까운 일정 순']}
+          options={['최신순', '오래된 순']}
           selectedOption={props.sort}
           onChange={props.onhandleSortChange}
         />

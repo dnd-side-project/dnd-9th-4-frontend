@@ -3,6 +3,7 @@ import React from 'react';
 import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
 import { css } from '@emotion/react';
 import 'components/homePage/newPleMate.css';
+import { useNavigate } from 'react-router-dom';
 
 const OPTIONS: EmblaOptionsType = {
   dragFree: true,
@@ -23,10 +24,12 @@ interface NewPleMate {
     [뉴플 메이트 캐서셀]
 */
 export function NewPleMateCarousel(props: NewPleMate) {
+  const navigate = useNavigate();
+
   const [emblaRef] = useEmblaCarousel(OPTIONS);
 
   const onClickNewPleMate = (memberId: number) => {
-    console.log('추후에 클릭한 회원으로 이동', memberId);
+    navigate(`/profile/${memberId}`);
   };
 
   return (

@@ -2,7 +2,6 @@
     매칭 모집글 작성 및 수정
 */
 
-import { baseAxios } from './baseAxios';
 import axios from 'axios';
 import config from 'config';
 import { getJwtToken } from './localStorage';
@@ -49,24 +48,33 @@ export const postMatchingPostWrite = async (write: postWriteData) => {
         "runtime":"2023-09-12 13:00:00"
     }
 */
-interface postEditeData {
-  sport: string | null;
-  tags: string[];
-  title: string | null;
-  content: string | null;
-  region: string | null;
-  gender: string | null;
-  age: string | null;
-  runtime: string | null;
+interface postEditData {
+  sport: string | null | undefined;
+  tags: string[] | undefined;
+  title: string | null | undefined;
+  content: string | null | undefined;
+  region: string | null | undefined;
+  gender: string | null | undefined;
+  age: string | null | undefined;
+  runtime: string | null | undefined;
 }
 
-export const putMatchingPostEdit = async (edit: postEditeData) => {
-  const response = await baseAxios
-    .put('/api/post', edit, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+export const putMatchingPostEdit = async (
+  edit: postEditData,
+  postId: string | undefined,
+) => {
+  try {
+    const res = await axios.put(
+      `${config.backendUrl}/api/post/${Number(postId)}`,
+      edit,
+      {
+        headers: {
+          Authorization: `Bearer ${getJwtToken()}`,
+        },
       },
-    })
-    .then((response) => response.data);
-  return response.data;
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
 };

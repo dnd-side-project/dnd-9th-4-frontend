@@ -391,8 +391,8 @@ interface TimeInputData {
   name: string;
   value: string;
   margin?: string;
-  option: string | null | Date;
-  optionError: boolean;
+  option?: string | null | Date;
+  optionError?: boolean;
   setIsOpen: (value: boolean) => void;
 }
 

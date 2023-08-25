@@ -214,6 +214,13 @@ export const matchingRequestStyles = {
     background: 'var(--grey-08, #FAFAFB)',
     marginBottom: '17px',
   }),
+  requestContainer2: css({
+    height: '152px',
+    borderRadius: '8px',
+    border: '1px solid var(--grey-06, #676F83)',
+    background: 'var(--grey-08, #FAFAFB)',
+    marginBottom: '17px',
+  }),
   profile: css({
     width: '60px',
     height: '60px',
@@ -320,8 +327,17 @@ export const matchingRequestStyles = {
     background: 'var(--grey-02, #333B4F)',
     marginRight: '12px',
   }),
+  rejectButton2: css({
+    flex: '1',
+    background: '#CACFD9',
+    marginRight: '12px',
+  }),
   applyButton: css({
     flex: '2',
     background: '#0066FF',
+  }),
+  applyButton2: css({
+    flex: '2',
+    background: '#CACFD9',
   }),
 };
