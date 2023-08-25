@@ -39,7 +39,7 @@ export function TopBanner(props: BannerData) {
       ]}
     >
       <div css={matchingPostPageStyles.bannerButton}>
-        <img src={PostBack} onClick={() => navigate('/matching')} />
+        <img src={PostBack} onClick={() => navigate(-1)} />
         {props.memberId == getMemberId() ? (
           <img
             src={PostMore}

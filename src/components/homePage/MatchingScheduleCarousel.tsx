@@ -59,10 +59,10 @@ export function MatchingScheduleCarousel(props: MatchingScheduleData) {
           })}
         >
           {props.scheduleDataList.map((sch) => {
-            const dday = calculateDday(sch.runtime);
+            const dday = calculateDday(sch.runtime) - 1;
             const ddayText =
               dday === 0
-                ? 'D-day'
+                ? 'D-DAY'
                 : dday > 0
                 ? `D-${dday}`
                 : `D+${Math.abs(dday)}`;

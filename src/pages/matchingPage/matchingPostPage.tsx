@@ -25,16 +25,17 @@ import { postMatchingApply } from 'api/matchingApplyApi';
 import { useRecoilState } from 'recoil';
 import { postEditState } from 'recoil/postEdit';
 import { imageList } from 'data/variable';
+import { getJwtToken } from 'api/localStorage';
 
 // 매칭 취소하기 api
 const putMatchingCancel = async (postId: string | undefined) => {
   try {
     const res = await axios.put(
       `${config.backendUrl}/api/match/${Number(postId)}`,
-      // cancel,
+      {},
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+          Authorization: `Bearer ${getJwtToken()}`,
         },
       },
     );
@@ -115,7 +116,7 @@ function MatchingPostPage() {
   useEffect(() => {
     mutateMatchingStatus();
     mutateMatchingPost();
-  }, []);
+  }, [recruiting]);
 
   // 매칭 신청 모달
   const [openModal1, setOpenModal1] = useState(false);

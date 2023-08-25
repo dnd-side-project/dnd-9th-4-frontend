@@ -332,6 +332,7 @@ interface MatchingScheduleData {
   [매칭 일정]
 */
 export function MatchingSchedule(props: MatchingScheduleData) {
+  const navigate = useNavigate();
   return (
     <div css={css({ marginBottom: '20px' })}>
       <div
@@ -344,7 +345,7 @@ export function MatchingSchedule(props: MatchingScheduleData) {
       >
         <TitleHeader title="나의 매칭 일정" color="black" margin="8px" />
         <div>
-          <img src={MingcuteRightLine} onClick={props.onClickArrow} />
+          <img src={MingcuteRightLine} onClick={() => navigate('/my/record')} />
         </div>
       </div>
       {props.count == 0 ? (
@@ -436,6 +437,7 @@ interface RecommendationData {
   [맞춤 추천]
 */
 export function Recommendation(props: RecommendationData) {
+  const navigate = useNavigate();
   return (
     <div>
       <div
@@ -452,7 +454,7 @@ export function Recommendation(props: RecommendationData) {
           margin="8px"
         />
         <div>
-          <img src={MingcuteRightLine} onClick={props.onClickArrow} />
+          <img src={MingcuteRightLine} onClick={() => navigate('/recommend')} />
         </div>
       </div>
       <SubTitleHeader

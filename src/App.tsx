@@ -38,6 +38,7 @@ import EditStyleInterestedPage from 'pages/myPage/EditStyleInterestedPage';
 import EditDetailPostPage from 'pages/matchingPostWritePage/editDetailPostWritePage';
 import EditMatePage from 'pages/myPage/EditMatePage';
 import ReviewDetailPage from 'pages/myPage/ReviewDetailPage';
+import RecommednPostPage from 'pages/homePage/recommedPostPage';
 // import { getJwtToken, getMemberId } from 'api/localStorage';
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/recommend" element={<RecommednPostPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/matching" element={<MatchingPage />} />
           <Route path="/matching/search" element={<SearchPage />} />
@@ -104,8 +106,7 @@ function App() {
             <Route path="withdraw" element={<WithdrawPage />} />
           </Route>
           <Route path="/profile/:id" element={<ProfilePage />} />
-          <Route path="/review/:id" element={<ReviewDetailPage />} />
-          <Route path="/review/:id/send" element={<WriteReviewPage />} />
+          <Route path="/profile/:id/review" element={<WriteReviewPage />} />
         </Routes>
       </Router>
     </>
