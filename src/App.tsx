@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-// import React, { useEffect } from 'react';
-import React from 'react';
+import React, { useEffect } from 'react';
+// import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from 'pages/homePage/homePage';
 import LoginPage from 'pages/loginPage/loginPage';
@@ -53,6 +53,14 @@ function App() {
   //     window.location.href = '/login';
   //   }
   // }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      'jwtToken',
+      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTc4OTIzNjUxIiwicm9sZSI6Im1lbWJlciIsImlzcyI6Im5ld3BsZSIsImlhdCI6MTY5Mjk3NzM4MywiZXhwIjoxNjkzNTgyMTgzfQ._olXrRLhWplaU1sjwddjHc7A3mo4MopxHlCNPxtufhs',
+    );
+    localStorage.setItem('memberId', '56');
+  });
 
   return (
     <>

@@ -203,7 +203,7 @@ const ProfileEditPage = () => {
           text="선택하기"
           isEnabled={selectedTags.length > 0}
           onEnabledClick={() => {
-            userProfile.sport = selectedTags;
+            userProfile.sport = selectedTags.map((item) => sport[item]);
             setIsOpen(false);
           }}
         />

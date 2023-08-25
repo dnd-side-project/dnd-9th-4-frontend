@@ -31,7 +31,12 @@ const MatchingRecordItem = ({
             navigate(`/profile/${article.memberId}`);
           }}
         />
-        <div className="text">
+        <div
+          className="text"
+          onClick={() => {
+            navigate(`/post/${article.postId}`);
+          }}
+        >
           <ScheduleTag state={state} date={article.runtime} />
           <div className="title">{article.title}</div>
           <div className="info-area">
@@ -53,9 +58,10 @@ const MatchingRecordItem = ({
             onClick={() => {
               navigate(`/review/${article.memberId}/send`, {
                 state: {
-                  userName: '이름입니다',
+                  userName: article.username,
                   profileIdx: article.profileImg,
                   targetId: article.memberId,
+                  matchId: article.id,
                 },
               });
             }}

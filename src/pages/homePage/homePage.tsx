@@ -40,13 +40,13 @@ function HomePage() {
     console.log('이동');
   };
 
-  // // 로컬테스트용 localStorage
+  // 로컬테스트용 localStorage
   // useEffect(() => {
   //   localStorage.setItem(
   //     'jwtToken',
-  //     'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTc4OTIzNjUxIiwicm9sZSI6Im1lbWJlciIsImlzcyI6Im5ld3BsZSIsImlhdCI6MTY5Mjg1NzE3OSwiZXhwIjoxNjkzNDYxOTc5fQ.jDKmIU8qVlD86i1_HFxmUEFi2VBDMPs1PBkz2BfDeWc',
+  //     'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTc4OTIzNjUxIiwicm9sZSI6Im1lbWJlciIsImlzcyI6Im5ld3BsZSIsImlhdCI6MTY5Mjk3NDkzOSwiZXhwIjoxNjkzNTc5NzM5fQ.4XRdf1iXUbRgxQi2iixNiC7x1Ex23jeW3eAIT-rGaAU',
   //   );
-  //   localStorage.setItem('memberId', '36');
+  //   localStorage.setItem('memberId', '54');
   // });
 
   // API 호출

@@ -11,7 +11,7 @@ import { sportValue } from './variable';
 export const MessageListToMessage = (prop: MessageList) => {
   const message: Message = {
     messageId: prop.messageId,
-    sentDate: prop.sendDate,
+    sentDate: prop.sentDate,
     content: prop.lastMessage,
     sender: 'RECEIVER',
   };
@@ -50,7 +50,7 @@ export const ProfileToReview = (prop: Profile) => {
 
 export const ProfileToOnboardingProfile = (prop: Profile) => {
   const onboarding: OnboardingProfile = {
-    username: '',
+    username: prop.username,
     introduce: prop.introduce,
     profileImg: prop.profileImg,
     sport: prop.sport,
