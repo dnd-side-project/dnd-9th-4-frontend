@@ -40,15 +40,6 @@ function HomePage() {
     console.log('이동');
   };
 
-  // 로컬테스트용 localStorage
-  // useEffect(() => {
-  //   localStorage.setItem(
-  //     'jwtToken',
-  //     'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTc4OTIzNjUxIiwicm9sZSI6Im1lbWJlciIsImlzcyI6Im5ld3BsZSIsImlhdCI6MTY5Mjk3NDkzOSwiZXhwIjoxNjkzNTc5NzM5fQ.4XRdf1iXUbRgxQi2iixNiC7x1Ex23jeW3eAIT-rGaAU',
-  //   );
-  //   localStorage.setItem('memberId', '54');
-  // });
-
   // API 호출
   const { mutate: post } = useMutation(() => getMatchingPostSimple(), {
     onSuccess: (data) => {
