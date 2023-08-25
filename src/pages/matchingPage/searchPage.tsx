@@ -3,12 +3,15 @@ import React, { useState } from 'react';
 import BackIos from 'assets/BackIos.svg';
 import { SerachPageStyles } from 'components/styles/matchingPageStyles';
 import XIcon from 'assets/matchingPageIcon/XIcon.svg';
+import { useNavigate } from 'react-router-dom';
 
 const PopularKeyword = ['남자만', '오직운동만', '2030', '직장인', '20대'];
 
 const RecentKeyword = ['운동고수', '운동초보', '20대', '30대', '빡세게'];
 
 function SearchPage() {
+  const navigate = useNavigate();
+
   // 최근 검색어
   const [recent, setRecent] = useState<string[]>(RecentKeyword);
 
@@ -33,7 +36,7 @@ function SearchPage() {
   return (
     <div css={SerachPageStyles.container}>
       <div css={SerachPageStyles.TopBar}>
-        <img src={BackIos} />
+        <img src={BackIos} onClick={() => navigate(-1)} />
         <input
           type="text"
           name="검색"

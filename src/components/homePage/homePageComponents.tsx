@@ -315,7 +315,7 @@ export function NewPleMateListBox(props: NewPleMateListData) {
 interface scheduleData {
   id: number;
   dDay: number;
-  runTime: string;
+  runtime: string;
   title: string;
   region: string;
   sport: string;

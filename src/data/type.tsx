@@ -127,22 +127,21 @@ export type MyPost = {
   sport: string;
   title: string;
 };
-        
 export interface MatchingPostData {
-  id: number;
-  memberId: number;
-  writerUsername: string;
-  writerAge: string;
-  writerGender: string;
-  writerProfileImg: string;
-  writtenDate: string;
-  sport: string;
+  id: number | null;
+  memberId: number | null;
+  writerUsername: string | null;
+  writerAge: string | null;
+  writerGender: string | null;
+  writerProfileImg: string | null;
+  writtenDate: string | null;
+  sport: string | null;
   tags: string[];
-  title: string;
-  content: string;
-  region: string;
-  gender: string;
-  age: string;
-  runtime: string;
-  status: string;
+  title: string | null;
+  content: string | null;
+  region: string | null;
+  gender: string | null;
+  age: string | null;
+  runtime: string | null;
+  status: string | null;
 }
