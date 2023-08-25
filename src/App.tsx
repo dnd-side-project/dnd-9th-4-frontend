@@ -35,6 +35,7 @@ import ProfilePage from 'pages/profilePage/ProfilePage';
 import WriteReviewPage from 'pages/profilePage/WriteReviewPage';
 import OnBoardingPage8 from 'pages/onBoardingPage/OnBoardingPage8';
 import EditStyleInterestedPage from 'pages/myPage/EditStyleInterestedPage';
+import EditDetailPostPage from 'pages/matchingPostWritePage/editDetailPostWritePage';
 import EditMatePage from 'pages/myPage/EditMatePage';
 import ReviewDetailPage from 'pages/myPage/ReviewDetailPage';
 // import { getJwtToken, getMemberId } from 'api/localStorage';
@@ -63,12 +64,13 @@ function App() {
           <Route path="/matching" element={<MatchingPage />} />
           <Route path="/matching/search" element={<SearchPage />} />
           <Route
-            path="/matching/request"
+            path="/post/:id/request"
             element={<MatchingRequestListPage />}
           />
           <Route path="/auth" element={<RedirectHandler />} />
           <Route path="/post/sport" element={<SelectSportPage />} />
           <Route path="/post/detail" element={<DetailPostWritePage />} />
+          <Route path="/post/:id/edit" element={<EditDetailPostPage />} />
           <Route path="/post/:id" element={<MatchingPostPage />} />
           <Route path="onboarding">
             <Route index element={<OnBoardingPage />} />

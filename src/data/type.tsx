@@ -128,6 +128,25 @@ export type MyPost = {
   title: string;
 };
 
+export interface MatchingPostData {
+  id: number;
+  memberId: number;
+  writerUsername: string;
+  writerAge: string;
+  writerGender: string;
+  writerProfileImg: string;
+  writtenDate: string;
+  sport: string;
+  tags: string[];
+  title: string;
+  content: string;
+  region: string;
+  gender: string;
+  age: string;
+  runtime: string;
+  status: string;
+}
+
 export type Mate = {
   gender: string;
   age: string;

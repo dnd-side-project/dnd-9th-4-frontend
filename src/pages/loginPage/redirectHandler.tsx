@@ -28,6 +28,9 @@ function RedirectHandler() {
 
         // memberId
         const memberId = response.data['data']['memberId'];
+        // JWT Token
+        const jwtToken = response.headers['authorization'].substring(7);
+
         // kakaoId
         const kakaoId = response.data['data']['kakaoId'];
 
@@ -38,6 +41,10 @@ function RedirectHandler() {
           Number(storedKakaoId) === kakaoId
         ) {
           console.log('이미 가입된 회원');
+
+          // token 값이 바뀔 수 있으니깐 다시 새로 저장
+          localStorage.setItem('jwtToken', jwtToken);
+
           navigate('/');
         } else {
           console.log('새로운 회원');
@@ -45,8 +52,6 @@ function RedirectHandler() {
           localStorage.setItem('memberId', memberId);
           localStorage.setItem('kakaoId', kakaoId);
 
-          // JWT Token
-          const jwtToken = response.headers['authorization'].substring(7);
           localStorage.setItem('jwtToken', jwtToken);
 
           navigate('/onboarding');

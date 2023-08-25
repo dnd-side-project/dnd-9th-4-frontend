@@ -66,7 +66,7 @@ interface MatchingPost {
   sport: string;
   region: string;
   time: string;
-  endDate: string;
+  runtime: string;
   image: string;
 }
 
@@ -93,106 +93,110 @@ export function MatchingPostList(props: MatchingPostListData) {
         // paddingRight: '15px',
       })}
     >
-      {props.postList.map((post) => (
-        <div
-          key={post.id}
-          css={css({
-            height: '101.851px',
-            borderRadius: '17px',
-            background: '#FFF',
-            //marginBottom: '16px',
-          })}
-        >
+      {props.postList.length == 0 ? (
+        <PostNo />
+      ) : (
+        props.postList.map((post) => (
           <div
-            onClick={() => onClickMatchingPost(post.id)}
-            css={css({ display: 'flex', flexDirection: 'row' })}
+            key={post.id}
+            css={css({
+              height: '101.851px',
+              borderRadius: '17px',
+              background: '#FFF',
+              //marginBottom: '16px',
+            })}
           >
             <div
-              css={css({
-                width: '70px',
-                height: '70px',
-                flexShrink: '0px',
-                paddingTop: '10.6px',
-                paddingBotton: '10.1px',
-                paddingLeft: '11.8px',
-              })}
+              onClick={() => onClickMatchingPost(post.id)}
+              css={css({ display: 'flex', flexDirection: 'row' })}
             >
-              <img
-                src={post.image}
-                style={{ width: '100%', height: '100%', borderRadius: '50%' }}
-              />
-            </div>
-            <div css={css({ marginLeft: '12.15px', paddingTop: '14px' })}>
-              <div>
-                <p
-                  css={css({
-                    color: '#3A3A3A',
-                    fontFamily: 'Pretendard',
-                    fontSize: '17px',
-                    fontStyle: 'normal',
-                    fontWeight: 600,
-                    lineHeight: '120%',
-                    letterSpacing: '-0.323px',
-                    marginTop: '2px',
-                    marginBottom: '0px',
-                  })}
-                >
-                  {post.title}
-                </p>
-              </div>
               <div
                 css={css({
-                  display: 'flex',
-                  flexDirection: 'row',
-                  marginTop: '16px',
-                  '& > div': {
-                    display: 'flex',
-                    ' > img': {
-                      marginTop: '1.5px',
-                      width: '14px',
-                      height: '14px',
-                    },
-                    ' > p': {
-                      marginTop: '0px',
-                      marginBottom: '0px',
-                      marginLeft: '1px',
-                      marginRight: '7px',
-                      color: '#676F83',
-                      fontFamily: 'Pretendard',
-                      fontSize: '13px',
-                      fontStyle: 'normal',
-                      fontWeight: 500,
-                      lineHeight: '150%' /* 21px */,
-                      letterSpacing: '-0.247px',
-                    },
-                  },
+                  width: '70px',
+                  height: '70px',
+                  flexShrink: '0px',
+                  paddingTop: '10.6px',
+                  paddingBotton: '10.1px',
+                  paddingLeft: '11.8px',
                 })}
               >
+                <img
+                  src={post.image}
+                  style={{ width: '100%', height: '100%', borderRadius: '50%' }}
+                />
+              </div>
+              <div css={css({ marginLeft: '12.15px', paddingTop: '14px' })}>
                 <div>
-                  <img src={LocationPinIcon} />
-                  <p>{post.region}</p>
+                  <p
+                    css={css({
+                      color: '#3A3A3A',
+                      fontFamily: 'Pretendard',
+                      fontSize: '17px',
+                      fontStyle: 'normal',
+                      fontWeight: 600,
+                      lineHeight: '120%',
+                      letterSpacing: '-0.323px',
+                      marginTop: '2px',
+                      marginBottom: '0px',
+                    })}
+                  >
+                    {post.title}
+                  </p>
                 </div>
-                <div>
-                  <img src={schedule} />
-                  <p>{post.endDate}</p>
-                </div>
-                <div>
-                  <img src={Exercise} />
-                  <p>{post.sport}</p>
+                <div
+                  css={css({
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginTop: '16px',
+                    '& > div': {
+                      display: 'flex',
+                      ' > img': {
+                        marginTop: '1.5px',
+                        width: '14px',
+                        height: '14px',
+                      },
+                      ' > p': {
+                        marginTop: '0px',
+                        marginBottom: '0px',
+                        marginLeft: '1px',
+                        marginRight: '7px',
+                        color: '#676F83',
+                        fontFamily: 'Pretendard',
+                        fontSize: '13px',
+                        fontStyle: 'normal',
+                        fontWeight: 500,
+                        lineHeight: '150%' /* 21px */,
+                        letterSpacing: '-0.247px',
+                      },
+                    },
+                  })}
+                >
+                  <div>
+                    <img src={LocationPinIcon} />
+                    <p>{post.region}</p>
+                  </div>
+                  <div>
+                    <img src={schedule} />
+                    <p>{post.runtime.split(' ')[0]}</p>
+                  </div>
+                  <div>
+                    <img src={Exercise} />
+                    <p>{post.sport}</p>
+                  </div>
                 </div>
               </div>
             </div>
+            <div
+              css={css({
+                height: '1px',
+                backgroundColor: '#E2E2E2',
+                marginBlock: '10px',
+                marginTop: '20px',
+              })}
+            />
           </div>
-          <div
-            css={css({
-              height: '1px',
-              backgroundColor: '#E2E2E2',
-              marginBlock: '10px',
-              marginTop: '20px',
-            })}
-          />
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 }
@@ -256,7 +260,7 @@ export function SubTitleHeader(props: SubTitleHeaderData) {
 
 interface Profile {
   memberId: number;
-  nickname: string;
+  username: string;
   profileImg: string;
 }
 
@@ -391,6 +395,32 @@ export function SheduleNo() {
         })}
       >
         이번 주 매칭 일정이 없어요.
+      </div>
+    </div>
+  );
+}
+
+/*
+  [맞춤 추천 없음 X]
+*/
+export function PostNo() {
+  return (
+    <div css={css({ textAlign: 'center' })}>
+      <img src={EmptySchedule} />
+      <div
+        css={css({
+          marginTop: '25px',
+          color: 'var(--gray-08, #949494)',
+          textAlign: 'center',
+          fontFamily: 'Pretendard',
+          fontSize: '14px',
+          fontStyle: 'normal',
+          fontWeight: 600,
+          lineHeight: '150%', // '21px'
+          letterSpacing: '-0.266px',
+        })}
+      >
+        게시물이 없어요.
       </div>
     </div>
   );

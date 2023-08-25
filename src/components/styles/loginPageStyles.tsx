@@ -12,6 +12,13 @@ export const loginPageStyles = {
     textAlign: 'center',
   }),
 
+  carouselContainer: css({
+    flex: 5,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }),
+
   flex1Container: css({ flex: 1 }),
 
   title: css({

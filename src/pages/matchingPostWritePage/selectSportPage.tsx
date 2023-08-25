@@ -6,50 +6,10 @@ import {
   SelectSportList,
 } from 'components/matchingPage/matchingPostWritePageComponents';
 import { useNavigate } from 'react-router-dom';
-import 헬스아이콘 from 'assets/sportTypeIcon/헬스.svg';
-import 러닝아이콘 from 'assets/sportTypeIcon/러닝.svg';
-import 수영아이콘 from 'assets/sportTypeIcon/수영.svg';
-import 등산아이콘 from 'assets/sportTypeIcon/등산.svg';
-import 싸이클아이콘 from 'assets/sportTypeIcon/싸이클.svg';
-import 기타아이콘 from 'assets/sportTypeIcon/기타.svg';
 import { useRecoilState } from 'recoil';
 import { postWriteState } from 'recoil/postWrite';
-
-// 아이콘 사이즈 맞춰주면 좋겠음
-const sportListData = {
-  sportList: [
-    {
-      id: 1,
-      sport: '헬스',
-      img: 헬스아이콘,
-    },
-    {
-      id: 2,
-      sport: '러닝',
-      img: 러닝아이콘,
-    },
-    {
-      id: 3,
-      sport: '수영',
-      img: 수영아이콘,
-    },
-    {
-      id: 4,
-      sport: '싸이클',
-      img: 싸이클아이콘,
-    },
-    {
-      id: 5,
-      sport: '등산',
-      img: 등산아이콘,
-    },
-    {
-      id: 6,
-      sport: '기타',
-      img: 기타아이콘,
-    },
-  ],
-};
+import { getMemberId } from 'api/localStorage';
+import { sportListData } from 'data/postWriteData';
 
 function selectSportPage() {
   const [selectSport, setSelectSport] = useState<string | null>(null);
@@ -59,7 +19,13 @@ function selectSportPage() {
 
   const onClickSport = (sport: string) => {
     setSelectSport(sport);
-    setPostWrite({ ...postWrite, sport: sport });
+    setPostWrite({
+      ...postWrite,
+      sport: sport,
+      memberId: Number(getMemberId()),
+      // gender: '여성',
+      // age: '20~29',
+    });
     setTimeout(() => {
       navigate('/post/detail');
     }, 200); // 0.2초 뒤에 navigate 함수 실행
