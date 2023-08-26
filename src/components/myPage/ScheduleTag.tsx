@@ -36,10 +36,17 @@ const ScheduleTag = ({
 
     return format;
   };
+
+  const tagDate = calDate();
+
   return (
     <div css={scheduleTag(state)}>
       <div className="tag">
-        {state === 'RESERVED' ? 'D-' + calDate() : '운동완료'}
+        {state === 'RESERVED'
+          ? tagDate === 0
+            ? 'D-DAY'
+            : 'D-' + calDate()
+          : '운동완료'}
       </div>
       <div>{DateToString(date)}</div>
     </div>

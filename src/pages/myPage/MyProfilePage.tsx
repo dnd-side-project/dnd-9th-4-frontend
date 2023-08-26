@@ -87,7 +87,12 @@ const MyProfilePage = () => {
           </div>
         </div>
         <div css={profileMateContainer}>
-          <MoreListItem text="선호하는 운동메이트" onClick={() => {}} />
+          <MoreListItem
+            text="선호하는 운동메이트"
+            onClick={() => {
+              navigate('/my/profile/edit/mate', { state: { userProfile } });
+            }}
+          />
           <div css={profileMateContentArea}>
             <BackgroundTag color="255, 135, 97" text={userProfile.wantedAge} />
             <BackgroundTag

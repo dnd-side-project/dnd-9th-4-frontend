@@ -42,7 +42,7 @@ const EditStyleInterestedPage = () => {
   });
 
   const handleEditProfile = () => {
-    profile.exerciseStyles = selectedInterested;
+    profile.exerciseStyles = selectedStyle;
     profile.interests = selectedInterested;
 
     mutate();

@@ -62,7 +62,7 @@ const MyPage = () => {
   };
 
   const onMyUploadClick = () => {
-    navigate('/my/upload');
+    navigate('/my/upload', { state: { profileImg: userProfile.profileImg } });
   };
 
   const onMatchingRecordClick = () => {

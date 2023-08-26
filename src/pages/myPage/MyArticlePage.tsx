@@ -4,7 +4,7 @@ import { appContainer, bodyContainer } from 'components/styles/common/common';
 import React from 'react';
 import ArticleItem from 'components/myPage/ArticleItem';
 import { myArticleTopDivider } from 'components/styles/myPage';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { baseAxios } from 'api/baseAxios';
 import { useQuery } from 'react-query';
 import { getMyArticle } from 'api/articleApi';
@@ -14,6 +14,8 @@ import ErrorComponent from 'components/common/ErrorComponent';
 
 const MyArticlePage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const profileImg: string = location.state.profileImg;
 
   baseAxios.interceptors.request.use(function (config) {
     const token = localStorage.getItem('jwtToken');
@@ -38,6 +40,7 @@ const MyArticlePage = () => {
         ) : data !== undefined && data.length > 0 ? (
           data.map((article: MyPost, index: number) => (
             <ArticleItem
+              profileImg={Number(profileImg)}
               article={article}
               key={index}
               divide={true}

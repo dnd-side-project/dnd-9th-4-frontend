@@ -17,9 +17,9 @@ export const postLogout = async () => {
   return response;
 };
 
-export const deleteMember = async () => {
+export const deleteMember = async (memberId: number) => {
   const response = await baseAxios
-    .delete('/api/logout', {
+    .delete(`/api/delete/${memberId}`, {
       headers: {
         Authorization: `Bearer ${getJwtToken()}`,
       },

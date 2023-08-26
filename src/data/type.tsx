@@ -48,7 +48,7 @@ export type MessageList = {
   receiverId: number;
   username: string;
   profileImg: string;
-  sendDate: string;
+  sentDate: string;
   lastMessage: string;
 };
 
@@ -82,12 +82,14 @@ export type Message = {
 
 export type MatchingSchedule = {
   id: number;
+  postId: number;
   memberId: number;
   profileImg: string;
   title: string;
   region: string;
   sport: string;
   runtime: string;
+  username: string;
 };
 
 export type UserInfo = {

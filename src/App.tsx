@@ -55,6 +55,14 @@ function App() {
   //   }
   // }, []);
 
+  // useEffect(() => {
+  //   localStorage.setItem(
+  //     'jwtToken',
+  //     'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyOTc4OTIzNjUxIiwicm9sZSI6Im1lbWJlciIsImlzcyI6Im5ld3BsZSIsImlhdCI6MTY5Mjk3NzM4MywiZXhwIjoxNjkzNTgyMTgzfQ._olXrRLhWplaU1sjwddjHc7A3mo4MopxHlCNPxtufhs',
+  //   );
+  //   localStorage.setItem('memberId', '56');
+  // });
+
   return (
     <>
       <Global styles={globalStyle} />

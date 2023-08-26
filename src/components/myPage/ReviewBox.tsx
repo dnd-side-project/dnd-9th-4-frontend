@@ -26,7 +26,7 @@ const ReviewBox = ({ review }: { review: Review }) => {
           </div>
           <Unrating />
         </div>
-        <div className="score-count">{review.count}명의 리뷰 반영</div>
+        <div className="score-count">{review.count}가지의 리뷰 내용</div>
       </div>
       <div css={reviewBoxDivider} />
       <div css={reviewBoxContentArea}>

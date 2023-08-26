@@ -10,6 +10,7 @@ import {
   healthLabel,
   onBoardingBodyArea,
 } from 'components/styles/onBoardingPage';
+import { sport } from 'data/variable';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -25,7 +26,7 @@ const OnBoardingPage2 = () => {
   const handleProfileChange = () => {
     const updatedProfile = {
       ...onboardingProfile,
-      sport: selectedTags,
+      sport: selectedTags.map((item) => sport[item]),
     };
     setOnboardingProfile(updatedProfile);
     // console.log(updatedProfile);

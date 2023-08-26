@@ -8,11 +8,13 @@ import { MyPost } from 'data/type';
 import { day, imageList, sportValue } from 'data/variable';
 
 const ArticleItem = ({
+  profileImg,
   article,
   divide,
   onClick,
   imageView,
 }: {
+  profileImg: number;
   article: MyPost;
   divide: boolean;
   imageView?: boolean;
@@ -33,10 +35,10 @@ const ArticleItem = ({
   };
   return (
     <div css={myArticleItemArea}>
-      <div className="content">
+      <div className="matching-content">
         <img
           className="img"
-          src={imageList[1]}
+          src={imageList[profileImg]}
           style={{
             width: '52px',
             height: '52px',
