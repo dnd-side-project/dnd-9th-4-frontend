@@ -50,6 +50,8 @@ function MatchingPage() {
   // API 통신 - 모집글 목록 전체 가져오기
   const [post, setPost] = useState([]);
   const { data, isError } = useQuery('matchingPostList', getMatchingPostList);
+  // 날짜 필터링
+  const [DateData] = useRecoilState(DateState);
 
   useEffect(() => {
     if (data) {
@@ -59,9 +61,6 @@ function MatchingPage() {
       console.log(isError);
     }
   }, [data]);
-
-  // 날짜 필터링
-  const [DateData] = useRecoilState(DateState);
 
   const filteredPosts = post.filter((postItem: testData) => {
     const dateFilter =
@@ -111,7 +110,30 @@ function MatchingPage() {
 
   // 시간 필터링
   const [isOpenTime, setOpenTime] = useState(false);
-  const [sort, setSort] = useState('최신순');
+  const [sort, setSort] = useState('매칭 느린 순');
+
+  const onChangeSortTime = (sort: string) => {
+    setSort(sort);
+    if (sort === '매칭 느린 순') {
+      const sortedData = data
+        .filter((item: testData) => item.runtime !== null) // Filter out items with null runtime
+        .slice()
+        .sort(
+          (a: testData, b: testData) =>
+            new Date(b.runtime!).getTime() - new Date(a.runtime!).getTime(),
+        );
+      setPost(sortedData);
+    } else {
+      const sortedData = data
+        .filter((item: testData) => item.runtime !== null) // Filter out items with null runtime
+        .slice()
+        .sort(
+          (a: testData, b: testData) =>
+            new Date(a.runtime!).getTime() - new Date(b.runtime!).getTime(),
+        );
+      setPost(sortedData);
+    }
+  };
 
   return (
     <div>
@@ -178,7 +200,10 @@ function MatchingPage() {
         />
       </BottomSheet>
       <BottomSheet isOpen={isOpenTime} onClose={() => setOpenTime(false)}>
-        <SortFilter sort={sort} onhandleSortChange={(sort) => setSort(sort)} />
+        <SortFilter
+          sort={sort}
+          onhandleSortChange={(sort) => onChangeSortTime(sort)}
+        />
       </BottomSheet>
       <ButtonNavigation />
     </div>

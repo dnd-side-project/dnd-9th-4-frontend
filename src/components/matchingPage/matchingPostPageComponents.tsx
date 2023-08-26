@@ -39,7 +39,7 @@ export function TopBanner(props: BannerData) {
       ]}
     >
       <div css={matchingPostPageStyles.bannerButton}>
-        <img src={PostBack} onClick={() => navigate(-1)} />
+        <img src={PostBack} onClick={() => navigate('/matching')} />
         {props.memberId == getMemberId() ? (
           <img
             src={PostMore}
@@ -83,7 +83,7 @@ export function MatchingModal(props: MatchingModalData) {
           src={props.img}
           css={css({
             position: 'absolute',
-            top: '-50px',
+            top: '-30px',
             left: '75px',
             width: '50%',
           })}

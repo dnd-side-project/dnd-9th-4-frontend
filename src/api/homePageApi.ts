@@ -4,7 +4,7 @@
 
 import axios from 'axios';
 import config from 'config';
-import { getJwtToken } from './localStorage';
+import { getJwtToken, getMemberId } from './localStorage';
 
 // API
 const callApi = async (url: string) => {
@@ -42,4 +42,12 @@ export const getMatchingRecord = async () => {
 */
 export const getMateGround = async () => {
   return callApi(`${config.backendUrl}/api/profile/around`);
+};
+
+/*
+    [내 정보 조회]
+    Method: GET
+*/
+export const getMyProfile = async () => {
+  return callApi(`${config.backendUrl}/api/profile/${getMemberId()}`);
 };

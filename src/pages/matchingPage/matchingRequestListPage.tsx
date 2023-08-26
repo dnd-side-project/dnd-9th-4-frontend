@@ -13,6 +13,7 @@ import {
 } from 'api/matchingApplyApi';
 import { useNavigate } from 'react-router-dom';
 import { imageList } from 'data/variable';
+import MatchingComplete from 'assets/modalImg/MatchingComplete.svg';
 
 type RequestListType = {
   profileImg: string;
@@ -142,12 +143,21 @@ function MatchingRequestListPage() {
                       <span>안녕하세요~~~~~~</span>
                     </div>
                   </div>
-                  <div
-                    css={matchingRequestStyles.lookuser}
-                    onClick={() => onClickProfile(req.memberId)}
-                  >
-                    <span>프로필보기</span>
-                  </div>
+                  {req.matchStatus === 'MATCHED' ? (
+                    <div
+                      css={matchingRequestStyles.message}
+                      onClick={() => navigate(`/message/${selectId}/write`)}
+                    >
+                      <span>쪽지보내기</span>
+                    </div>
+                  ) : (
+                    <div
+                      css={matchingRequestStyles.lookuser}
+                      onClick={() => onClickProfile(req.memberId)}
+                    >
+                      <span>프로필보기</span>
+                    </div>
+                  )}
                 </div>
                 <div css={matchingRequestStyles.button}>
                   {req.matchStatus === 'REJECTED' ? (
@@ -196,6 +206,7 @@ function MatchingRequestListPage() {
           title2="쪽지로 자세한 일정을 정해볼까요?"
           subTitle=""
           buttonOne="yes"
+          img={MatchingComplete}
         />
         <MatchingModal // 매칭 거절 모달
           open={isOpen2}

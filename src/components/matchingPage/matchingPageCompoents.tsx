@@ -282,6 +282,7 @@ interface MatchingPostDateData {
     [주간 달력]
 */
 export function MatchingPostDate(props: MatchingPostDateData) {
+  const [recoilDate] = useRecoilState(DateState);
   return (
     <div
       css={css({
@@ -303,20 +304,27 @@ export function MatchingPostDate(props: MatchingPostDateData) {
             height: '70px',
             margin: '5px',
             backgroundColor:
-              weekday.date === props.date ? '#ECF6FE' : 'transparent',
-            borderRadius: weekday.date === props.date ? '8px' : undefined,
+              weekday.date === Number(recoilDate.DD)
+                ? '#ECF6FE'
+                : 'transparent',
+            borderRadius:
+              weekday.date === Number(recoilDate.DD) ? '8px' : undefined,
           })}
           onClick={() => props.onClickDate(weekday.date)}
         >
           <div css={css({ paddingTop: '10px' })}>
             <span
               css={css({
-                color: weekday.date === props.date ? '#306BF6' : '#939393',
+                color:
+                  weekday.date === Number(recoilDate.DD)
+                    ? '#306BF6'
+                    : '#939393',
                 textAlign: 'center',
                 fontFamily: 'Pretendard',
-                fontSize: weekday.date === props.date ? '15px' : '14px',
+                fontSize:
+                  weekday.date === Number(recoilDate.DD) ? '15px' : '14px',
                 fontStyle: 'normal',
-                fontWeight: weekday.date === props.date ? 600 : 500,
+                fontWeight: weekday.date === Number(recoilDate.DD) ? 600 : 500,
                 lineHeight: '150%' /* 21px */,
                 letterSpacing: '-0.266px',
               })}
@@ -326,9 +334,6 @@ export function MatchingPostDate(props: MatchingPostDateData) {
           </div>
           <div
             css={css({
-              // backgroundColor:
-              //   weekday.date === props.date ? '#0066FF' : 'transparent',
-              // borderRadius: weekday.date === props.date ? '50%' : undefined,
               height: '25px',
               paddingTop: '4px',
               paddingBottom: '3px',
@@ -337,13 +342,16 @@ export function MatchingPostDate(props: MatchingPostDateData) {
           >
             <span
               css={css({
-                color: weekday.date === props.date ? '#306BF6' : '#939393',
+                color:
+                  weekday.date === Number(recoilDate.DD)
+                    ? '#306BF6'
+                    : '#939393',
                 textAlign: 'center',
                 alignItems: 'center',
                 fontFamily: 'Pretendard',
                 fontSize: '14px',
                 fontStyle: 'normal',
-                fontWeight: weekday.date === props.date ? 600 : 500,
+                fontWeight: weekday.date === Number(recoilDate.DD) ? 600 : 500,
                 lineHeight: '150%' /* 21px */,
                 letterSpacing: '-0.266px',
               })}
@@ -594,7 +602,7 @@ export function SortFilter(props: SortFilterData) {
       <div css={css({ display: 'flex', flexDirection: 'column' })}>
         <RadioGroup
           title=""
-          options={['최신순', '오래된 순']}
+          options={['매칭 느린 순', '매칭 빠른 순']}
           selectedOption={props.sort}
           onChange={props.onhandleSortChange}
         />

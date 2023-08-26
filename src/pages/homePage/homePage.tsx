@@ -16,6 +16,7 @@ import {
   getMatchingPostSimple,
   getMatchingRecord,
   getMateGround,
+  getMyProfile,
 } from 'api/homePageApi';
 import { useMutation } from 'react-query';
 
@@ -26,6 +27,7 @@ function HomePage() {
   const [postList, setPostList] = useState([]);
   const [recordList, setRecordList] = useState([]);
   const [mateList, setMateList] = useState([]);
+  const [myName, setMyName] = useState('뉴플');
 
   console.log(postList, recordList, mateList);
 
@@ -71,26 +73,34 @@ function HomePage() {
     onError: (error) => console.log(error),
   });
 
+  const { mutate: my } = useMutation(() => getMyProfile(), {
+    onSuccess: (data) => {
+      setMyName(data.username);
+    },
+    onError: (error) => console.log(error),
+  });
+
   useEffect(() => {
     post();
     record();
     mate();
+    my();
   }, []);
 
   return (
     <div css={css({ marginInline: '16px', paddingBottom: '90px' })}>
-      <HomeTopScreen nickname="뉴플" text="더운 여름 운동으로 이겨내요!" />
+      <HomeTopScreen nickname={myName} text="더운 여름 운동으로 이겨내요!" />
       <NewPleMateListBox matelist={mateList} />
       <MatchingSchedule
         onClickArrow={onClickMatchingScheduleList}
-        nickname="뉴플"
+        nickname={myName}
         count={recordList.length}
         scheduleDataList={recordList}
       />
       <Horizontalline margin="40px" color="#EFF3FA" height="6px" />
       <Recommendation
         onClickArrow={onClickMatchingPostList}
-        nickname="뉴플"
+        nickname={myName}
         postList={postList}
       />
       <ButtonNavigation />
